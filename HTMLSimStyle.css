@@ -336,4 +336,5 @@ button {
 	justify-content: space-evenly;
 	align-items: baseline;
 	gap: 6px 18px;
+	margin: 0.7em 0;
 }
