@@ -241,3 +241,90 @@ button {
 	.controls-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
 	.main-content { padding: 8px; }
 }
+
+/* ============================================================
+   PÁGINAS DE TEORÍA (texto + ecuaciones MathJax)
+   Se usan dentro de .container > .main-content > .theory
+   ============================================================ */
+.theory {
+	max-width: 900px;
+	margin: 0 auto;
+	font-size: 1.05em;
+	line-height: 1.6;
+}
+
+.theory h2 {
+	color: var(--colorUFRO);
+	font-size: 1.25em;
+	margin: 22px 0 8px 0;
+	padding-bottom: 4px;
+	border-bottom: 2px solid var(--colorUFRO);
+}
+
+.theory h2:first-child {
+	margin-top: 0;
+}
+
+.theory p {
+	margin: 8px 0;
+}
+
+.theory ul {
+	margin: 8px 0 8px 22px;
+}
+
+.theory li {
+	margin: 4px 0;
+}
+
+/* Resultado importante */
+.theory .key {
+	background: var(--colorBACK);
+	border-left: 4px solid var(--colorFICA);
+	border-radius: 8px;
+	padding: 6px 14px;
+	margin: 12px 0;
+}
+
+/* Figura con leyenda */
+.theory figure {
+	margin: 14px 0;
+	text-align: center;
+}
+
+.theory figure img {
+	max-width: 100%;
+	height: auto;
+	border: 2px solid var(--colorUFRO);
+	border-radius: 10px;
+	background: white;
+}
+
+.theory figcaption {
+	font-size: 0.9em;
+	color: #555;
+	margin-top: 4px;
+}
+
+/* Número de región, con los colores de la figura */
+.reg {
+	display: inline-block;
+	min-width: 1.35em;
+	height: 1.35em;
+	line-height: 1.35em;
+	border-radius: 50%;
+	text-align: center;
+	color: white;
+	font-weight: 700;
+	font-size: 0.85em;
+}
+.reg.r1 { background: #ff0000; }
+.reg.r2 { background: #005900; }
+.reg.r3 { background: #0000ff; }
+
+/* MathJax: que las ecuaciones largas se desplacen en vez de salirse */
+.theory mjx-container[display="true"] {
+	overflow-x: auto;
+	overflow-y: hidden;
+	max-width: 100%;
+}

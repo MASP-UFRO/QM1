@@ -1,1188 +1,138 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pozo Finito de Potencial - Caso (a)</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .main-content {
-            padding: 30px;
-        }
-
-        /* ---------- Teoría ---------- */
-        .section-title {
-            color: #667eea;
-            font-size: 1.6em;
-            margin: 10px 0 18px 0;
-            padding-bottom: 8px;
-            border-bottom: 3px solid #e3e6fb;
-        }
-
-        .theory-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-            border-left: 5px solid #667eea;
-        }
-
-        .theory-card h3 {
-            color: #667eea;
-            margin-bottom: 12px;
-            font-size: 1.25em;
-        }
-
-        .theory-card p,
-        .theory-card ul {
-            margin-bottom: 12px;
-        }
-
-        .theory-card ul {
-            padding-left: 22px;
-        }
-
-        .theory-card li {
-            margin-bottom: 6px;
-        }
-
-        .eq-scroll {
-            overflow-x: auto;
-            overflow-y: hidden;
-            max-width: 100%;
-            padding: 4px 0;
-        }
-
-        .region-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0 14px 0;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .region-table th,
-        .region-table td {
-            padding: 10px 14px;
-            text-align: center;
-            border-bottom: 1px solid #e8e8ef;
-        }
-
-        .region-table th {
-            background: #667eea;
-            color: white;
-            font-weight: 600;
-        }
-
-        .note {
-            background: #fff8e1;
-            border-left: 4px solid #ffb300;
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .key-result {
-            background: white;
-            border: 2px solid #667eea;
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin: 12px 0;
-        }
-
-        .figure-container {
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            justify-content: center;
-            margin: 12px 0 4px 0;
-        }
-
-        /* ---------- Controles (mismo estilo que la simulación de centro de masa) ---------- */
-        .controls-container {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-        }
-
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .controls-grid.single {
-            grid-template-columns: minmax(260px, 560px);
-            justify-content: center;
-        }
-
-        .control-group {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .control-group h3 {
-            color: #667eea;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-        }
-
-        .input-row {
-            display: grid;
-            grid-template-columns: minmax(auto, 70px) 1fr;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        label {
-            font-weight: 600;
-            color: #555;
-        }
-
-        input[type="number"] {
-            width: 100%;
-            min-width: 0;
-            padding: 8px 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        input[type="number"]:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            accent-color: #667eea;
-            margin: 6px 0 2px 0;
-        }
-
-        .range-limits {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8em;
-            color: #888;
-        }
-
-        .simulation-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .canvas-container {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-        }
-
-        canvas {
-            border: 3px solid #667eea;
-            border-radius: 10px;
-            display: block;
-            background: #f8f9fa;
-            width: 100%;
-            max-width: 1000px;
-            height: auto;
-        }
-
-        canvas.crosshair {
-            cursor: crosshair;
-        }
-
-        canvas.figure {
-            border: none;
-            background: white;
-            max-width: 900px;
-        }
-
-        .info-panel {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .info-box {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .info-box h4 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1em;
-        }
-
-        .info-value {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #333;
-            font-family: 'Courier New', monospace;
-        }
-
-        .buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .buttons.single {
-            grid-template-columns: minmax(200px, 360px);
-            justify-content: center;
-        }
-
-        button {
-            padding: 12px 24px;
-            font-size: 1em;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #d0d0d0;
-            transform: translateY(-2px);
-        }
-
-        .legend {
-            display: flex;
-            gap: 10px 22px;
-            margin-top: 18px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 400;
-            color: #333;
-            user-select: none;
-        }
-
-        .legend-item input {
-            accent-color: #667eea;
-            width: 16px;
-            height: 16px;
-        }
-
-        .swatch {
-            display: inline-block;
-            width: 30px;
-            height: 5px;
-            border-radius: 3px;
-        }
-
-        .check-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-            font-weight: 400;
-            cursor: pointer;
-        }
-
-        .check-row input {
-            accent-color: #667eea;
-            width: 16px;
-            height: 16px;
-        }
-
-        .hint {
-            color: #666;
-            font-size: 0.95em;
-            margin-bottom: 14px;
-        }
-
-        @media (max-width: 860px) {
-            body { padding: 10px; }
-            h1 { font-size: 1.8em; }
-            .main-content { padding: 16px; }
-            .controls-grid { grid-template-columns: 1fr; }
-            .theory-card { padding: 16px; }
-            .region-table th, .region-table td { padding: 8px 6px; }
-        }
-    </style>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Teoría (caso a)</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=4"></script>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Pozo Finito de Potencial</h1>
-            <p class="subtitle">Caso (a): la energía supera al potencial en todo punto &middot; Reflexión y transmisión de una onda</p>
-        </header>
-
-        <div class="main-content">
-
-            <!-- =====================================================  TEORÍA  ===================================================== -->
-            <h2 class="section-title">Teoría</h2>
-
-            <div class="theory-card">
-                <h3>1. Planteamiento del problema</h3>
-                <p>
-                    Este recurso muestra cómo resolver la ecuación de Schrödinger independiente del tiempo (ESIT) para un pozo finito de
-                    potencial cuando la energía \(\mathcal{E}\) de la partícula supera al potencial en todo punto. El pozo es simétrico,
-                    de ancho \(L\), con \(V_{\text{out}} \gt V_{\text{in}}\), y se divide el eje \(x\) en tres regiones:
-                </p>
-
-                <div class="figure-container">
-                    <canvas id="figPozo" class="figure" width="900" height="340" role="img"
-                            aria-label="Esquema del pozo finito: tres regiones, niveles V_in, V_out y energía E"></canvas>
-                </div>
-
-                <table class="region-table">
-                    <tr><th>Región</th><th>Intervalo</th><th>Potencial</th></tr>
-                    <tr><td>1</td><td>\(x \lt -L/2\)</td><td>\(V_1 = V_{\text{out}}\)</td></tr>
-                    <tr><td>2</td><td>\(-L/2 \lt x \lt L/2\)</td><td>\(V_2 = V_{\text{in}}\)</td></tr>
-                    <tr><td>3</td><td>\(x \gt L/2\)</td><td>\(V_3 = V_{\text{out}}\)</td></tr>
-                </table>
-
-                <p>El caso (a) corresponde a \(\mathcal{E} \gt V_{\text{out}} \gt V_{\text{in}}\).</p>
-            </div>
-
-            <div class="theory-card">
-                <h3>2. La ESIT en cada región</h3>
-                <p>Para cada región \(j = 1, 2, 3\) la ESIT es</p>
-                <div class="eq-scroll">
-                    \[ -\frac{\hbar^{2}}{2m}\,\frac{d^{2}\psi_j}{dx^{2}} + V_j\,\psi_j = \mathcal{E}\,\psi_j , \]
-                </div>
-                <p>que es equivalente a</p>
-                <div class="eq-scroll">
-                    \[ \psi_j''(x) + k_j^{2}\,\psi_j(x) = 0 , \]
-                </div>
-                <p>donde</p>
-                <div class="eq-scroll">
-                    \[ k_1 = k_3 = k_{\text{out}} = \sqrt{\frac{2m}{\hbar^{2}}\left(\mathcal{E}-V_{\text{out}}\right)} , \qquad
-                       k_2 = k_{\text{in}} = \sqrt{\frac{2m}{\hbar^{2}}\left(\mathcal{E}-V_{\text{in}}\right)} . \]
-                </div>
-                <p>Las soluciones para cada región son de la forma</p>
-                <div class="eq-scroll">
-                    \[ \psi_j(x) = A_j\,e^{\,i k_j x} + B_j\,e^{-i k_j x} , \]
-                </div>
-                <p>
-                    donde los coeficientes \(A_j\) y \(B_j\) son incógnitas por determinar. En el caso (a), \(k_{\text{in}}\) y \(k_{\text{out}}\)
-                    son reales y positivos: en las tres regiones hay soluciones oscilatorias y <em>no hay confinamiento</em>.
-                </p>
-            </div>
-
-            <div class="theory-card">
-                <h3>3. Parámetros auxiliares</h3>
-                <p>Para simplificar la descripción se usan los siguientes parámetros:</p>
-                <div class="eq-scroll">
-                    \[ \begin{aligned}
-                        \Delta V &amp;= V_{\text{out}} - V_{\text{in}} &amp;&amp;: \text{profundidad del pozo,} \\
-                        \Delta\mathcal{E} &amp;= \mathcal{E} - V_{\text{in}} &amp;&amp;: \text{cu\'anto sobresale } \mathcal{E} \text{ sobre el fondo del pozo,} \\
-                        \eta &amp;= \frac{\Delta\mathcal{E}}{\Delta V} &amp;&amp;: \text{posici\'on de } \mathcal{E} \text{ relativa a la profundidad del pozo,} \\
-                        \lambda_{dB} &amp;= \sqrt{\frac{2\pi^{2}\hbar^{2}}{m\,\Delta\mathcal{E}}} = \frac{2\pi}{k_{\text{in}}} &amp;&amp;: \text{longitud de onda de de Broglie,} \\
-                        \Lambda &amp;= \frac{L}{\lambda_{dB}} &amp;&amp;: \text{ancho del pozo en m\'ultiplos de } \lambda_{dB}.
-                    \end{aligned} \]
-                </div>
-                <p>
-                    La longitud de onda de de Broglie se obtiene suponiendo que la energía cinética \(p^{2}/2m\) fuese \(\Delta\mathcal{E}\), es decir
-                    \(p = \sqrt{2m\,\Delta\mathcal{E}}\), y usando \(p = \hbar k\) con \(k = 2\pi/\lambda_{dB}\).
-                    En el caso (a) se cumple \(\eta \gt 1\); el valor \(\eta = 1\) corresponde al umbral \(\mathcal{E} = V_{\text{out}}\).
-                </p>
-                <p>Con estas sustituciones se puede escribir también</p>
-                <div class="eq-scroll">
-                    \[ k_{\text{in}} = \sqrt{\frac{2m\,\Delta V}{\hbar^{2}}}\,\sqrt{\eta} , \qquad
-                       k_{\text{out}} = \sqrt{\frac{2m\,\Delta V}{\hbar^{2}}}\,\sqrt{\eta-1} , \qquad
-                       \Lambda = \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^{2}}}\,\sqrt{\eta} . \]
-                </div>
-                <p>
-                    En particular, \(k_{\text{in}}L = 2\pi\Lambda\) y \(k_{\text{out}}/k_{\text{in}} = \sqrt{(\eta-1)/\eta}\): todo lo que
-                    sigue depende solo de los dos números adimensionales \(\eta\) y \(\Lambda\).
-                </p>
-            </div>
-
-            <div class="theory-card">
-                <h3>4. Condiciones de continuidad</h3>
-                <p>
-                    Se impone que la función de onda sea continua para que la probabilidad de encontrar a la partícula en una zona no tenga
-                    vacíos físicamente inadmisibles. Como el potencial \(V(x)\) es finito en todo su dominio, la derivada de la función de
-                    onda también es continua.
-                </p>
-                <p>
-                    Los puntos "problemáticos" son \(x = \pm L/2\), donde el potencial es discontinuo y donde se separa la función de onda
-                    en tramos. Allí se exige
-                </p>
-                <div class="eq-scroll">
-                    \[ \begin{aligned}
-                        \psi_1(-L/2) &amp;= \psi_2(-L/2) , &amp; \psi_1'(-L/2) &amp;= \psi_2'(-L/2) , \\
-                        \psi_2(+L/2) &amp;= \psi_3(+L/2) , &amp; \psi_2'(+L/2) &amp;= \psi_3'(+L/2) .
-                    \end{aligned} \]
-                </div>
-                <p>
-                    Estas cuatro ecuaciones forman un sistema de ecuaciones lineales para los coeficientes
-                    \(A_1, B_1, A_2, B_2, A_3, B_3\). Otras condiciones adicionales se ven caso a caso.
-                </p>
-            </div>
-
-            <div class="theory-card">
-                <h3>5. Caso (a): sistema de ecuaciones para los coeficientes</h3>
-                <p>
-                    Como no hay confinamiento, se puede suponer que la partícula viene desde lejos, por ejemplo desde \(x = -\infty\).
-                    Entonces \(A_1\) es el <em>coeficiente de referencia</em>, pues indica la amplitud de la onda incidente.
-                    A la derecha del pozo la onda no tiene con qué reflejarse, así que se espera \(B_3 = 0\).
-                </p>
-                <p>
-                    Con ello, las condiciones de continuidad (donde se simplificó el factor \(i\) de las derivadas) forman un sistema
-                    no homogéneo de 4 ecuaciones lineales para \(B_1\), \(A_2\), \(B_2\) y \(A_3\), expresadas en función de \(A_1\):
-                </p>
-                <div class="eq-scroll">
-                    \[ \begin{aligned}
-                        A_1 e^{-i k_{\text{out}}L/2} + B_1 e^{\,i k_{\text{out}}L/2} &amp;= A_2 e^{-i k_{\text{in}}L/2} + B_2 e^{\,i k_{\text{in}}L/2} , \\
-                        k_{\text{out}}\left(A_1 e^{-i k_{\text{out}}L/2} - B_1 e^{\,i k_{\text{out}}L/2}\right) &amp;= k_{\text{in}}\left(A_2 e^{-i k_{\text{in}}L/2} - B_2 e^{\,i k_{\text{in}}L/2}\right) , \\
-                        A_2 e^{\,i k_{\text{in}}L/2} + B_2 e^{-i k_{\text{in}}L/2} &amp;= A_3 e^{\,i k_{\text{out}}L/2} , \\
-                        k_{\text{in}}\left(A_2 e^{\,i k_{\text{in}}L/2} - B_2 e^{-i k_{\text{in}}L/2}\right) &amp;= k_{\text{out}}\,A_3 e^{\,i k_{\text{out}}L/2} .
-                    \end{aligned} \]
-                </div>
-                <p>
-                    Escribiendo \(u = e^{\,i k_{\text{out}}L/2}\) y \(w = e^{\,i k_{\text{in}}L/2}\), el sistema se representa matricialmente como
-                    \(\mathbf{M}\cdot\vec{v} = \vec{b}\), con
-                </p>
-                <div class="eq-scroll">
-                    \[ \mathbf{M} = \begin{pmatrix}
-                        u &amp; -w^{-1} &amp; -w &amp; 0 \\
-                        -i k_{\text{out}}\,u &amp; -i k_{\text{in}}\,w^{-1} &amp; i k_{\text{in}}\,w &amp; 0 \\
-                        0 &amp; w &amp; w^{-1} &amp; -u \\
-                        0 &amp; i k_{\text{in}}\,w &amp; -i k_{\text{in}}\,w^{-1} &amp; -i k_{\text{out}}\,u
-                    \end{pmatrix} , \qquad
-                    \vec{v} = \begin{pmatrix} B_1 \\ A_2 \\ B_2 \\ A_3 \end{pmatrix} , \qquad
-                    \vec{b} = -A_1 \begin{pmatrix} u^{-1} \\ i k_{\text{out}}\,u^{-1} \\ 0 \\ 0 \end{pmatrix} . \]
-                </div>
-                <p>
-                    \(\mathbf{M}\) es la matriz de coeficientes, \(\vec{v}\) contiene a las incógnitas y \(\vec{b}\) es el término
-                    inhomogéneo del sistema, que contiene a \(A_1\). Siendo un sistema inhomogéneo, su solución es <em>no trivial</em>
-                    (no son solo ceros).
-                </p>
-            </div>
-
-            <div class="theory-card">
-                <h3>6. Coeficientes de reflexión y transmisión</h3>
-                <p>
-                    Si vemos al pozo como una "caja negra", lo que más interesa es qué emerge de él cuando enviamos algo, como se hace en los
-                    problemas de <em>scattering</em>. Se envía una onda desde \(x = -\infty\) hacia el pozo: una parte puede devolverse hacia
-                    la izquierda (reflexión) y otra emerger hacia la derecha (transmisión). Las amplitudes de reflexión \(r\) y transmisión
-                    \(t\) son
-                </p>
-                <div class="eq-scroll">
-                    \[ r = \frac{B_1}{A_1} \qquad \text{y} \qquad t = \frac{A_3}{A_1} . \]
-                </div>
-                <p>Al resolver el sistema anterior se obtiene</p>
-                <div class="eq-scroll">
-                    \[ r = \frac{\left(e^{2 i k_{\text{in}}L} - 1\right)\left(k_{\text{out}}^{2} - k_{\text{in}}^{2}\right) e^{-i k_{\text{out}}L}}
-                                {\left(k_{\text{in}} - k_{\text{out}}\right)^{2} e^{2 i k_{\text{in}}L} - \left(k_{\text{in}} + k_{\text{out}}\right)^{2}} , \]
-                </div>
-                <div class="eq-scroll">
-                    \[ t = \frac{-4\,k_{\text{in}}k_{\text{out}}\; e^{\,i\left(k_{\text{in}} - k_{\text{out}}\right)L}}
-                                {\left(k_{\text{in}} - k_{\text{out}}\right)^{2} e^{2 i k_{\text{in}}L} - \left(k_{\text{in}} + k_{\text{out}}\right)^{2}} . \]
-                </div>
-                <div class="note">
-                    Estos coeficientes se calculan <em>suponiendo</em> que la onda incidente viene desde la izquierda. Si \(r_{\pm}\) y
-                    \(t_{\pm}\) son las amplitudes para una onda que va desde \(\mp\infty\) hacia \(\pm\infty\), en general \(r_{+} \neq r_{-}\)
-                    y \(t_{+} \neq t_{-}\); sin embargo, en potenciales simétricos como este sí se da la igualdad.
-                </div>
-                <p>
-                    Las probabilidades de que la partícula sea reflejada o transmitida se calculan, como en Mecánica Cuántica, con el módulo al
-                    cuadrado de las amplitudes. Como el medio es el mismo a ambos lados del pozo (\(k_{\text{out}}\) en las regiones 1 y 3),
-                    basta
-                </p>
-                <div class="eq-scroll">
-                    \[ R = |r|^{2} , \qquad T = |t|^{2} , \qquad R + T = 1 . \]
-                </div>
-                <p>Usando los parámetros reducidos \(\eta\) y \(\Lambda\), el resultado es notablemente simple:</p>
-                <div class="key-result eq-scroll">
-                    \[ R = \frac{2\,\sin^{2}(2\pi\Lambda)}{8\,\eta\,(\eta-1) - \cos(4\pi\Lambda) + 1} , \qquad
-                       T = \frac{8\,\eta\,(\eta-1)}{8\,\eta\,(\eta-1) - \cos(4\pi\Lambda) + 1} . \]
-                </div>
-                <p>Algunas consecuencias:</p>
-                <ul>
-                    <li>
-                        <strong>Resonancias de transmisión.</strong> \(T = 1\) (y \(R = 0\)) cuando \(\sin(2\pi\Lambda) = 0\), es decir
-                        \(\Lambda = n/2\) o, equivalentemente, \(L = n\,\lambda_{dB}/2\) con \(n = 1, 2, 3, \dots\) Dentro del pozo cabe un número
-                        entero de semilongitudes de onda.
-                    </li>
-                    <li>
-                        <strong>Mínimos de transmisión.</strong> En \(\Lambda = (2n+1)/4\) se tiene
-                        \(T_{\min} = \dfrac{4\eta(\eta-1)}{(2\eta-1)^{2}}\).
-                    </li>
-                    <li>
-                        <strong>Límites.</strong> Cuando \(\eta \to 1^{+}\) (energía justo sobre el borde del pozo), \(R \to 1\) salvo en las
-                        resonancias, que se vuelven cada vez más angostas. Cuando \(\eta \to \infty\), \(T \to 1\).
-                    </li>
-                    <li>
-                        <strong>Efecto ondulatorio.</strong> Clásicamente una partícula con \(\mathcal{E} \gt V_{\text{out}}\) siempre pasaría
-                        (\(T = 1\)). Que \(R \neq 0\) es un efecto puramente ondulatorio.
-                    </li>
-                </ul>
-            </div>
-    <script>
-    (function () {
-        'use strict';
-
-        /* ============================================================
-           Constantes físicas (electrón). Energías en eV, longitudes en Å.
-           k = sqrt(2 m c^2 * E) / (hbar c)
-           ============================================================ */
-        var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
-        var HBARC = 1973.269804;    // eV·Å
-
-        function kOf(energyEV) { return Math.sqrt(2 * MC2 * energyEV) / HBARC; }  // Å^-1
-
-        /* ============================================================
-           Números complejos mínimos: [re, im]
-           ============================================================ */
-        function cmul(a, b) { return [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]]; }
-        function cdiv(a, b) {
-            var d = b[0] * b[0] + b[1] * b[1];
-            return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
-        }
-        function cexp(theta) { return [Math.cos(theta), Math.sin(theta)]; }   // e^{i theta}
-        function cscale(a, s) { return [a[0] * s, a[1] * s]; }
-        function cabs2(a) { return a[0] * a[0] + a[1] * a[1]; }
-
-        /* ============================================================
-           Resultados analíticos
-           ============================================================ */
-
-        // R y T en función de los parámetros reducidos (eta, Lambda)
-        function RT(eta, lam) {
-            var den = 8 * eta * (eta - 1) - Math.cos(4 * Math.PI * lam) + 1;
-            var s = Math.sin(2 * Math.PI * lam);
-            return [2 * s * s / den, 8 * eta * (eta - 1) / den];
-        }
-
-        // Coeficientes de las ondas (con A1 = 1) para eta, L (Å), dV (eV)
-        function coefficients(eta, L, dV) {
-            var q = kOf(eta * dV);          // k_in
-            var k = kOf((eta - 1) * dV);    // k_out
-            var e2 = cexp(2 * q * L);
-            var dm = (q - k) * (q - k), dp = (q + k) * (q + k);
-            var den = [dm * e2[0] - dp, dm * e2[1]];
-            var numR = cscale(cmul([e2[0] - 1, e2[1]], cexp(-k * L)), k * k - q * q);
-            var B1 = cdiv(numR, den);
-            var A3 = cdiv(cmul([-4 * q * k, 0], cexp((q - k) * L)), den);
-            // empalme en x = +L/2
-            var A2 = cscale(cmul(A3, cexp((k - q) * L / 2)), (q + k) / (2 * q));
-            var B2 = cscale(cmul(A3, cexp((k + q) * L / 2)), (q - k) / (2 * q));
-            return { q: q, k: k, B1: B1, A2: A2, B2: B2, A3: A3 };
-        }
-
-        /* ============================================================
-           Utilidades de dibujo
-           ============================================================ */
-        function setupCanvas(cv) {
-            var w = cv.width, h = cv.height;
-            var dpr = Math.min(window.devicePixelRatio || 1, 3);
-            cv.width = Math.round(w * dpr);
-            cv.height = Math.round(h * dpr);
-            var c = cv.getContext('2d');
-            c.setTransform(dpr, 0, 0, dpr, 0, 0);
-            return { ctx: c, w: w, h: h };
-        }
-
-        // Texto con subíndices: "V_out", "k_{in}", "lambda_dB"; align: 'left' | 'center' | 'right'
-        function drawText(ctx, str, x, y, size, align, color, weight) {
-            var parts = str.split(/(_\{[^}]*\}|_[A-Za-z0-9]+)/).filter(function (p) { return p.length; });
-            var font = (weight || 'normal') + ' ';
-            var segs = [], total = 0, i, p, sub, t, fs, w;
-            for (i = 0; i < parts.length; i++) {
-                p = parts[i];
-                sub = p.charAt(0) === '_';
-                t = sub ? p.replace(/^_\{?|\}$/g, '') : p;
-                fs = sub ? size * 0.72 : size;
-                ctx.font = font + fs + 'px "Segoe UI", Arial, sans-serif';
-                w = ctx.measureText(t).width;
-                segs.push({ t: t, sub: sub, fs: fs, w: w });
-                total += w;
-            }
-            var x0 = align === 'center' ? x - total / 2 : (align === 'right' ? x - total : x);
-            ctx.fillStyle = color || '#333';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'alphabetic';
-            for (i = 0; i < segs.length; i++) {
-                ctx.font = font + segs[i].fs + 'px "Segoe UI", Arial, sans-serif';
-                ctx.fillText(segs[i].t, x0, y + (segs[i].sub ? size * 0.22 : 0));
-                x0 += segs[i].w;
-            }
-        }
-
-        function drawArrow(ctx, x1, y1, x2, y2, color, lw, head) {
-            head = head || 8;
-            var ang = Math.atan2(y2 - y1, x2 - x1);
-            ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = lw || 2;
-            ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x2, y2);
-            ctx.lineTo(x2 - head * Math.cos(ang - Math.PI / 6), y2 - head * Math.sin(ang - Math.PI / 6));
-            ctx.lineTo(x2 - head * Math.cos(ang + Math.PI / 6), y2 - head * Math.sin(ang + Math.PI / 6));
-            ctx.closePath(); ctx.fill();
-        }
-
-        // Paso "bonito" para los ticks
-        function niceStep(range, target) {
-            var raw = range / target, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
-            var f = raw / mag, s = f < 1.5 ? 1 : (f < 3.5 ? 2 : (f < 7.5 ? 5 : 10));
-            return s * mag;
-        }
-
-        function fmtTick(v) {
-            var r = Math.round(v * 1000) / 1000;
-            return (r === 0 ? 0 : r).toString();
-        }
-
-        /* ============================================================
-           Vincular deslizador + campo numérico
-           ============================================================ */
-        function bindPair(numEl, rangeEl, onChange) {
-            function clamp(v) {
-                var lo = parseFloat(numEl.min), hi = parseFloat(numEl.max);
-                return Math.min(hi, Math.max(lo, v));
-            }
-            rangeEl.addEventListener('input', function () {
-                numEl.value = rangeEl.value;
-                onChange();
-            });
-            numEl.addEventListener('input', function () {
-                var v = parseFloat(numEl.value);
-                if (isNaN(v)) { return; }
-                rangeEl.value = clamp(v);
-                onChange();
-            });
-            numEl.addEventListener('change', function () {
-                var v = parseFloat(numEl.value);
-                if (isNaN(v)) { v = parseFloat(rangeEl.defaultValue); }
-                v = clamp(v);
-                numEl.value = v;
-                rangeEl.value = v;
-                onChange();
-            });
-        }
-
-        function getNum(el, fallback) {
-            var v = parseFloat(el.value);
-            if (isNaN(v)) { v = fallback; }
-            return Math.min(parseFloat(el.max), Math.max(parseFloat(el.min), v));
-        }
-
-        function setPair(numEl, rangeEl, v) { numEl.value = v; rangeEl.value = v; }
-
-        /* ============================================================
-           Figura teórica: esquema del pozo
-           ============================================================ */
-        function drawFigure() {
-            var cv = document.getElementById('figPozo');
-            if (!cv) { return; }
-            var S = setupCanvas(cv), ctx = S.ctx;
-            var c1 = '#5E81B5', c2 = '#E19C24', c5 = '#8778B3', c6 = '#C56E1A';
-            var yE = 62, yOut = 150, yIn = 250, xA = 290, xB = 560, x0 = 70, x1 = 800;
-
-            ctx.clearRect(0, 0, S.w, S.h);
-
-            // ejes de energía
-            drawArrow(ctx, x0, 300, x0, 24, '#333', 2, 9);
-            drawText(ctx, 'energía', x0 + 8, 30, 14, 'left', '#333');
-
-            // zonas de región (fondo suave)
-            ctx.fillStyle = 'rgba(102,126,234,0.07)';
-            ctx.fillRect(xA, 40, xB - xA, 260);
-
-            // líneas verticales en ±L/2
-            ctx.setLineDash([4, 4]); ctx.strokeStyle = '#999'; ctx.lineWidth = 1;
-            ctx.beginPath(); ctx.moveTo(xA, 40); ctx.lineTo(xA, 300); ctx.moveTo(xB, 40); ctx.lineTo(xB, 300); ctx.stroke();
-            ctx.setLineDash([]);
-
-            // nivel de energía
-            ctx.setLineDash([8, 6]); ctx.strokeStyle = '#555'; ctx.lineWidth = 1.6;
-            ctx.beginPath(); ctx.moveTo(x0, yE); ctx.lineTo(x1, yE); ctx.stroke();
-            ctx.setLineDash([]);
-            drawText(ctx, 'E', x1 + 8, yE + 5, 16, 'left', '#555', 'bold');
-
-            // potencial
-            ctx.strokeStyle = c6; ctx.lineWidth = 4; ctx.lineJoin = 'round';
-            ctx.beginPath();
-            ctx.moveTo(x0, yOut); ctx.lineTo(xA, yOut); ctx.lineTo(xA, yIn); ctx.lineTo(xB, yIn);
-            ctx.lineTo(xB, yOut); ctx.lineTo(x1, yOut); ctx.stroke();
-            drawText(ctx, 'V_out', x1 + 8, yOut + 5, 16, 'left', c6, 'bold');
-            drawText(ctx, 'V_in', x1 + 8, yIn + 5, 16, 'left', c6, 'bold');
-            ctx.setLineDash([3, 5]); ctx.strokeStyle = c6; ctx.lineWidth = 1.2;
-            ctx.beginPath(); ctx.moveTo(xB, yIn); ctx.lineTo(x1, yIn); ctx.stroke();
-            ctx.setLineDash([]);
-
-            // cotas ΔV y ΔE
-            drawArrow(ctx, 150, yOut + 2, 150, yIn - 2, '#333', 1.6, 7);
-            drawArrow(ctx, 150, yIn - 2, 150, yOut + 2, '#333', 1.6, 7);
-            drawText(ctx, 'ΔV', 160, (yOut + yIn) / 2 + 5, 15, 'left', '#333', 'bold');
-            drawArrow(ctx, 740, yE + 2, 740, yIn - 2, '#333', 1.6, 7);
-            drawArrow(ctx, 740, yIn - 2, 740, yE + 2, '#333', 1.6, 7);
-            drawText(ctx, 'ΔE', 730, 208, 15, 'right', '#333', 'bold');
-
-            // ondas (flechas)
-            drawArrow(ctx, 100, 96, 240, 96, c1, 3, 10);
-            drawText(ctx, 'incidente', 170, 88, 13, 'center', c1);
-            drawArrow(ctx, 240, 124, 100, 124, c2, 3, 10);
-            drawText(ctx, 'reflejada', 170, 116, 13, 'center', c2, 'normal');
-            drawArrow(ctx, 600, 96, 710, 96, c5, 3, 10);
-            drawText(ctx, 'transmitida', 655, 88, 13, 'center', c5);
-
-            // regiones
-            drawText(ctx, 'Región 1', 180, 286, 16, 'center', '#333', 'bold');
-            drawText(ctx, 'V = V_out', 180, 306, 14, 'center', '#555');
-            drawText(ctx, 'Región 2', 425, 286, 16, 'center', '#333', 'bold');
-            drawText(ctx, 'V = V_in', 425, 306, 14, 'center', '#555');
-            drawText(ctx, 'Región 3', 675, 286, 16, 'center', '#333', 'bold');
-            drawText(ctx, 'V = V_out', 675, 306, 14, 'center', '#555');
-
-            // ±L/2 y ancho L
-            drawText(ctx, '−L/2', xA, 330, 14, 'center', '#333');
-            drawText(ctx, '+L/2', xB, 330, 14, 'center', '#333');
-            drawArrow(ctx, xA + 4, 208, xB - 4, 208, '#333', 1.4, 7);
-            drawArrow(ctx, xB - 4, 208, xA + 4, 208, '#333', 1.4, 7);
-            drawText(ctx, 'L', (xA + xB) / 2, 200, 15, 'center', '#333', 'bold');
-        }
-
-        /* ============================================================
-           Simulación 1: R y T vs Λ
-           ============================================================ */
-        var P1 = {
-            cv: document.getElementById('plot1'),
-            num: document.getElementById('eta1'),
-            rng: document.getElementById('eta1r'),
-            res: document.getElementById('res1'),
-            hover: null,
-            lamMin: 0.01, lamMax: 6.0
-        };
-        var S1 = setupCanvas(P1.cv);
-        var C_R = '#5E81B5', C_T = '#E19C24';
-
-        function drawPlot1() {
-            var eta = getNum(P1.num, 1.02);
-            var ctx = S1.ctx, W = S1.w, H = S1.h;
-            var ml = 78, mr = 30, mt = 78, mb = 66;
-            var pw = W - ml - mr, ph = H - mt - mb;
-            var xmin = 0, xmax = P1.lamMax, ymin = 0, ymax = 1.05;
-            function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
-            function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
-
-            ctx.clearRect(0, 0, W, H);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(ml, mt, pw, ph);
-
-            // rejilla y ticks
-            var i, v;
-            ctx.lineWidth = 1;
-            for (i = 0; i <= 12; i++) {                      // x: cada 0.5
-                v = i * 0.5;
-                ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
-                ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
-                if (i % 2 === 0) {
-                    drawText(ctx, String(v), X(v), mt + ph + 22, 14, 'center', '#555');
-                }
-            }
-            for (i = 0; i <= 10; i++) {                      // y: cada 0.1
-                v = i / 10;
-                ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
-                ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
-                if (i % 2 === 0) {
-                    drawText(ctx, v.toFixed(1), ml - 10, Y(v) + 5, 14, 'right', '#555');
-                }
-            }
-
-            // resonancias T = 1 en Λ = n/2
-            if (P1.res.checked) {
-                ctx.setLineDash([2, 5]); ctx.strokeStyle = '#764ba2'; ctx.lineWidth = 1.4;
-                for (i = 1; i <= 12; i++) {
-                    ctx.beginPath(); ctx.moveTo(X(i / 2), mt); ctx.lineTo(X(i / 2), mt + ph); ctx.stroke();
-                }
-                ctx.setLineDash([]);
-            }
-
-            // marco
-            ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
-            ctx.strokeRect(ml, mt, pw, ph);
-
-            // curvas
-            var N = 1500, j, lam, rt, xs = [], rs = [], ts = [];
-            for (j = 0; j <= N; j++) {
-                lam = P1.lamMin + (P1.lamMax - P1.lamMin) * j / N;
-                rt = RT(eta, lam);
-                xs.push(lam); rs.push(rt[0]); ts.push(rt[1]);
-            }
-            ctx.save();
-            ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
-            ctx.lineJoin = 'round'; ctx.lineWidth = 2.8;
-            [[rs, C_R], [ts, C_T]].forEach(function (cu) {
-                ctx.strokeStyle = cu[1]; ctx.beginPath();
-                for (j = 0; j <= N; j++) {
-                    if (j === 0) { ctx.moveTo(X(xs[j]), Y(cu[0][j])); } else { ctx.lineTo(X(xs[j]), Y(cu[0][j])); }
-                }
-                ctx.stroke();
-            });
-            ctx.restore();
-
-            // etiquetas de ejes y título
-            drawText(ctx, 'Λ = L/λ_dB', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
-            ctx.save();
-            ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
-            drawText(ctx, 'R, T', 0, 0, 17, 'center', '#333', 'bold');
-            ctx.restore();
-            drawText(ctx, 'Coeficientes de reflexión y transmisión', W / 2, 30, 20, 'center', '#333', 'bold');
-            drawText(ctx, 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV', W / 2, 56, 17, 'center', '#555');
-
-            // leyenda
-            var lx = ml + pw - 120, ly = mt + 14;
-            ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
-            ctx.fillRect(lx - 10, ly - 6, 112, 62); ctx.strokeRect(lx - 10, ly - 6, 112, 62);
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = C_R; ctx.beginPath(); ctx.moveTo(lx, ly + 10); ctx.lineTo(lx + 30, ly + 10); ctx.stroke();
-            drawText(ctx, 'R = |r|²', lx + 38, ly + 15, 14, 'left', '#333');
-            ctx.strokeStyle = C_T; ctx.beginPath(); ctx.moveTo(lx, ly + 36); ctx.lineTo(lx + 30, ly + 36); ctx.stroke();
-            drawText(ctx, 'T = |t|²', lx + 38, ly + 41, 14, 'left', '#333');
-
-            // cursor
-            var lamC = P1.hover;
-            if (lamC !== null) {
-                var rc = RT(eta, lamC), xc = X(lamC);
-                ctx.strokeStyle = 'rgba(60,60,60,0.55)'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
-                ctx.beginPath(); ctx.moveTo(xc, mt); ctx.lineTo(xc, mt + ph); ctx.stroke();
-                ctx.setLineDash([]);
-                [[rc[0], C_R], [rc[1], C_T]].forEach(function (p) {
-                    ctx.fillStyle = p[1]; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
-                    ctx.beginPath(); ctx.arc(xc, Y(p[0]), 6, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
-                });
-                var bx = xc + 14, by = mt + ph - 74;
-                if (bx + 150 > ml + pw) { bx = xc - 164; }
-                ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.strokeStyle = '#667eea'; ctx.lineWidth = 1.5;
-                ctx.fillRect(bx, by, 150, 66); ctx.strokeRect(bx, by, 150, 66);
-                drawText(ctx, 'Λ = ' + lamC.toFixed(3), bx + 10, by + 20, 14, 'left', '#333', 'bold');
-                drawText(ctx, 'R = ' + rc[0].toFixed(4), bx + 10, by + 39, 14, 'left', C_R, 'bold');
-                drawText(ctx, 'T = ' + rc[1].toFixed(4), bx + 10, by + 58, 14, 'left', '#b9780f', 'bold');
-            }
-
-            updateInfo1(eta);
-        }
-
-        function updateInfo1(eta) {
-            document.getElementById('i1_energy').textContent = 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV';
-            document.getElementById('i1_ratio').textContent = Math.sqrt((eta - 1) / eta).toFixed(3);
-            document.getElementById('i1_tmin').textContent = (4 * eta * (eta - 1) / Math.pow(2 * eta - 1, 2)).toFixed(4);
-            var h = P1.hover;
-            if (h === null) {
-                document.getElementById('i1_lam').textContent = '—';
-                document.getElementById('i1_R').textContent = '—';
-                document.getElementById('i1_T').textContent = '—';
-            } else {
-                var rt = RT(eta, h);
-                document.getElementById('i1_lam').textContent = h.toFixed(3);
-                document.getElementById('i1_R').textContent = rt[0].toFixed(4);
-                document.getElementById('i1_T').textContent = rt[1].toFixed(4);
-            }
-        }
-
-        function hoverFromEvent(e) {
-            var rect = P1.cv.getBoundingClientRect();
-            var pt = (e.touches && e.touches.length) ? e.touches[0] : e;
-            var px = (pt.clientX - rect.left) * (S1.w / rect.width);
-            var ml = 78, mr = 30, pw = S1.w - ml - mr;
-            var lam = (px - ml) / pw * P1.lamMax;
-            if (lam < P1.lamMin || lam > P1.lamMax) { P1.hover = null; } else { P1.hover = lam; }
-            drawPlot1();
-        }
-        P1.cv.addEventListener('mousemove', hoverFromEvent);
-        P1.cv.addEventListener('touchstart', hoverFromEvent, { passive: true });
-        P1.cv.addEventListener('touchmove', hoverFromEvent, { passive: true });
-        P1.cv.addEventListener('mouseleave', function () { P1.hover = null; drawPlot1(); });
-
-        bindPair(P1.num, P1.rng, drawPlot1);
-        P1.res.addEventListener('change', drawPlot1);
-        document.getElementById('reset1').addEventListener('click', function () {
-            setPair(P1.num, P1.rng, 1.02);
-            P1.res.checked = false;
-            P1.hover = null;
-            drawPlot1();
-        });
-
-        /* ============================================================
-           Simulación 2: función de onda
-           ============================================================ */
-        var P2 = {
-            cv: document.getElementById('plot2'),
-            eta: document.getElementById('eta2'), etaR: document.getElementById('eta2r'),
-            L: document.getElementById('L2'), LR: document.getElementById('L2r'),
-            dV: document.getElementById('dV2'), dVR: document.getElementById('dV2r'),
-            show: { inc: true, ref12: true, tr12: true, ref23: true, tr23: true, pot: true, en: true, tot: false },
-            xMax: 30,       // Å: el gráfico cubre de -30 a +30
-            dVmax: 20, etaMax: 5,
-            amp: 5          // eV: escala (arbitraria) de la amplitud dibujada
-        };
-        var S2 = setupCanvas(P2.cv);
-        // Colores de la paleta usada en Mathematica (ColorData[97])
-        var COL = { inc: '#5E81B5', ref12: '#E19C24', tr12: '#8FB032', ref23: '#EB6235', tr23: '#8778B3', pot: '#C56E1A' };
-        // paso de muestreo: 16 puntos por la longitud de onda más corta posible
-        var DX = 2 * Math.PI / (16 * kOf(P2.etaMax * P2.dVmax));
-
-        function linspace(a, b, n) {
-            var arr = [], i;
-            for (i = 0; i <= n; i++) { arr.push(a + (b - a) * i / n); }
-            return arr;
-        }
-
-        function drawPlot2() {
-            var eta = getNum(P2.eta, 3.005), L = getNum(P2.L, 15.5), dV = getNum(P2.dV, 10.5);
-            var ctx = S2.ctx, W = S2.w, H = S2.h;
-            var ml = 78, mr = 28, mt = 108, mb = 62;
-            var pw = W - ml - mr, ph = H - mt - mb;
-            var xmin = -P2.xMax, xmax = P2.xMax;
-            var ymin = -0.01 * P2.dVmax;
-            var ymax = (P2.dVmax * P2.etaMax + 3 * eta * dV) / 4 + P2.amp;
-            function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
-            function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
-
-            var cf = coefficients(eta, L, dV);
-            var h0 = eta * dV;
-            var R = cabs2(cf.B1), T = cabs2(cf.A3);
-            var lamdB = 2 * Math.PI / cf.q;
-
-            ctx.clearRect(0, 0, W, H);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(ml, mt, pw, ph);
-
-            // rejilla
-            var i, v, stepX = 10, stepY = niceStep(ymax - ymin, 8);
-            ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
-            for (v = Math.ceil(xmin / stepX) * stepX; v <= xmax + 1e-9; v += stepX) {
-                ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
-                drawText(ctx, fmtTick(v), X(v), mt + ph + 22, 14, 'center', '#555');
-            }
-            for (v = Math.ceil(ymin / stepY) * stepY; v <= ymax + 1e-9; v += stepY) {
-                ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
-                drawText(ctx, fmtTick(v), ml - 10, Y(v) + 5, 14, 'right', '#555');
-            }
-
-            // fronteras del pozo (±L/2)
-            ctx.setLineDash([5, 5]); ctx.strokeStyle = '#999'; ctx.lineWidth = 1.2;
-            ctx.beginPath();
-            ctx.moveTo(X(-L / 2), mt); ctx.lineTo(X(-L / 2), mt + ph);
-            ctx.moveTo(X(L / 2), mt); ctx.lineTo(X(L / 2), mt + ph);
-            ctx.stroke(); ctx.setLineDash([]);
-
-            ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
-            ctx.strokeRect(ml, mt, pw, ph);
-
-            ctx.save();
-            ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
-
-            // nivel de energía
-            if (P2.show.en) {
-                ctx.setLineDash([9, 6]); ctx.strokeStyle = '#777'; ctx.lineWidth = 1.4;
-                ctx.beginPath(); ctx.moveTo(ml, Y(h0)); ctx.lineTo(ml + pw, Y(h0)); ctx.stroke();
-                ctx.setLineDash([]);
-            }
-
-            // dibujo de una onda: h0 + amp * Re( c * e^{i s k x} )
-            function wave(xs, coef, kk, sgn, color, lw) {
-                ctx.strokeStyle = color; ctx.lineWidth = lw || 2.2; ctx.lineJoin = 'round';
-                ctx.beginPath();
-                for (var n = 0; n < xs.length; n++) {
-                    var ph0 = sgn * kk * xs[n];
-                    var re = coef[0] * Math.cos(ph0) - coef[1] * Math.sin(ph0);
-                    var px = X(xs[n]), py = Y(h0 + P2.amp * re);
-                    if (n === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
-                }
-                ctx.stroke();
-            }
-
-            var n1 = Math.max(2, Math.ceil((P2.xMax - L / 2) / DX));
-            var n2 = Math.max(2, Math.ceil(L / DX));
-            var x1 = linspace(-P2.xMax, -L / 2, n1);
-            var x2 = linspace(-L / 2, L / 2, n2);
-            var x3 = linspace(L / 2, P2.xMax, n1);
-            var one = [1, 0];
-
-            if (P2.show.inc)   { wave(x1, one, cf.k, +1, COL.inc); }
-            if (P2.show.ref12) { wave(x1, cf.B1, cf.k, -1, COL.ref12); }
-            if (P2.show.tr12)  { wave(x2, cf.A2, cf.q, +1, COL.tr12); }
-            if (P2.show.ref23) { wave(x2, cf.B2, cf.q, -1, COL.ref23); }
-            if (P2.show.tr23)  { wave(x3, cf.A3, cf.k, +1, COL.tr23); }
-
-            // Re ψ total: suma de las componentes en cada región
-            if (P2.show.tot) {
-                ctx.strokeStyle = '#222'; ctx.lineWidth = 2.8; ctx.lineJoin = 'round';
-                var regions = [
-                    [x1, function (x) { return [cmul(one, cexp(cf.k * x)), cmul(cf.B1, cexp(-cf.k * x))]; }],
-                    [x2, function (x) { return [cmul(cf.A2, cexp(cf.q * x)), cmul(cf.B2, cexp(-cf.q * x))]; }],
-                    [x3, function (x) { return [cmul(cf.A3, cexp(cf.k * x))]; }]
-                ];
-                regions.forEach(function (rg) {
-                    ctx.beginPath();
-                    rg[0].forEach(function (x, idx) {
-                        var terms = rg[1](x), re = 0, m;
-                        for (m = 0; m < terms.length; m++) { re += terms[m][0]; }
-                        var px = X(x), py = Y(h0 + P2.amp * re);
-                        if (idx === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
-                    });
-                    ctx.stroke();
-                });
-            }
-
-            // potencial
-            if (P2.show.pot) {
-                ctx.strokeStyle = COL.pot; ctx.lineWidth = 3.4; ctx.lineJoin = 'miter';
-                ctx.beginPath();
-                ctx.moveTo(X(-P2.xMax), Y(dV)); ctx.lineTo(X(-L / 2), Y(dV)); ctx.lineTo(X(-L / 2), Y(0));
-                ctx.lineTo(X(L / 2), Y(0)); ctx.lineTo(X(L / 2), Y(dV)); ctx.lineTo(X(P2.xMax), Y(dV));
-                ctx.stroke();
-            }
-            ctx.restore();
-
-            // etiquetas de regiones (en la parte superior del gráfico)
-            drawText(ctx, '1', (X(-P2.xMax) + X(-L / 2)) / 2, mt + 20, 15, 'center', '#888', 'bold');
-            drawText(ctx, '2', X(0), mt + 20, 15, 'center', '#888', 'bold');
-            drawText(ctx, '3', (X(L / 2) + X(P2.xMax)) / 2, mt + 20, 15, 'center', '#888', 'bold');
-
-            // etiquetas de ejes
-            drawText(ctx, 'x (Å)', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
-            ctx.save();
-            ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
-            drawText(ctx, 'V(x), ψ(x)  (eV)', 0, 0, 17, 'center', '#333', 'bold');
-            ctx.restore();
-
-            // título (dos líneas)
-            var r3 = function (a) { return (Math.round(a * 1000) / 1000); };
-            drawText(ctx, 'ΔE = ' + r3(eta) + ' ΔV,   ΔV = ' + r3(dV) + ' eV,   L = ' + r3(L) + ' Å  (o ' + (L / lamdB).toFixed(2) + ' λ_dB)',
-                     W / 2, 34, 18, 'center', '#333', 'bold');
-            drawText(ctx, 'R = ' + R.toFixed(3) + ',   T = ' + T.toFixed(3), W / 2, 62, 18, 'center', '#555', 'bold');
-
-            // información
-            document.getElementById('i2_dE').textContent = h0.toFixed(2) + ' eV';
-            document.getElementById('i2_dEout').textContent = ((eta - 1) * dV).toFixed(2) + ' eV';
-            document.getElementById('i2_kin').textContent = cf.q.toFixed(3) + ' Å⁻¹';
-            document.getElementById('i2_kout').textContent = cf.k.toFixed(3) + ' Å⁻¹';
-            document.getElementById('i2_ldb').textContent = lamdB.toFixed(2) + ' Å';
-            document.getElementById('i2_lam').textContent = (L / lamdB).toFixed(3);
-            document.getElementById('i2_R').textContent = R.toFixed(4);
-            document.getElementById('i2_T').textContent = T.toFixed(4);
-            document.getElementById('i2_sum').textContent = (R + T).toFixed(4);
-        }
-
-        bindPair(P2.eta, P2.etaR, drawPlot2);
-        bindPair(P2.L, P2.LR, drawPlot2);
-        bindPair(P2.dV, P2.dVR, drawPlot2);
-        Array.prototype.forEach.call(document.querySelectorAll('#legend2 input[type="checkbox"]'), function (cb) {
-            cb.addEventListener('change', function () { P2.show[cb.getAttribute('data-k')] = cb.checked; drawPlot2(); });
-        });
-        document.getElementById('reset2').addEventListener('click', function () {
-            setPair(P2.eta, P2.etaR, 3.005);
-            setPair(P2.L, P2.LR, 15.5);
-            setPair(P2.dV, P2.dVR, 10.5);
-            drawPlot2();
-        });
-
-        /* ============================================================
-           Arranque
-           ============================================================ */
-        drawFigure();
-        drawPlot1();
-        drawPlot2();
-
-        // Para comprobaciones externas
-        window.PozoFinito = { RT: RT, coefficients: coefficients, kOf: kOf };
-
-        /* ============================================================
-           Respaldo para las ecuaciones TeX: si la página que contiene este
-           HTML no las convierte (p. ej. si se muestra dentro de un iframe,
-           donde el filtro de Moodle no actúa), se intenta cargar MathJax.
-           Si Moodle ya cargó MathJax en la página, no se hace nada.
-           ============================================================ */
-        window.addEventListener('load', function () {
-            setTimeout(function () {
-                var hasMJ = !!window.MathJax || !!document.querySelector('script[src*="mathjax" i]') ||
-                            !!document.querySelector('mjx-container, .MathJax, .MathJax_Preview, .katex');
-                if (hasMJ || document.body.textContent.indexOf('\\(') === -1) { return; }
-                window.MathJax = {
-                    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-                    options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'canvas'] }
-                };
-                var s = document.createElement('script');
-                s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-chtml.js';
-                s.async = true;
-                document.head.appendChild(s);
-            }, 2500);
-        });
-    })();
-    </script>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+
+				<h2>Planteamiento</h2>
+				<p>Una partícula de masa \(m\) y energía \(\mathcal{E}\) se mueve en el pozo de potencial</p>
+				\[
+				V(x)=\begin{cases} V_\text{in}, & |x|\le L/2,\\[2pt] V_\text{out}, & |x|>L/2,\end{cases}
+				\qquad V_\text{out}>V_\text{in}.
+				\]
+				<p>En el <b>caso (a)</b> la energía supera al potencial en todo punto: \(\mathcal{E}>V_\text{out}>V_\text{in}\). No hay confinamiento, así que el problema es de <i>scattering</i>: enviamos una onda desde \(x=-\infty\) y preguntamos qué parte se refleja y qué parte se transmite.</p>
+
+				<figure>
+					<img src="PozoFinito_A_01_Fig.svg" alt="Pozo de potencial finito dividido en tres regiones, con la energía por encima del potencial">
+					<figcaption>Las tres regiones: <span class="reg r1">1</span> \(x<-L/2\), <span class="reg r2">2</span> \(|x|\le L/2\) (interior del pozo) y <span class="reg r3">3</span> \(x>L/2\).</figcaption>
+				</figure>
+
+				<h2>Ecuación de Schrödinger y soluciones por región</h2>
+				<p>En cada región el potencial es constante y la ecuación de Schrödinger independiente del tiempo (ESIT),</p>
+				\[
+				-\frac{\hbar^2}{2m}\,\frac{d^2\psi}{dx^2}+V(x)\,\psi=\mathcal{E}\,\psi,
+				\]
+				<p>se reduce a \(\psi''=-k^2\psi\), con</p>
+				\[
+				k_\text{in}=\frac{\sqrt{2m\,(\mathcal{E}-V_\text{in})}}{\hbar},\qquad
+				k_\text{out}=\frac{\sqrt{2m\,(\mathcal{E}-V_\text{out})}}{\hbar}.
+				\]
+				<p>Ambos son reales y positivos, con \(k_\text{in}>k_\text{out}\): las soluciones son oscilatorias en las tres regiones.</p>
+				\[
+				\begin{aligned}
+				\psi_1(x)&=A_1\,e^{\,i k_\text{out}x}+B_1\,e^{-i k_\text{out}x} &&(x<-L/2),\\
+				\psi_2(x)&=A_2\,e^{\,i k_\text{in}x}+B_2\,e^{-i k_\text{in}x} &&(|x|\le L/2),\\
+				\psi_3(x)&=A_3\,e^{\,i k_\text{out}x}+B_3\,e^{-i k_\text{out}x} &&(x>L/2).
+				\end{aligned}
+				\]
+				<p>Los coeficientes son incógnitas. Como la partícula viene desde la izquierda, \(A_1\) es la amplitud de la onda incidente. En la región <span class="reg r3">3</span> nada refleja la onda, así que \(B_3=0\). Entonces \(B_1\) es la onda reflejada y \(A_3\) la transmitida.</p>
+
+				<h2>Condiciones de continuidad</h2>
+				<p>La función de onda debe ser continua, para que no haya vacíos físicamente inadmisibles en la probabilidad de encontrar a la partícula. Como \(V(x)\) es finito en todo su dominio, también es continua su derivada. Los puntos problemáticos son \(x=\pm L/2\), donde el potencial es discontinuo y por eso separamos \(\psi\) en tramos.</p>
+				<p>Para escribirlo más corto, sea \(u=e^{\,i k_\text{out}L/2}\) y \(w=e^{\,i k_\text{in}L/2}\). Las cuatro condiciones son</p>
+				\[
+				\begin{aligned}
+				x=-\tfrac L2:&\quad A_1u^{-1}+B_1u=A_2w^{-1}+B_2w,\\
+				&\quad k_\text{out}\,(A_1u^{-1}-B_1u)=k_\text{in}\,(A_2w^{-1}-B_2w),\\
+				x=+\tfrac L2:&\quad A_2w+B_2w^{-1}=A_3u,\\
+				&\quad k_\text{in}\,(A_2w-B_2w^{-1})=k_\text{out}\,A_3u.
+				\end{aligned}
+				\]
+
+				<h2>Sistema lineal</h2>
+				<p>Pasando las incógnitas \((B_1,A_2,B_2,A_3)\) a la izquierda y lo conocido a la derecha, queda un sistema <b>no homogéneo</b> de 4 ecuaciones: el término inhomogéneo contiene a \(A_1\).</p>
+				\[
+				\begin{pmatrix}
+				u & -w^{-1} & -w & 0\\
+				-i k_\text{out}u & -i k_\text{in}w^{-1} & i k_\text{in}w & 0\\
+				0 & w & w^{-1} & -u\\
+				0 & i k_\text{in}w & -i k_\text{in}w^{-1} & -i k_\text{out}u
+				\end{pmatrix}
+				\begin{pmatrix}B_1\\A_2\\B_2\\A_3\end{pmatrix}
+				=-A_1\begin{pmatrix}u^{-1}\\ i k_\text{out}u^{-1}\\0\\0\end{pmatrix}.
+				\]
+				<p>Hay que cuidar el signo del lado derecho: las incógnitas pasan a la izquierda, pero el término de \(A_1\) pasa con <b>signo negativo</b>.</p>
+
+				<h2>Amplitudes de reflexión y transmisión</h2>
+				<p>Si vemos el pozo como una “caja negra”, lo que interesa es qué emerge de él. Definimos las amplitudes de reflexión y transmisión \(r=B_1/A_1\) y \(t=A_3/A_1\). Al resolver el sistema se obtiene</p>
+				<div class="key">
+				\[
+				r=\frac{\left(e^{2ik_\text{in}L}-1\right)\left(k_\text{out}^2-k_\text{in}^2\right)e^{-ik_\text{out}L}}{(k_\text{in}-k_\text{out})^2e^{2ik_\text{in}L}-(k_\text{in}+k_\text{out})^2},
+				\qquad
+				t=\frac{-4\,k_\text{in}k_\text{out}\,e^{\,i(k_\text{in}-k_\text{out})L}}{(k_\text{in}-k_\text{out})^2e^{2ik_\text{in}L}-(k_\text{in}+k_\text{out})^2}.
+				\]
+				</div>
+				<p>Las amplitudes dentro del pozo salen de \(t\):</p>
+				\[
+				\frac{A_2}{A_1}=t\,e^{\,i(k_\text{out}-k_\text{in})L/2}\,\frac{k_\text{in}+k_\text{out}}{2k_\text{in}},\qquad
+				\frac{B_2}{A_1}=t\,e^{\,i(k_\text{out}+k_\text{in})L/2}\,\frac{k_\text{in}-k_\text{out}}{2k_\text{in}}.
+				\]
+				<p>Las probabilidades de reflexión y transmisión se calculan, como siempre en mecánica cuántica, con el módulo al cuadrado:</p>
+				\[
+				R=|r|^2=\left|\frac{B_1}{A_1}\right|^2,\qquad T=|t|^2=\left|\frac{A_3}{A_1}\right|^2,\qquad R+T=1.
+				\]
+				<ul>
+					<li>Aquí \(T=|t|^2\) porque la onda incidente y la transmitida viajan en regiones con el mismo \(k_\text{out}\), así que llevan el mismo factor de flujo.</li>
+					<li>Se supuso que la onda incide desde la izquierda. Si incidiera desde la derecha habría que recalcular \(r\) y \(t\) con ese convenio. En general los coeficientes no coinciden, pero en un potencial simétrico como este sí.</li>
+				</ul>
+
+				<h2>Parámetros reducidos</h2>
+				<p>Para que los resultados no dependan de unidades concretas, medimos la energía en múltiplos de la profundidad del pozo y su ancho en longitudes de onda de de Broglie. Sean \(\Delta V=V_\text{out}-V_\text{in}\) y \(\Delta E=\mathcal{E}-V_\text{in}\):</p>
+				\[
+				\eta=\frac{\Delta E}{\Delta V}>1,\qquad
+				\lambda_\text{dB}=\frac{2\pi}{k_\text{in}},\qquad
+				\Lambda=\frac{L}{\lambda_\text{dB}}\ \Rightarrow\ k_\text{in}L=2\pi\Lambda,\qquad
+				\frac{k_\text{out}}{k_\text{in}}=\sqrt{\frac{\eta-1}{\eta}}.
+				\]
+				<p>Reemplazando en \(r\) y \(t\) se obtiene</p>
+				<div class="key">
+				\[
+				R=\frac{2\sin^2(2\pi\Lambda)}{8\eta(\eta-1)-\cos(4\pi\Lambda)+1},\qquad
+				T=\frac{8\eta(\eta-1)}{8\eta(\eta-1)-\cos(4\pi\Lambda)+1}.
+				\]
+				</div>
+				<p>Se ve directamente que \(R+T=1\). Además:</p>
+				<ul>
+					<li><b>Resonancias.</b> \(T=1\) (y \(R=0\)) cuando \(\sin(2\pi\Lambda)=0\), es decir \(\Lambda=n/2\), con \(n=1,2,\dots\) Entonces \(L\) contiene un número entero de medias longitudes de onda y la onda pasa como si el pozo no estuviera.</li>
+					<li><b>Mínimo de transmisión.</b> Ocurre cuando \(\cos(4\pi\Lambda)=-1\), es decir \(\Lambda=(2n+1)/4\), y vale
+					\[ T_\text{mín}=\frac{4\eta(\eta-1)}{(2\eta-1)^2}. \]</li>
+					<li><b>Límites.</b> Si \(\eta\to1\) (energía apenas sobre \(V_\text{out}\)), \(k_\text{out}\to0\) y \(T_\text{mín}\to0\): casi todo se refleja. Si \(\eta\to\infty\), \(T\to1\): la partícula casi no nota el pozo.</li>
+				</ul>
+
+				<h2>Cómo usar las simulaciones</h2>
+				<ul>
+					<li>En el primer gráfico, cambie \(\eta\) y compruebe que los máximos de \(T\) quedan siempre en \(\Lambda=n/2\), y que el mínimo sube al aumentar \(\eta\).</li>
+					<li>En el segundo gráfico, ajuste \(L\), \(\Delta V\) y \(\eta\). Cuando \(\Lambda\) es múltiplo de \(1/2\), la onda reflejada desaparece y solo quedan las ondas del interior y la transmitida.</li>
+					<li>Para un electrón, \(k=\sqrt{2mc^2\,E}/(\hbar c)\) con \(mc^2=0{,}511\ \text{MeV}\) y \(\hbar c=1973{,}27\ \text{eV·Å}\). Las simulaciones usan longitudes en Å y energías en eV.</li>
+				</ul>
+
+			</div>
+		</div>
+	</div>
 </body>
 </html>
