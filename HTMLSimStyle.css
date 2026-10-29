@@ -16,7 +16,6 @@
 	--colorUFRO: #005092;
 	--colorFICA: #d22864;
 	--colorBACK: #f8f9f8;
-	--colorGRAD: #009CDE;
 	--font: 'Futura Lt BT', Montserrat, Calibri, 'Segoe UI', sans-serif;
 }
 
@@ -28,7 +27,7 @@
 
 body {
 	font-family: var(--font);
-	background: linear-gradient(135deg, var(--colorGRAD) 0%, var(--colorUFRO) 100%);
+	background: linear-gradient(135deg, var(--colorUFRO) 0%, var(--colorUFRO) 100%);
 	padding: 4px;
 	color: #333;
 	line-height: 1.4;
