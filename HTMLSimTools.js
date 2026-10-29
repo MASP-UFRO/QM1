@@ -1,12 +1,14 @@
 /* ============================================================
    HTMLSimTools.js
    Herramientas compartidas por las simulaciones HTML.
-   Se carga con:  <script src=".../HTMLSimTools.js?v=1"></script>
-   (después de HTMLSimStyle.css, porque lee la variable --font)
-   Si cambias algo aquí, sube el número ?v= en los HTML para saltarte el caché.
+   Se carga con UNA sola línea, dentro del <head> del HTML:
+     <script src=".../HTMLSimTools.js?v=1"></script>
+   Este archivo carga solo HTMLSimStyle.css (debe estar en la misma carpeta
+   y se le aplica el mismo ?v=).
+   Si cambias algo aquí o en el CSS, sube el número ?v= en los HTML.
 
    Expone un único objeto global: HTMLSim
-     HTMLSim.CFG, HTMLSim.FONT
+     HTMLSim.CFG, HTMLSim.getFont()
      Física:   kOf, RT, coefficients, cmul, cdiv, cexp, cscale, cabs2
      Dibujo:   sizeFor, ensureSize, drawText, niceStep, fmtTick
      Controles: bindPair, getNum, setPair
@@ -16,6 +18,21 @@
 (function (global) {
 	'use strict';
 
+	/* Carga automática de HTMLSimStyle.css (misma carpeta y mismo ?v= que este archivo).
+	   document.write en el <head> hace que la página espere al CSS: sin parpadeo. */
+	(function () {
+		var s = document.currentScript;
+		if (!s || !s.src) { return; }
+		var href = s.src.replace(/[^\/?]*\.js(\?|$)/, 'HTMLSimStyle.css$1');
+		if (document.querySelector('link[href="' + href + '"]')) { return; }
+		if (document.readyState === 'loading') {
+			document.write('<link rel="stylesheet" href="' + href + '">');
+		} else {
+			var l = document.createElement('link');
+			l.rel = 'stylesheet'; l.href = href; document.head.appendChild(l);
+		}
+	})();
+
 	/* ============================================================
 	   Constantes físicas (electrón). Energías en eV, longitudes en Å.
 	   k = sqrt(2 m c^2 * E) / (hbar c)
@@ -23,8 +40,14 @@
 	// Ajuste: ancho máximo del gráfico (px). Aumentar para aprovechar un Moodle muy ancho.
 	var CFG = { plotMaxWidth: 1250 };
 
-	var FONT = (window.getComputedStyle(document.documentElement).getPropertyValue('--font') || '').trim() ||
-	   '"Segoe UI", Arial, sans-serif';
+	// Tipografía: se lee de --font (CSS) la primera vez que se necesita
+	var FONT_FALLBACK = '"Segoe UI", Arial, sans-serif', fontCache = '';
+	function getFont() {
+		if (!fontCache) {
+			fontCache = (window.getComputedStyle(document.documentElement).getPropertyValue('--font') || '').trim();
+		}
+		return fontCache || FONT_FALLBACK;
+	}
 	var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
 	var HBARC = 1973.269804;    // eV·Å
 
@@ -104,7 +127,7 @@
 			sub = p.charAt(0) === '_';
 			t = sub ? p.replace(/^_\{?|\}$/g, '') : p;
 			fs = sub ? size * 0.72 : size;
-			ctx.font = font + fs + 'px ' + FONT;
+			ctx.font = font + fs + 'px ' + getFont();
 			w = ctx.measureText(t).width;
 			segs.push({ t: t, sub: sub, fs: fs, w: w });
 			total += w;
@@ -114,7 +137,7 @@
 		ctx.textAlign = 'left';
 		ctx.textBaseline = 'alphabetic';
 		for (i = 0; i < segs.length; i++) {
-			ctx.font = font + segs[i].fs + 'px ' + FONT;
+			ctx.font = font + segs[i].fs + 'px ' + getFont();
 			ctx.fillText(segs[i].t, x0, y + (segs[i].sub ? size * 0.22 : 0));
 			x0 += segs[i].w;
 		}
@@ -176,7 +199,7 @@
 		if (!document.fonts) { return; }
 		var redraw = function () { fn(); };
 		if (document.fonts.load) {
-			Promise.all([document.fonts.load('400 16px ' + FONT), document.fonts.load('700 16px ' + FONT)])
+			Promise.all([document.fonts.load('400 16px ' + getFont()), document.fonts.load('700 16px ' + getFont())])
 				.then(redraw, redraw);
 		}
 		if (document.fonts.ready) { document.fonts.ready.then(redraw); }
@@ -210,7 +233,7 @@
 	})();
 
 	global.HTMLSim = {
-		CFG: CFG, FONT: FONT,
+		CFG: CFG, getFont: getFont,
 		kOf: kOf, RT: RT, coefficients: coefficients,
 		cmul: cmul, cdiv: cdiv, cexp: cexp, cscale: cscale, cabs2: cabs2,
 		sizeFor: sizeFor, ensureSize: ensureSize, drawText: drawText,
