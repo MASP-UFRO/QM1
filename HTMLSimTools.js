@@ -216,6 +216,7 @@
 		var last = 0, pending = false;
 		function send() {
 			pending = false;
+			if (!document.body) { return; }
 			var h = Math.ceil(document.body.getBoundingClientRect().height);
 			if (Math.abs(h - last) < 2) { return; }
 			last = h;
@@ -228,8 +229,13 @@
 		}
 		window.addEventListener('load', schedule);
 		window.addEventListener('resize', schedule);
-		if (window.ResizeObserver) { new ResizeObserver(schedule).observe(document.body); }
-		schedule();
+		// el script se carga en el <head>: el <body> aún no existe, hay que esperarlo
+		function start() {
+			if (window.ResizeObserver && document.body) { new ResizeObserver(schedule).observe(document.body); }
+			schedule();
+		}
+		if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', start); }
+		else { start(); }
 	})();
 
 	global.HTMLSim = {
