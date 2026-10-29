@@ -1,714 +1,730 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pozo finito - Función de onda</title>
-    <style>
-        /* ============================================================
-           AJUSTES FÁCILES DE DISEÑO
-           --sidebar-w : ancho de la columna de controles (a la izquierda)
-           El ancho máximo del gráfico se cambia en el script (CFG.plotMaxWidth)
-           y el ancho del iframe, en la llamada a renderSimulation (4.º parámetro).
-           ============================================================ */
-        :root {
-            --sidebar-w: 290px;
-            --accent: #667eea;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Funciones de onda</title>
+	<style>
+		/* ============================================================
+		   AJUSTES FÁCILES DE DISEÑO
+		   --sidebar-w : ancho de la columna de controles (a la izquierda)
+		   El ancho máximo del gráfico se cambia en el script (CFG.plotMaxWidth)
+		   y el ancho del iframe, en la llamada a renderSimulation (4.º parámetro).
+		   ============================================================ */
+		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+		:root {
+			--sidebar-w: 290px;
+			--colorUFRO: #005092;
+			--colorFICA: #d22864;
+			--colorBACK: #f8f9f8;
+			--font: 'Futura Lt BT', Montserrat, Calibri, 'Segoe UI', sans-serif;
+		}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 8px;
-            color: #333;
-            line-height: 1.4;
-        }
+		body {
+			font-family: var(--font);
+			background: linear-gradient(135deg, var(--colorUFRO) 0%, var(--colorUFRO) 100%);
+			padding: 4px;
+			color: #333;
+			line-height: 1.4;
+		}
 
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            overflow: hidden;
-        }
+		.container {
+			max-width: 1600px;
+			margin: 0 auto;
+			background: white;
+			border-radius: 16px;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+			overflow: hidden;
+		}
 
-        .main-content {
-            padding: 14px;
-        }
+		.main-content {
+			padding: 14px;
+		}
 
-        .sim-layout {
-            display: grid;
-            grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
-            gap: 14px;
-            align-items: start;
-        }
+		.sim-layout {
+			display: grid;
+			grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+			gap: 14px;
+			align-items: start;
+		}
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            min-width: 0;
-        }
+		.sidebar {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			min-width: 0;
+		}
 
-        .plot-column {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            min-width: 0;
-        }
+		.plot-column {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			min-width: 0;
+		}
 
-        .controls-container {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 12px;
-        }
+		.controls-container {
+			background: var(--colorBACK);
+			padding: 12px;
+			border-radius: 12px;
+			border: 2px solid var(--colorUFRO);   /* grosor, estilo, color */
+		}
 
-        .controls-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
+		.controls-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 10px;
+			margin-bottom: 12px;
+		}
 
-        .control-group {
-            background: white;
-            padding: 10px 12px;
-            border-radius: 10px;
-        }
+		.control-group {
+			background: white;
+			padding: 10px 12px;
+			border-radius: 10px;
+		}
 
-        .control-group h3 {
-            color: var(--accent);
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
+		.control-group h3 {
+			color: var(--colorUFRO);
+			margin-bottom: 6px;
+			font-size: 1.05em;
+		}
 
-        .input-row {
-            display: grid;
-            grid-template-columns: minmax(auto, 70px) 1fr;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 2px;
-        }
+		.input-row {
+			display: grid;
+			grid-template-columns: minmax(auto, 70px) 1fr;
+			gap: 8px;
+			align-items: center;
+			margin-bottom: 2px;
+		}
 
-        label {
-            font-weight: 600;
-            color: #555;
-        }
+		label {
+			font-weight: 600;
+			color: #555;
+		}
 
-        input[type="number"] {
-            width: 100%;
-            min-width: 0;
-            padding: 5px 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95em;
-            transition: border-color 0.3s;
-        }
+		input[type="number"] {
+			width: 100%;
+			min-width: 0;
+			padding: 5px 10px;
+			border: 2px solid #ddd;
+			border-radius: 8px;
+			font-size: 0.95em;
+			transition: border-color 0.3s;
+		}
 
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+		input[type="number"]:focus {
+			outline: none;
+			border-color: var(--colorFICA);
+		}
 
-        input[type="range"] {
-            width: 100%;
-            accent-color: var(--accent);
-            margin: 4px 0 0 0;
-        }
+		input[type="range"] {
+			width: 100%;
+			accent-color: var(--colorFICA);
+			margin: 4px 0 0 0;
+		}
 
-        .range-limits {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75em;
-            color: #888;
-        }
+		.range-limits {
+			display: flex;
+			justify-content: space-between;
+			font-size: 0.85em;
+			color: #888;
+		}
 
-        .canvas-container {
-            background: white;
-            border-radius: 12px;
-            padding: 6px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            overflow: hidden;
-        }
+		.canvas-container {
+			background: white;
+			border-radius: 12px;
+			padding: 6px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+			display: flex;
+			justify-content: center;
+			overflow: hidden;
+		}
 
-        canvas {
-            box-sizing: content-box;
-            border: 3px solid var(--accent);
-            border-radius: 10px;
-            display: block;
-            background: #f8f9fa;
-            max-width: none;
-        }
+		canvas {
+			box-sizing: content-box;
+			border: 3px solid var(--colorUFRO);
+			border-radius: 10px;
+			display: block;
+			background: var(--colorBACK);
+			max-width: none;
+		}
 
-        canvas.crosshair {
-            cursor: crosshair;
-        }
+		canvas.crosshair {
+			cursor: crosshair;
+		}
 
-        /* Indicadores compactos en una franja bajo el gráfico */
-        .info-panel {
-            background: #f8f9fa;
-            padding: 8px;
-            border-radius: 12px;
-        }
+		/* Indicadores compactos en una franja bajo el gráfico */
+		.info-panel {
+			background: var(--colorBACK);
+			padding: 8px;
+			border-radius: 12px;
+		}
 
-        .info-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
+		.info-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+		}
 
-        .info-box {
-            flex: 1 1 100px;
-            background: white;
-            padding: 4px 10px;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
-            min-width: 0;
-        }
+		.info-box {
+			flex: 1 1 100px;
+			background: white;
+			padding: 4px 10px;
+			border-radius: 8px;
+			border-left: 3px solid var(--colorFICA);
+			min-width: 0;
+		}
 
-        .info-box h4 {
-            color: var(--accent);
-            margin: 0;
-            font-size: 0.72em;
-            line-height: 1.3;
-            white-space: nowrap;
-        }
+		.info-box h4 {
+			color: var(--colorUFRO);
+			margin: 0;
+			font-size: 0.95em;
+			line-height: 1.3;
+			white-space: nowrap;
+		}
 
-        .info-value {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #333;
-            font-family: 'Courier New', monospace;
-            white-space: nowrap;
-        }
+		.info-value {
+			font-size: 1.05em;
+			font-weight: 600;
+			color: #333;
+			font-family: 'Courier New', monospace;
+			white-space: nowrap;
+		}
 
-        button {
-            padding: 8px 16px;
-            font-size: 0.95em;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            width: 100%;
-        }
+		button {
+			padding: 8px 16px;
+			font-size: 0.95em;
+			font-weight: 600;
+			border: none;
+			border-radius: 10px;
+			cursor: pointer;
+			transition: all 0.3s;
+			box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+			width: 100%;
+		}
 
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
+		.btn-secondary {
+			background: #e0e0e0;
+			color: #333;
+		}
 
-        .btn-secondary:hover {
-            background: #d0d0d0;
-            transform: translateY(-1px);
-        }
+		.btn-secondary:hover {
+			background: #d0d0d0;
+			transform: translateY(-1px);
+		}
 
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 12px;
-            font-size: 0.9em;
-        }
+		.legend {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			margin-top: 12px;
+			font-size: 1.05em;
+		}
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 400;
-            color: #333;
-            user-select: none;
-        }
+		.legend-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			cursor: pointer;
+			font-weight: 400;
+			color: #333;
+			user-select: none;
+		}
 
-        .legend-item input {
-            accent-color: var(--accent);
-            width: 15px;
-            height: 15px;
-            flex: none;
-        }
+		.legend-item input {
+			accent-color: var(--colorBACK);
+			width: 15px;
+			height: 15px;
+			flex: none;
+		}
 
-        .swatch {
-            display: inline-block;
-            width: 26px;
-            height: 5px;
-            border-radius: 3px;
-            flex: none;
-        }
+		.swatch {
+			display: inline-block;
+			width: 26px;
+			height: 5px;
+			border-radius: 3px;
+			flex: none;
+		}
 
-        .check-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-            font-weight: 400;
-            font-size: 0.9em;
-            cursor: pointer;
-        }
+		.check-row {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			margin-top: 8px;
+			font-weight: 400;
+			font-size: 0.9em;
+			cursor: pointer;
+		}
 
-        .check-row input {
-            accent-color: var(--accent);
-            width: 15px;
-            height: 15px;
-            flex: none;
-        }
+		.check-row input {
+			accent-color: var(--colorUFRO);
+			width: 15px;
+			height: 15px;
+			flex: none;
+		}
 
-        /* Pantallas angostas: los controles pasan arriba del gráfico */
-        @media (max-width: 820px) {
-            .sim-layout { grid-template-columns: minmax(0, 1fr); }
-            .controls-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
-            .main-content { padding: 8px; }
-        }
-    </style>
+		/* Pantallas angostas: los controles pasan arriba del gráfico */
+		@media (max-width: 820px) {
+			.sim-layout { grid-template-columns: minmax(0, 1fr); }
+			.controls-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+			.main-content { padding: 8px; }
+		}
+	</style>
 </head>
 <body>
-    <div class="container">
-        <div class="main-content">
-            <div class="sim-layout">
+	<div class="container">
+		<div class="main-content">
+			<div class="sim-layout">
 
-                <aside class="sidebar">
-                    <div class="controls-container">
-                        <div class="controls-grid">
-                            <div class="control-group">
-                                <h3>Energía</h3>
-                                <div class="input-row">
-                                    <label for="eta2">&eta;:</label>
-                                    <input type="number" id="eta2" value="3.005" min="1.01" max="5" step="0.01">
-                                </div>
-                                <input type="range" id="eta2r" min="1.01" max="5" step="0.01" value="3.005" aria-label="eta">
-                                <div class="range-limits"><span>1.01</span><span>5.00</span></div>
-                            </div>
-                            <div class="control-group">
-                                <h3>Ancho del pozo</h3>
-                                <div class="input-row">
-                                    <label for="L2">L (&Aring;):</label>
-                                    <input type="number" id="L2" value="15.5" min="1" max="30" step="0.1">
-                                </div>
-                                <input type="range" id="L2r" min="1" max="30" step="0.1" value="15.5" aria-label="L">
-                                <div class="range-limits"><span>1 &Aring;</span><span>30 &Aring;</span></div>
-                            </div>
-                            <div class="control-group">
-                                <h3>Profundidad del pozo</h3>
-                                <div class="input-row">
-                                    <label for="dV2">&Delta;V (eV):</label>
-                                    <input type="number" id="dV2" value="10.5" min="1" max="20" step="0.1">
-                                </div>
-                                <input type="range" id="dV2r" min="1" max="20" step="0.1" value="10.5" aria-label="DeltaV">
-                                <div class="range-limits"><span>1 eV</span><span>20 eV</span></div>
-                            </div>
-                        </div>
-                        <button class="btn-secondary" id="reset2" type="button">&#8635; Restablecer</button>
+				<aside class="sidebar">
+					<div class="controls-container">
+						<div class="controls-grid">
+							<div class="control-group">
+								<h3>Energía</h3>
+								<div class="input-row">
+									<label for="eta2">&eta;:</label>
+									<input type="number" id="eta2" value="3.005" min="1.01" max="5" step="0.01">
+								</div>
+								<input type="range" id="eta2r" min="1.01" max="5" step="0.01" value="3.005" aria-label="eta">
+								<div class="range-limits"><span>1.01</span><span>5.00</span></div>
+							</div>
+							<div class="control-group">
+								<h3>Ancho del pozo</h3>
+								<div class="input-row">
+									<label for="L2">L (&Aring;):</label>
+									<input type="number" id="L2" value="15.5" min="1" max="30" step="0.1">
+								</div>
+								<input type="range" id="L2r" min="1" max="30" step="0.1" value="15.5" aria-label="L">
+								<div class="range-limits"><span>1 &Aring;</span><span>30 &Aring;</span></div>
+							</div>
+							<div class="control-group">
+								<h3>Profundidad del pozo</h3>
+								<div class="input-row">
+									<label for="dV2">&Delta;V (eV):</label>
+									<input type="number" id="dV2" value="10.5" min="1" max="20" step="0.1">
+								</div>
+								<input type="range" id="dV2r" min="1" max="20" step="0.1" value="10.5" aria-label="DeltaV">
+								<div class="range-limits"><span>1 eV</span><span>20 eV</span></div>
+							</div>
+						</div>
+						<button class="btn-secondary" id="reset2" type="button">&#8635; Restablecer</button>
 
-                        <div class="legend" id="legend2">
-                            <label class="legend-item"><input type="checkbox" data-k="inc" checked><span class="swatch" style="background:#5E81B5"></span>Incidente desde 1</label>
-                            <label class="legend-item"><input type="checkbox" data-k="ref12" checked><span class="swatch" style="background:#E19C24"></span>Reflejado en frontera 1|2</label>
-                            <label class="legend-item"><input type="checkbox" data-k="tr12" checked><span class="swatch" style="background:#8FB032"></span>Transmitido 1&rarr;2</label>
-                            <label class="legend-item"><input type="checkbox" data-k="ref23" checked><span class="swatch" style="background:#EB6235"></span>Reflejado en frontera 2|3</label>
-                            <label class="legend-item"><input type="checkbox" data-k="tr23" checked><span class="swatch" style="background:#8778B3"></span>Transmitido 2&rarr;3</label>
-                            <label class="legend-item"><input type="checkbox" data-k="pot" checked><span class="swatch" style="background:#C56E1A"></span>Potencial</label>
-                            <label class="legend-item"><input type="checkbox" data-k="en" checked><span class="swatch" style="background:repeating-linear-gradient(90deg,#777 0 6px,transparent 6px 10px)"></span>Nivel de energía</label>
-                            <label class="legend-item"><input type="checkbox" data-k="tot"><span class="swatch" style="background:#222"></span>Re &psi;(x) total</label>
-                        </div>
-                    </div>
-                </aside>
+						<div class="legend" id="legend2">
+							<label class="legend-item"><input type="checkbox" data-k="inc" checked><span class="swatch" style="background:#5E81B5"></span>Incidente desde 1</label>
+							<label class="legend-item"><input type="checkbox" data-k="ref12" checked><span class="swatch" style="background:#E19C24"></span>Reflejado en frontera 1|2</label>
+							<label class="legend-item"><input type="checkbox" data-k="tr12" checked><span class="swatch" style="background:#8FB032"></span>Transmitido 1&rarr;2</label>
+							<label class="legend-item"><input type="checkbox" data-k="ref23" checked><span class="swatch" style="background:#EB6235"></span>Reflejado en frontera 2|3</label>
+							<label class="legend-item"><input type="checkbox" data-k="tr23" checked><span class="swatch" style="background:#8778B3"></span>Transmitido 2&rarr;3</label>
+							<label class="legend-item"><input type="checkbox" data-k="pot" checked><span class="swatch" style="background:#C56E1A"></span>Potencial</label>
+							<label class="legend-item"><input type="checkbox" data-k="en" checked><span class="swatch" style="background:repeating-linear-gradient(90deg,#777 0 6px,transparent 6px 10px)"></span>Nivel de energía</label>
+							<label class="legend-item"><input type="checkbox" data-k="tot"><span class="swatch" style="background:#222"></span>Re &psi;(x) total</label>
+						</div>
+					</div>
+				</aside>
 
-                <div class="plot-column">
-                    <div class="canvas-container">
-                        <canvas id="plot2" width="1000" height="540"></canvas>
-                    </div>
-                    <div class="info-panel">
-                        <div class="info-grid">
-                            <div class="info-box"><h4>&Delta;E</h4><div class="info-value" id="i2_dE">0.00 eV</div></div>
-                            <div class="info-box"><h4>E &minus; V<sub>out</sub></h4><div class="info-value" id="i2_dEout">0.00 eV</div></div>
-                            <div class="info-box"><h4>k<sub>in</sub></h4><div class="info-value" id="i2_kin">0.000 &Aring;&#8315;&sup1;</div></div>
-                            <div class="info-box"><h4>k<sub>out</sub></h4><div class="info-value" id="i2_kout">0.000 &Aring;&#8315;&sup1;</div></div>
-                            <div class="info-box"><h4>&lambda;<sub>dB</sub></h4><div class="info-value" id="i2_ldb">0.00 &Aring;</div></div>
-                            <div class="info-box"><h4>&Lambda; = L / &lambda;<sub>dB</sub></h4><div class="info-value" id="i2_lam">0.00</div></div>
-                            <div class="info-box"><h4>R = |B&#8321;/A&#8321;|&sup2;</h4><div class="info-value" id="i2_R">0.000</div></div>
-                            <div class="info-box"><h4>T = |A&#8323;/A&#8321;|&sup2;</h4><div class="info-value" id="i2_T">0.000</div></div>
-                            <div class="info-box"><h4>R + T</h4><div class="info-value" id="i2_sum">1.000</div></div>
-                        </div>
-                    </div>
-                </div>
+				<div class="plot-column">
+					<div class="canvas-container">
+						<canvas id="plot2" width="1000" height="540"></canvas>
+					</div>
+					<div class="info-panel">
+						<div class="info-grid">
+							<div class="info-box"><h4>&Delta;E</h4><div class="info-value" id="i2_dE">0.00 eV</div></div>
+							<div class="info-box"><h4>E &minus; V<sub>out</sub></h4><div class="info-value" id="i2_dEout">0.00 eV</div></div>
+							<div class="info-box"><h4>k<sub>in</sub></h4><div class="info-value" id="i2_kin">0.000 &Aring;&#8315;&sup1;</div></div>
+							<div class="info-box"><h4>k<sub>out</sub></h4><div class="info-value" id="i2_kout">0.000 &Aring;&#8315;&sup1;</div></div>
+							<div class="info-box"><h4>&lambda;<sub>dB</sub></h4><div class="info-value" id="i2_ldb">0.00 &Aring;</div></div>
+							<div class="info-box"><h4>&Lambda; = L / &lambda;<sub>dB</sub></h4><div class="info-value" id="i2_lam">0.00</div></div>
+							<div class="info-box"><h4>R = |B&#8321;/A&#8321;|&sup2;</h4><div class="info-value" id="i2_R">0.000</div></div>
+							<div class="info-box"><h4>T = |A&#8323;/A&#8321;|&sup2;</h4><div class="info-value" id="i2_T">0.000</div></div>
+							<div class="info-box"><h4>R + T</h4><div class="info-value" id="i2_sum">1.000</div></div>
+						</div>
+					</div>
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
-    <script>
-    (function () {
-        'use strict';
+	<script>
+	(function () {
+		'use strict';
 
-        /* ============================================================
-           Constantes físicas (electrón). Energías en eV, longitudes en Å.
-           k = sqrt(2 m c^2 * E) / (hbar c)
-           ============================================================ */
-        // Ajuste: ancho máximo del gráfico (px). Aumentar para aprovechar un Moodle muy ancho.
-        var CFG = { plotMaxWidth: 1250 };
+		/* ============================================================
+		   Constantes físicas (electrón). Energías en eV, longitudes en Å.
+		   k = sqrt(2 m c^2 * E) / (hbar c)
+		   ============================================================ */
+		// Ajuste: ancho máximo del gráfico (px). Aumentar para aprovechar un Moodle muy ancho.
+		var CFG = { plotMaxWidth: 1250 };
+		
+		var FONT = (window.getComputedStyle(document.documentElement).getPropertyValue('--font') || '').trim() ||
+		   '"Segoe UI", Arial, sans-serif';
+		var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
+		var HBARC = 1973.269804;    // eV·Å
 
-        var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
-        var HBARC = 1973.269804;    // eV·Å
+		function kOf(energyEV) { return Math.sqrt(2 * MC2 * energyEV) / HBARC; }  // Å^-1
 
-        function kOf(energyEV) { return Math.sqrt(2 * MC2 * energyEV) / HBARC; }  // Å^-1
+		/* ============================================================
+		   Números complejos mínimos: [re, im]
+		   ============================================================ */
+		function cmul(a, b) { return [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]]; }
+		function cdiv(a, b) {
+			var d = b[0] * b[0] + b[1] * b[1];
+			return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
+		}
+		function cexp(theta) { return [Math.cos(theta), Math.sin(theta)]; }   // e^{i theta}
+		function cscale(a, s) { return [a[0] * s, a[1] * s]; }
+		function cabs2(a) { return a[0] * a[0] + a[1] * a[1]; }
 
-        /* ============================================================
-           Números complejos mínimos: [re, im]
-           ============================================================ */
-        function cmul(a, b) { return [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]]; }
-        function cdiv(a, b) {
-            var d = b[0] * b[0] + b[1] * b[1];
-            return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
-        }
-        function cexp(theta) { return [Math.cos(theta), Math.sin(theta)]; }   // e^{i theta}
-        function cscale(a, s) { return [a[0] * s, a[1] * s]; }
-        function cabs2(a) { return a[0] * a[0] + a[1] * a[1]; }
+		/* ============================================================
+		   Resultados analíticos
+		   ============================================================ */
 
-        /* ============================================================
-           Resultados analíticos
-           ============================================================ */
+		// R y T en función de los parámetros reducidos (eta, Lambda)
+		function RT(eta, lam) {
+			var den = 8 * eta * (eta - 1) - Math.cos(4 * Math.PI * lam) + 1;
+			var s = Math.sin(2 * Math.PI * lam);
+			return [2 * s * s / den, 8 * eta * (eta - 1) / den];
+		}
 
-        // R y T en función de los parámetros reducidos (eta, Lambda)
-        function RT(eta, lam) {
-            var den = 8 * eta * (eta - 1) - Math.cos(4 * Math.PI * lam) + 1;
-            var s = Math.sin(2 * Math.PI * lam);
-            return [2 * s * s / den, 8 * eta * (eta - 1) / den];
-        }
+		// Coeficientes de las ondas (con A1 = 1) para eta, L (Å), dV (eV)
+		function coefficients(eta, L, dV) {
+			var q = kOf(eta * dV);          // k_in
+			var k = kOf((eta - 1) * dV);    // k_out
+			var e2 = cexp(2 * q * L);
+			var dm = (q - k) * (q - k), dp = (q + k) * (q + k);
+			var den = [dm * e2[0] - dp, dm * e2[1]];
+			var numR = cscale(cmul([e2[0] - 1, e2[1]], cexp(-k * L)), k * k - q * q);
+			var B1 = cdiv(numR, den);
+			var A3 = cdiv(cmul([-4 * q * k, 0], cexp((q - k) * L)), den);
+			// empalme en x = +L/2
+			var A2 = cscale(cmul(A3, cexp((k - q) * L / 2)), (q + k) / (2 * q));
+			var B2 = cscale(cmul(A3, cexp((k + q) * L / 2)), (q - k) / (2 * q));
+			return { q: q, k: k, B1: B1, A2: A2, B2: B2, A3: A3 };
+		}
 
-        // Coeficientes de las ondas (con A1 = 1) para eta, L (Å), dV (eV)
-        function coefficients(eta, L, dV) {
-            var q = kOf(eta * dV);          // k_in
-            var k = kOf((eta - 1) * dV);    // k_out
-            var e2 = cexp(2 * q * L);
-            var dm = (q - k) * (q - k), dp = (q + k) * (q + k);
-            var den = [dm * e2[0] - dp, dm * e2[1]];
-            var numR = cscale(cmul([e2[0] - 1, e2[1]], cexp(-k * L)), k * k - q * q);
-            var B1 = cdiv(numR, den);
-            var A3 = cdiv(cmul([-4 * q * k, 0], cexp((q - k) * L)), den);
-            // empalme en x = +L/2
-            var A2 = cscale(cmul(A3, cexp((k - q) * L / 2)), (q + k) / (2 * q));
-            var B2 = cscale(cmul(A3, cexp((k + q) * L / 2)), (q - k) / (2 * q));
-            return { q: q, k: k, B1: B1, A2: A2, B2: B2, A3: A3 };
-        }
+		/* ============================================================
+		   Utilidades de dibujo
+		   ============================================================ */
+		function sizeFor(cv, ratio, minH, maxH) {
+			var p = cv.parentElement, cs = window.getComputedStyle(p);
+			var avail = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 6;
+			var w = Math.max(300, Math.min(CFG.plotMaxWidth, Math.floor(avail)));
+			var h = Math.round(Math.max(minH, Math.min(maxH, w * ratio)));
+			return [w, h];
+		}
 
-        /* ============================================================
-           Utilidades de dibujo
-           ============================================================ */
-        function sizeFor(cv, ratio, minH, maxH) {
-            var p = cv.parentElement, cs = window.getComputedStyle(p);
-            var avail = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 6;
-            var w = Math.max(300, Math.min(CFG.plotMaxWidth, Math.floor(avail)));
-            var h = Math.round(Math.max(minH, Math.min(maxH, w * ratio)));
-            return [w, h];
-        }
+		// Ajusta el tamaño del canvas al espacio disponible (nítido en pantallas de alta densidad)
+		function ensureSize(S, cv, ratio, minH, maxH) {
+			var d = sizeFor(cv, ratio, minH, maxH);
+			if (S.ctx && S.w === d[0] && S.h === d[1]) { return; }
+			var dpr = Math.min(window.devicePixelRatio || 1, 3);
+			cv.width = Math.round(d[0] * dpr);
+			cv.height = Math.round(d[1] * dpr);
+			cv.style.width = d[0] + 'px';
+			cv.style.height = d[1] + 'px';
+			S.ctx = cv.getContext('2d');
+			S.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			S.w = d[0]; S.h = d[1];
+		}
 
-        // Ajusta el tamaño del canvas al espacio disponible (nítido en pantallas de alta densidad)
-        function ensureSize(S, cv, ratio, minH, maxH) {
-            var d = sizeFor(cv, ratio, minH, maxH);
-            if (S.ctx && S.w === d[0] && S.h === d[1]) { return; }
-            var dpr = Math.min(window.devicePixelRatio || 1, 3);
-            cv.width = Math.round(d[0] * dpr);
-            cv.height = Math.round(d[1] * dpr);
-            cv.style.width = d[0] + 'px';
-            cv.style.height = d[1] + 'px';
-            S.ctx = cv.getContext('2d');
-            S.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            S.w = d[0]; S.h = d[1];
-        }
+		// Texto con subíndices: "V_out", "k_{in}", "lambda_dB"; align: 'left' | 'center' | 'right'
+		function drawText(ctx, str, x, y, size, align, color, weight) {
+			var parts = str.split(/(_\{[^}]*\}|_[A-Za-z0-9]+)/).filter(function (p) { return p.length; });
+			var font = (weight || 'normal') + ' ';
+			var segs = [], total = 0, i, p, sub, t, fs, w;
+			for (i = 0; i < parts.length; i++) {
+				p = parts[i];
+				sub = p.charAt(0) === '_';
+				t = sub ? p.replace(/^_\{?|\}$/g, '') : p;
+				fs = sub ? size * 0.72 : size;
+				ctx.font = font + fs + 'px ' + FONT;
+				w = ctx.measureText(t).width;
+				segs.push({ t: t, sub: sub, fs: fs, w: w });
+				total += w;
+			}
+			var x0 = align === 'center' ? x - total / 2 : (align === 'right' ? x - total : x);
+			ctx.fillStyle = color || '#333';
+			ctx.textAlign = 'left';
+			ctx.textBaseline = 'alphabetic';
+			for (i = 0; i < segs.length; i++) {
+				ctx.font = font + segs[i].fs + 'px ' + FONT;
+				ctx.fillText(segs[i].t, x0, y + (segs[i].sub ? size * 0.22 : 0));
+				x0 += segs[i].w;
+			}
+		}
 
-        // Texto con subíndices: "V_out", "k_{in}", "lambda_dB"; align: 'left' | 'center' | 'right'
-        function drawText(ctx, str, x, y, size, align, color, weight) {
-            var parts = str.split(/(_\{[^}]*\}|_[A-Za-z0-9]+)/).filter(function (p) { return p.length; });
-            var font = (weight || 'normal') + ' ';
-            var segs = [], total = 0, i, p, sub, t, fs, w;
-            for (i = 0; i < parts.length; i++) {
-                p = parts[i];
-                sub = p.charAt(0) === '_';
-                t = sub ? p.replace(/^_\{?|\}$/g, '') : p;
-                fs = sub ? size * 0.72 : size;
-                ctx.font = font + fs + 'px "Segoe UI", Arial, sans-serif';
-                w = ctx.measureText(t).width;
-                segs.push({ t: t, sub: sub, fs: fs, w: w });
-                total += w;
-            }
-            var x0 = align === 'center' ? x - total / 2 : (align === 'right' ? x - total : x);
-            ctx.fillStyle = color || '#333';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'alphabetic';
-            for (i = 0; i < segs.length; i++) {
-                ctx.font = font + segs[i].fs + 'px "Segoe UI", Arial, sans-serif';
-                ctx.fillText(segs[i].t, x0, y + (segs[i].sub ? size * 0.22 : 0));
-                x0 += segs[i].w;
-            }
-        }
+		// Paso "bonito" para los ticks
+		function niceStep(range, target) {
+			var raw = range / target, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
+			var f = raw / mag, s = f < 1.5 ? 1 : (f < 3.5 ? 2 : (f < 7.5 ? 5 : 10));
+			return s * mag;
+		}
 
-        // Paso "bonito" para los ticks
-        function niceStep(range, target) {
-            var raw = range / target, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
-            var f = raw / mag, s = f < 1.5 ? 1 : (f < 3.5 ? 2 : (f < 7.5 ? 5 : 10));
-            return s * mag;
-        }
+		function fmtTick(v) {
+			var r = Math.round(v * 1000) / 1000;
+			return (r === 0 ? 0 : r).toString();
+		}
 
-        function fmtTick(v) {
-            var r = Math.round(v * 1000) / 1000;
-            return (r === 0 ? 0 : r).toString();
-        }
+		/* ============================================================
+		   Vincular deslizador + campo numérico
+		   ============================================================ */
+		function bindPair(numEl, rangeEl, onChange) {
+			function clamp(v) {
+				var lo = parseFloat(numEl.min), hi = parseFloat(numEl.max);
+				return Math.min(hi, Math.max(lo, v));
+			}
+			rangeEl.addEventListener('input', function () {
+				numEl.value = rangeEl.value;
+				onChange();
+			});
+			numEl.addEventListener('input', function () {
+				var v = parseFloat(numEl.value);
+				if (isNaN(v)) { return; }
+				rangeEl.value = clamp(v);
+				onChange();
+			});
+			numEl.addEventListener('change', function () {
+				var v = parseFloat(numEl.value);
+				if (isNaN(v)) { v = parseFloat(rangeEl.defaultValue); }
+				v = clamp(v);
+				numEl.value = v;
+				rangeEl.value = v;
+				onChange();
+			});
+		}
 
-        /* ============================================================
-           Vincular deslizador + campo numérico
-           ============================================================ */
-        function bindPair(numEl, rangeEl, onChange) {
-            function clamp(v) {
-                var lo = parseFloat(numEl.min), hi = parseFloat(numEl.max);
-                return Math.min(hi, Math.max(lo, v));
-            }
-            rangeEl.addEventListener('input', function () {
-                numEl.value = rangeEl.value;
-                onChange();
-            });
-            numEl.addEventListener('input', function () {
-                var v = parseFloat(numEl.value);
-                if (isNaN(v)) { return; }
-                rangeEl.value = clamp(v);
-                onChange();
-            });
-            numEl.addEventListener('change', function () {
-                var v = parseFloat(numEl.value);
-                if (isNaN(v)) { v = parseFloat(rangeEl.defaultValue); }
-                v = clamp(v);
-                numEl.value = v;
-                rangeEl.value = v;
-                onChange();
-            });
-        }
+		function getNum(el, fallback) {
+			var v = parseFloat(el.value);
+			if (isNaN(v)) { v = fallback; }
+			return Math.min(parseFloat(el.max), Math.max(parseFloat(el.min), v));
+		}
 
-        function getNum(el, fallback) {
-            var v = parseFloat(el.value);
-            if (isNaN(v)) { v = fallback; }
-            return Math.min(parseFloat(el.max), Math.max(parseFloat(el.min), v));
-        }
+		function setPair(numEl, rangeEl, v) { numEl.value = v; rangeEl.value = v; }
 
-        function setPair(numEl, rangeEl, v) { numEl.value = v; rangeEl.value = v; }
+		/* ============================================================
+		   Simulación 2: función de onda
+		   ============================================================ */
+		var P2 = {
+			cv: document.getElementById('plot2'),
+			eta: document.getElementById('eta2'), etaR: document.getElementById('eta2r'),
+			L: document.getElementById('L2'), LR: document.getElementById('L2r'),
+			dV: document.getElementById('dV2'), dVR: document.getElementById('dV2r'),
+			show: { inc: true, ref12: true, tr12: true, ref23: true, tr23: true, pot: true, en: true, tot: false },
+			xMax: 30,       // Å: el gráfico cubre de -30 a +30
+			dVmax: 20, etaMax: 5,
+			amp: 5          // eV: escala (arbitraria) de la amplitud dibujada
+		};
+		var S2 = { ctx: null, w: 0, h: 0 };
+		ensureSize(S2, P2.cv, 0.56, 400, 600);
+		// Colores de la paleta usada en Mathematica (ColorData[97])
+		var COL = { inc: '#5E81B5', ref12: '#E19C24', tr12: '#8FB032', ref23: '#EB6235', tr23: '#8778B3', pot: '#C56E1A' };
+		// paso de muestreo: 16 puntos por la longitud de onda más corta posible
+		var DX = 2 * Math.PI / (16 * kOf(P2.etaMax * P2.dVmax));
 
-        /* ============================================================
-           Simulación 2: función de onda
-           ============================================================ */
-        var P2 = {
-            cv: document.getElementById('plot2'),
-            eta: document.getElementById('eta2'), etaR: document.getElementById('eta2r'),
-            L: document.getElementById('L2'), LR: document.getElementById('L2r'),
-            dV: document.getElementById('dV2'), dVR: document.getElementById('dV2r'),
-            show: { inc: true, ref12: true, tr12: true, ref23: true, tr23: true, pot: true, en: true, tot: false },
-            xMax: 30,       // Å: el gráfico cubre de -30 a +30
-            dVmax: 20, etaMax: 5,
-            amp: 5          // eV: escala (arbitraria) de la amplitud dibujada
-        };
-        var S2 = { ctx: null, w: 0, h: 0 };
-        ensureSize(S2, P2.cv, 0.56, 400, 600);
-        // Colores de la paleta usada en Mathematica (ColorData[97])
-        var COL = { inc: '#5E81B5', ref12: '#E19C24', tr12: '#8FB032', ref23: '#EB6235', tr23: '#8778B3', pot: '#C56E1A' };
-        // paso de muestreo: 16 puntos por la longitud de onda más corta posible
-        var DX = 2 * Math.PI / (16 * kOf(P2.etaMax * P2.dVmax));
+		function linspace(a, b, n) {
+			var arr = [], i;
+			for (i = 0; i <= n; i++) { arr.push(a + (b - a) * i / n); }
+			return arr;
+		}
 
-        function linspace(a, b, n) {
-            var arr = [], i;
-            for (i = 0; i <= n; i++) { arr.push(a + (b - a) * i / n); }
-            return arr;
-        }
+		function drawPlot2() {
+			var eta = getNum(P2.eta, 3.005), L = getNum(P2.L, 15.5), dV = getNum(P2.dV, 10.5);
+			ensureSize(S2, P2.cv, 0.56, 400, 600);
+			var ctx = S2.ctx, W = S2.w, H = S2.h;
+			var fs = Math.max(0.62, Math.min(1, W / 760));
+			var ml = 78, mr = 28, mt = 94, mb = 62;
+			var pw = W - ml - mr, ph = H - mt - mb;
+			var xmin = -P2.xMax, xmax = P2.xMax;
+			var ymin = -0.01 * P2.dVmax;
+			var ymax = (P2.dVmax * P2.etaMax + 3 * eta * dV) / 4 + P2.amp;
+			function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
+			function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
 
-        function drawPlot2() {
-            var eta = getNum(P2.eta, 3.005), L = getNum(P2.L, 15.5), dV = getNum(P2.dV, 10.5);
-            ensureSize(S2, P2.cv, 0.56, 400, 600);
-            var ctx = S2.ctx, W = S2.w, H = S2.h;
-            var fs = Math.max(0.62, Math.min(1, W / 760));
-            var ml = 78, mr = 28, mt = 94, mb = 62;
-            var pw = W - ml - mr, ph = H - mt - mb;
-            var xmin = -P2.xMax, xmax = P2.xMax;
-            var ymin = -0.01 * P2.dVmax;
-            var ymax = (P2.dVmax * P2.etaMax + 3 * eta * dV) / 4 + P2.amp;
-            function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
-            function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
+			var cf = coefficients(eta, L, dV);
+			var h0 = eta * dV;
+			var R = cabs2(cf.B1), T = cabs2(cf.A3);
+			var lamdB = 2 * Math.PI / cf.q;
 
-            var cf = coefficients(eta, L, dV);
-            var h0 = eta * dV;
-            var R = cabs2(cf.B1), T = cabs2(cf.A3);
-            var lamdB = 2 * Math.PI / cf.q;
+			ctx.clearRect(0, 0, W, H);
+			ctx.fillStyle = '#fff';
+			ctx.fillRect(ml, mt, pw, ph);
 
-            ctx.clearRect(0, 0, W, H);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(ml, mt, pw, ph);
+			// rejilla
+			var i, v, stepX = 10, stepY = niceStep(ymax - ymin, 8);
+			ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
+			for (v = Math.ceil(xmin / stepX) * stepX; v <= xmax + 1e-9; v += stepX) {
+				ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
+				drawText(ctx, fmtTick(v), X(v), mt + ph + 22, 17, 'center', '#555');
+			}
+			for (v = Math.ceil(ymin / stepY) * stepY; v <= ymax + 1e-9; v += stepY) {
+				ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
+				drawText(ctx, fmtTick(v), ml - 10, Y(v) + 5, 17, 'right', '#555');
+			}
 
-            // rejilla
-            var i, v, stepX = 10, stepY = niceStep(ymax - ymin, 8);
-            ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
-            for (v = Math.ceil(xmin / stepX) * stepX; v <= xmax + 1e-9; v += stepX) {
-                ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
-                drawText(ctx, fmtTick(v), X(v), mt + ph + 22, 14, 'center', '#555');
-            }
-            for (v = Math.ceil(ymin / stepY) * stepY; v <= ymax + 1e-9; v += stepY) {
-                ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
-                drawText(ctx, fmtTick(v), ml - 10, Y(v) + 5, 14, 'right', '#555');
-            }
+			// fronteras del pozo (±L/2)
+			ctx.setLineDash([5, 5]); ctx.strokeStyle = '#999'; ctx.lineWidth = 1.2;
+			ctx.beginPath();
+			ctx.moveTo(X(-L / 2), mt); ctx.lineTo(X(-L / 2), mt + ph);
+			ctx.moveTo(X(L / 2), mt); ctx.lineTo(X(L / 2), mt + ph);
+			ctx.stroke(); ctx.setLineDash([]);
 
-            // fronteras del pozo (±L/2)
-            ctx.setLineDash([5, 5]); ctx.strokeStyle = '#999'; ctx.lineWidth = 1.2;
-            ctx.beginPath();
-            ctx.moveTo(X(-L / 2), mt); ctx.lineTo(X(-L / 2), mt + ph);
-            ctx.moveTo(X(L / 2), mt); ctx.lineTo(X(L / 2), mt + ph);
-            ctx.stroke(); ctx.setLineDash([]);
+			ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
+			ctx.strokeRect(ml, mt, pw, ph);
 
-            ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
-            ctx.strokeRect(ml, mt, pw, ph);
+			ctx.save();
+			ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
 
-            ctx.save();
-            ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
+			// nivel de energía
+			if (P2.show.en) {
+				ctx.setLineDash([9, 6]); ctx.strokeStyle = '#777'; ctx.lineWidth = 1.4;
+				ctx.beginPath(); ctx.moveTo(ml, Y(h0)); ctx.lineTo(ml + pw, Y(h0)); ctx.stroke();
+				ctx.setLineDash([]);
+			}
 
-            // nivel de energía
-            if (P2.show.en) {
-                ctx.setLineDash([9, 6]); ctx.strokeStyle = '#777'; ctx.lineWidth = 1.4;
-                ctx.beginPath(); ctx.moveTo(ml, Y(h0)); ctx.lineTo(ml + pw, Y(h0)); ctx.stroke();
-                ctx.setLineDash([]);
-            }
+			// dibujo de una onda: h0 + amp * Re( c * e^{i s k x} )
+			function wave(xs, coef, kk, sgn, color, lw) {
+				ctx.strokeStyle = color; ctx.lineWidth = lw || 2.2; ctx.lineJoin = 'round';
+				ctx.beginPath();
+				for (var n = 0; n < xs.length; n++) {
+					var ph0 = sgn * kk * xs[n];
+					var re = coef[0] * Math.cos(ph0) - coef[1] * Math.sin(ph0);
+					var px = X(xs[n]), py = Y(h0 + P2.amp * re);
+					if (n === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
+				}
+				ctx.stroke();
+			}
 
-            // dibujo de una onda: h0 + amp * Re( c * e^{i s k x} )
-            function wave(xs, coef, kk, sgn, color, lw) {
-                ctx.strokeStyle = color; ctx.lineWidth = lw || 2.2; ctx.lineJoin = 'round';
-                ctx.beginPath();
-                for (var n = 0; n < xs.length; n++) {
-                    var ph0 = sgn * kk * xs[n];
-                    var re = coef[0] * Math.cos(ph0) - coef[1] * Math.sin(ph0);
-                    var px = X(xs[n]), py = Y(h0 + P2.amp * re);
-                    if (n === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
-                }
-                ctx.stroke();
-            }
+			var n1 = Math.max(2, Math.ceil((P2.xMax - L / 2) / DX));
+			var n2 = Math.max(2, Math.ceil(L / DX));
+			var x1 = linspace(-P2.xMax, -L / 2, n1);
+			var x2 = linspace(-L / 2, L / 2, n2);
+			var x3 = linspace(L / 2, P2.xMax, n1);
+			var one = [1, 0];
 
-            var n1 = Math.max(2, Math.ceil((P2.xMax - L / 2) / DX));
-            var n2 = Math.max(2, Math.ceil(L / DX));
-            var x1 = linspace(-P2.xMax, -L / 2, n1);
-            var x2 = linspace(-L / 2, L / 2, n2);
-            var x3 = linspace(L / 2, P2.xMax, n1);
-            var one = [1, 0];
+			if (P2.show.inc)   { wave(x1, one, cf.k, +1, COL.inc); }
+			if (P2.show.ref12) { wave(x1, cf.B1, cf.k, -1, COL.ref12); }
+			if (P2.show.tr12)  { wave(x2, cf.A2, cf.q, +1, COL.tr12); }
+			if (P2.show.ref23) { wave(x2, cf.B2, cf.q, -1, COL.ref23); }
+			if (P2.show.tr23)  { wave(x3, cf.A3, cf.k, +1, COL.tr23); }
 
-            if (P2.show.inc)   { wave(x1, one, cf.k, +1, COL.inc); }
-            if (P2.show.ref12) { wave(x1, cf.B1, cf.k, -1, COL.ref12); }
-            if (P2.show.tr12)  { wave(x2, cf.A2, cf.q, +1, COL.tr12); }
-            if (P2.show.ref23) { wave(x2, cf.B2, cf.q, -1, COL.ref23); }
-            if (P2.show.tr23)  { wave(x3, cf.A3, cf.k, +1, COL.tr23); }
+			// Re ψ total: suma de las componentes en cada región
+			if (P2.show.tot) {
+				ctx.strokeStyle = '#222'; ctx.lineWidth = 2.8; ctx.lineJoin = 'round';
+				var regions = [
+					[x1, function (x) { return [cmul(one, cexp(cf.k * x)), cmul(cf.B1, cexp(-cf.k * x))]; }],
+					[x2, function (x) { return [cmul(cf.A2, cexp(cf.q * x)), cmul(cf.B2, cexp(-cf.q * x))]; }],
+					[x3, function (x) { return [cmul(cf.A3, cexp(cf.k * x))]; }]
+				];
+				regions.forEach(function (rg) {
+					ctx.beginPath();
+					rg[0].forEach(function (x, idx) {
+						var terms = rg[1](x), re = 0, m;
+						for (m = 0; m < terms.length; m++) { re += terms[m][0]; }
+						var px = X(x), py = Y(h0 + P2.amp * re);
+						if (idx === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
+					});
+					ctx.stroke();
+				});
+			}
 
-            // Re ψ total: suma de las componentes en cada región
-            if (P2.show.tot) {
-                ctx.strokeStyle = '#222'; ctx.lineWidth = 2.8; ctx.lineJoin = 'round';
-                var regions = [
-                    [x1, function (x) { return [cmul(one, cexp(cf.k * x)), cmul(cf.B1, cexp(-cf.k * x))]; }],
-                    [x2, function (x) { return [cmul(cf.A2, cexp(cf.q * x)), cmul(cf.B2, cexp(-cf.q * x))]; }],
-                    [x3, function (x) { return [cmul(cf.A3, cexp(cf.k * x))]; }]
-                ];
-                regions.forEach(function (rg) {
-                    ctx.beginPath();
-                    rg[0].forEach(function (x, idx) {
-                        var terms = rg[1](x), re = 0, m;
-                        for (m = 0; m < terms.length; m++) { re += terms[m][0]; }
-                        var px = X(x), py = Y(h0 + P2.amp * re);
-                        if (idx === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
-                    });
-                    ctx.stroke();
-                });
-            }
+			// potencial
+			if (P2.show.pot) {
+				ctx.strokeStyle = COL.pot; ctx.lineWidth = 3.4; ctx.lineJoin = 'miter';
+				ctx.beginPath();
+				ctx.moveTo(X(-P2.xMax), Y(dV)); ctx.lineTo(X(-L / 2), Y(dV)); ctx.lineTo(X(-L / 2), Y(0));
+				ctx.lineTo(X(L / 2), Y(0)); ctx.lineTo(X(L / 2), Y(dV)); ctx.lineTo(X(P2.xMax), Y(dV));
+				ctx.stroke();
+			}
+			ctx.restore();
 
-            // potencial
-            if (P2.show.pot) {
-                ctx.strokeStyle = COL.pot; ctx.lineWidth = 3.4; ctx.lineJoin = 'miter';
-                ctx.beginPath();
-                ctx.moveTo(X(-P2.xMax), Y(dV)); ctx.lineTo(X(-L / 2), Y(dV)); ctx.lineTo(X(-L / 2), Y(0));
-                ctx.lineTo(X(L / 2), Y(0)); ctx.lineTo(X(L / 2), Y(dV)); ctx.lineTo(X(P2.xMax), Y(dV));
-                ctx.stroke();
-            }
-            ctx.restore();
+			// etiquetas de regiones (en la parte superior del gráfico)
+			drawText(ctx, '1', (X(-P2.xMax) + X(-L / 2)) / 2, mt + 20, 25, 'center', '#888', 'bold');
+			drawText(ctx, '2', X(0), mt + 20, 25, 'center', '#888', 'bold');
+			drawText(ctx, '3', (X(L / 2) + X(P2.xMax)) / 2, mt + 20, 25, 'center', '#888', 'bold');
 
-            // etiquetas de regiones (en la parte superior del gráfico)
-            drawText(ctx, '1', (X(-P2.xMax) + X(-L / 2)) / 2, mt + 20, 15, 'center', '#888', 'bold');
-            drawText(ctx, '2', X(0), mt + 20, 15, 'center', '#888', 'bold');
-            drawText(ctx, '3', (X(L / 2) + X(P2.xMax)) / 2, mt + 20, 15, 'center', '#888', 'bold');
+			// etiquetas de ejes
+			drawText(ctx, 'x (Å)', ml + pw / 2, H - 14, 22, 'center', '#333', 'bold');
+			ctx.save();
+			ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
+			drawText(ctx, 'V(x) en eV, ψ(x) ', 0, 0, 22, 'center', '#333', 'bold');
+			ctx.restore();
 
-            // etiquetas de ejes
-            drawText(ctx, 'x (Å)', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
-            ctx.save();
-            ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
-            drawText(ctx, 'V(x), ψ(x)  (eV)', 0, 0, 17, 'center', '#333', 'bold');
-            ctx.restore();
+			// título (dos líneas)
+			var r3 = function (a) { return (Math.round(a * 1000) / 1000); };
+			drawText(ctx, 'ΔE = ' + r3(eta) + ' ΔV,   ΔV = ' + r3(dV) + ' eV,   L = ' + r3(L) + ' Å  (o ' + (L / lamdB).toFixed(2) + ' λ_dB)',
+					 W / 2, 34, Math.round(22 * fs), 'center', '#333', 'bold');
+			drawText(ctx, 'R = ' + R.toFixed(3) + ',   T = ' + T.toFixed(3), W / 2, 62, Math.round(22 * fs), 'center', '#555', 'bold');
 
-            // título (dos líneas)
-            var r3 = function (a) { return (Math.round(a * 1000) / 1000); };
-            drawText(ctx, 'ΔE = ' + r3(eta) + ' ΔV,   ΔV = ' + r3(dV) + ' eV,   L = ' + r3(L) + ' Å  (o ' + (L / lamdB).toFixed(2) + ' λ_dB)',
-                     W / 2, 34, Math.round(18 * fs), 'center', '#333', 'bold');
-            drawText(ctx, 'R = ' + R.toFixed(3) + ',   T = ' + T.toFixed(3), W / 2, 62, Math.round(18 * fs), 'center', '#555', 'bold');
+			// información
+			document.getElementById('i2_dE').textContent = h0.toFixed(2) + ' eV';
+			document.getElementById('i2_dEout').textContent = ((eta - 1) * dV).toFixed(2) + ' eV';
+			document.getElementById('i2_kin').textContent = cf.q.toFixed(3) + ' Å⁻¹';
+			document.getElementById('i2_kout').textContent = cf.k.toFixed(3) + ' Å⁻¹';
+			document.getElementById('i2_ldb').textContent = lamdB.toFixed(2) + ' Å';
+			document.getElementById('i2_lam').textContent = (L / lamdB).toFixed(3);
+			document.getElementById('i2_R').textContent = R.toFixed(4);
+			document.getElementById('i2_T').textContent = T.toFixed(4);
+			document.getElementById('i2_sum').textContent = (R + T).toFixed(4);
+		}
 
-            // información
-            document.getElementById('i2_dE').textContent = h0.toFixed(2) + ' eV';
-            document.getElementById('i2_dEout').textContent = ((eta - 1) * dV).toFixed(2) + ' eV';
-            document.getElementById('i2_kin').textContent = cf.q.toFixed(3) + ' Å⁻¹';
-            document.getElementById('i2_kout').textContent = cf.k.toFixed(3) + ' Å⁻¹';
-            document.getElementById('i2_ldb').textContent = lamdB.toFixed(2) + ' Å';
-            document.getElementById('i2_lam').textContent = (L / lamdB).toFixed(3);
-            document.getElementById('i2_R').textContent = R.toFixed(4);
-            document.getElementById('i2_T').textContent = T.toFixed(4);
-            document.getElementById('i2_sum').textContent = (R + T).toFixed(4);
-        }
+		bindPair(P2.eta, P2.etaR, drawPlot2);
+		bindPair(P2.L, P2.LR, drawPlot2);
+		bindPair(P2.dV, P2.dVR, drawPlot2);
+		Array.prototype.forEach.call(document.querySelectorAll('#legend2 input[type="checkbox"]'), function (cb) {
+			cb.addEventListener('change', function () { P2.show[cb.getAttribute('data-k')] = cb.checked; drawPlot2(); });
+		});
+		document.getElementById('reset2').addEventListener('click', function () {
+			setPair(P2.eta, P2.etaR, 3.005);
+			setPair(P2.L, P2.LR, 15.5);
+			setPair(P2.dV, P2.dVR, 10.5);
+			drawPlot2();
+		});
 
-        bindPair(P2.eta, P2.etaR, drawPlot2);
-        bindPair(P2.L, P2.LR, drawPlot2);
-        bindPair(P2.dV, P2.dVR, drawPlot2);
-        Array.prototype.forEach.call(document.querySelectorAll('#legend2 input[type="checkbox"]'), function (cb) {
-            cb.addEventListener('change', function () { P2.show[cb.getAttribute('data-k')] = cb.checked; drawPlot2(); });
-        });
-        document.getElementById('reset2').addEventListener('click', function () {
-            setPair(P2.eta, P2.etaR, 3.005);
-            setPair(P2.L, P2.LR, 15.5);
-            setPair(P2.dV, P2.dVR, 10.5);
-            drawPlot2();
-        });
+		/* Arranque */
+		drawPlot2();
+		window.addEventListener('resize', drawPlot2);
+		if (document.fonts) {
+			var redraw = function () { drawPlot2(); };
+			if (document.fonts.load) {
+				// fuerza la descarga de la fuente y redibuja cuando llega
+				Promise.all([document.fonts.load('400 16px ' + FONT), document.fonts.load('700 16px ' + FONT)])
+					.then(redraw, redraw);
+			}
+			if (document.fonts.ready) { document.fonts.ready.then(redraw); }
+		}
 
-        /* Arranque */
-        drawPlot2();
-        window.addEventListener('resize', drawPlot2);
-
-        /* ============================================================
-           Aviso de altura al contenedor (iframe de Moodle).
-           Envía la altura del contenido con postMessage para que
-           renderSimulation ajuste el iframe y no se recorte nada.
-           Si la página se abre sola, no hace nada.
-           ============================================================ */
-        (function () {
-            if (window.parent === window) { return; }
-            var last = 0, pending = false;
-            function send() {
-                pending = false;
-                var h = Math.ceil(document.body.getBoundingClientRect().height);
-                if (Math.abs(h - last) < 2) { return; }
-                last = h;
-                window.parent.postMessage({ type: 'sim-resize', height: h }, '*');
-            }
-            function schedule() {
-                if (pending) { return; }
-                pending = true;
-                window.requestAnimationFrame(send);
-            }
-            window.addEventListener('load', schedule);
-            window.addEventListener('resize', schedule);
-            if (window.ResizeObserver) { new ResizeObserver(schedule).observe(document.body); }
-            schedule();
-        })();
-    })();
-    </script>
+		/* ============================================================
+		   Aviso de altura al contenedor (iframe de Moodle).
+		   Envía la altura del contenido con postMessage para que
+		   renderSimulation ajuste el iframe y no se recorte nada.
+		   Si la página se abre sola, no hace nada.
+		   ============================================================ */
+		(function () {
+			if (window.parent === window) { return; }
+			var last = 0, pending = false;
+			function send() {
+				pending = false;
+				var h = Math.ceil(document.body.getBoundingClientRect().height);
+				if (Math.abs(h - last) < 2) { return; }
+				last = h;
+				window.parent.postMessage({ type: 'sim-resize', height: h }, '*');
+			}
+			function schedule() {
+				if (pending) { return; }
+				pending = true;
+				window.setTimeout(send, 30);
+			}
+			window.addEventListener('load', schedule);
+			window.addEventListener('resize', schedule);
+			if (window.ResizeObserver) { new ResizeObserver(schedule).observe(document.body); }
+			schedule();
+		})();
+	})();
+	</script>
 </body>
 </html>

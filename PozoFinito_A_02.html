@@ -1,668 +1,689 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pozo finito - Coeficientes R y T</title>
-    <style>
-        /* ============================================================
-           AJUSTES FÁCILES DE DISEÑO
-           --sidebar-w : ancho de la columna de controles (a la izquierda)
-           El ancho máximo del gráfico se cambia en el script (CFG.plotMaxWidth)
-           y el ancho del iframe, en la llamada a renderSimulation (4.º parámetro).
-           ============================================================ */
-        :root {
-            --sidebar-w: 290px;
-            --accent: #005092;
-        }
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Coeficientes R y T</title>
+	<style>
+		/* ============================================================
+		   AJUSTES FÁCILES DE DISEÑO
+		   --sidebar-w : ancho de la columna de controles (a la izquierda)
+		   El ancho máximo del gráfico se cambia en el script (CFG.plotMaxWidth)
+		   y el ancho del iframe, en la llamada a renderSimulation (4.º parámetro).
+		   ============================================================ */
+		@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+		:root {
+			--sidebar-w: 290px;
+			--colorUFRO: #005092;
+			--colorFICA: #d22864;
+			--colorBACK: #f8f9f8;
+			--font: 'Futura Lt BT', Montserrat, Calibri, 'Segoe UI', sans-serif;
+		}
 
-        {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 8px;
-            color: #333;
-            line-height: 1.4;
-        }
+		body {
+			font-family: var(--font);
+			background: linear-gradient(135deg, var(--colorUFRO) 0%, var(--colorUFRO) 100%);
+			padding: 4px;
+			color: #333;
+			line-height: 1.4;
+		}
 
-        .container {
-            max-width: 1600px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-            overflow: hidden;
-        }
+		.container {
+			max-width: 1600px;
+			margin: 0 auto;
+			background: white;
+			border-radius: 16px;
+			box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+			overflow: hidden;
+		}
 
-        .main-content {
-            padding: 14px;
-        }
+		.main-content {
+			padding: 14px;
+		}
 
-        .sim-layout {
-            display: grid;
-            grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
-            gap: 14px;
-            align-items: start;
-        }
+		.sim-layout {
+			display: grid;
+			grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+			gap: 14px;
+			align-items: start;
+		}
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            min-width: 0;
-        }
+		.sidebar {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			min-width: 0;
+		}
 
-        .plot-column {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            min-width: 0;
-        }
+		.plot-column {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			min-width: 0;
+		}
 
-        .controls-container {
-            background: #005092;
-            padding: 12px;
-            border-radius: 12px;
-        }
+		.controls-container {
+			background: var(--colorBACK);
+			padding: 12px;
+			border-radius: 12px;
+			border: 2px solid var(--colorUFRO);   /* grosor, estilo, color */
+		}
 
-        .controls-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
+		.controls-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 10px;
+			margin-bottom: 12px;
+		}
 
-        .control-group {
-            background: white;
-            padding: 10px 12px;
-            border-radius: 10px;
-        }
+		.control-group {
+			background: white;
+			padding: 10px 12px;
+			border-radius: 10px;
+		}
 
-        .control-group h3 {
-            color: var(--accent);
-            margin-bottom: 6px;
-            font-size: 0.95em;
-        }
+		.control-group h3 {
+			color: var(--colorUFRO);
+			margin-bottom: 6px;
+			font-size: 1.05em;
+		}
 
-        .input-row {
-            display: grid;
-            grid-template-columns: minmax(auto, 70px) 1fr;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 2px;
-        }
+		.input-row {
+			display: grid;
+			grid-template-columns: minmax(auto, 70px) 1fr;
+			gap: 8px;
+			align-items: center;
+			margin-bottom: 2px;
+		}
 
-        label {
-            font-weight: 600;
-            color: #555;
-        }
+		label {
+			font-weight: 600;
+			color: #555;
+		}
 
-        input[type="number"] {
-            width: 100%;
-            min-width: 0;
-            padding: 5px 10px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 0.95em;
-            transition: border-color 0.3s;
-        }
+		input[type="number"] {
+			width: 100%;
+			min-width: 0;
+			padding: 5px 10px;
+			border: 2px solid #ddd;
+			border-radius: 8px;
+			font-size: 0.95em;
+			transition: border-color 0.3s;
+		}
 
-        input[type="number"]:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
+		input[type="number"]:focus {
+			outline: none;
+			border-color: var(--colorFICA);
+		}
 
-        input[type="range"] {
-            width: 100%;
-            accent-color: var(--accent);
-            margin: 4px 0 0 0;
-        }
+		input[type="range"] {
+			width: 100%;
+			accent-color: var(--colorFICA);
+			margin: 4px 0 0 0;
+		}
 
-        .range-limits {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75em;
-            color: #888;
-        }
+		.range-limits {
+			display: flex;
+			justify-content: space-between;
+			font-size: 0.85em;
+			color: #888;
+		}
 
-        .canvas-container {
-            background: white;
-            border-radius: 12px;
-            padding: 6px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: center;
-            overflow: hidden;
-        }
+		.canvas-container {
+			background: white;
+			border-radius: 12px;
+			padding: 6px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+			display: flex;
+			justify-content: center;
+			overflow: hidden;
+		}
 
-        canvas {
-            box-sizing: content-box;
-            border: 3px solid var(--accent);
-            border-radius: 10px;
-            display: block;
-            background: #f8f9fa;
-            max-width: none;
-        }
+		canvas {
+			box-sizing: content-box;
+			border: 3px solid var(--colorUFRO);
+			border-radius: 10px;
+			display: block;
+			background: var(--colorBACK);
+			max-width: none;
+		}
 
-        canvas.crosshair {
-            cursor: crosshair;
-        }
+		canvas.crosshair {
+			cursor: crosshair;
+		}
 
-        /* Indicadores compactos en una franja bajo el gráfico */
-        .info-panel {
-            background: #f8f9fa;
-            padding: 8px;
-            border-radius: 12px;
-        }
+		/* Indicadores compactos en una franja bajo el gráfico */
+		.info-panel {
+			background: var(--colorBACK);
+			padding: 8px;
+			border-radius: 12px;
+		}
 
-        .info-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
+		.info-grid {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 6px;
+		}
 
-        .info-box {
-            flex: 1 1 100px;
-            background: white;
-            padding: 4px 10px;
-            border-radius: 8px;
-            border-left: 3px solid var(--accent);
-            min-width: 0;
-        }
+		.info-box {
+			flex: 1 1 100px;
+			background: white;
+			padding: 4px 10px;
+			border-radius: 8px;
+			border-left: 3px solid var(--colorFICA);
+			min-width: 0;
+		}
 
-        .info-box h4 {
-            color: var(--accent);
-            margin: 0;
-            font-size: 0.72em;
-            line-height: 1.3;
-            white-space: nowrap;
-        }
+		.info-box h4 {
+			color: var(--colorUFRO);
+			margin: 0;
+			font-size: 0.95em;
+			line-height: 1.3;
+			white-space: nowrap;
+		}
 
-        .info-value {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #333;
-            font-family: 'Courier New', monospace;
-            white-space: nowrap;
-        }
+		.info-value {
+			font-size: 1.05em;
+			font-weight: 600;
+			color: #333;
+			font-family: 'Courier New', monospace;
+			white-space: nowrap;
+		}
 
-        button {
-            padding: 8px 16px;
-            font-size: 0.95em;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            width: 100%;
-        }
+		button {
+			padding: 8px 16px;
+			font-size: 0.95em;
+			font-weight: 600;
+			border: none;
+			border-radius: 10px;
+			cursor: pointer;
+			transition: all 0.3s;
+			box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+			width: 100%;
+		}
 
-        .btn-secondary {
-            background: #e0e0e0;
-            color: #333;
-        }
+		.btn-secondary {
+			background: #e0e0e0;
+			color: #333;
+		}
 
-        .btn-secondary:hover {
-            background: #d0d0d0;
-            transform: translateY(-1px);
-        }
+		.btn-secondary:hover {
+			background: #d0d0d0;
+			transform: translateY(-1px);
+		}
 
-        .legend {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            margin-top: 12px;
-            font-size: 0.9em;
-        }
+		.legend {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			margin-top: 12px;
+			font-size: 1.05em;
+		}
 
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 400;
-            color: #333;
-            user-select: none;
-        }
+		.legend-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			cursor: pointer;
+			font-weight: 400;
+			color: #333;
+			user-select: none;
+		}
 
-        .legend-item input {
-            accent-color: var(--accent);
-            width: 15px;
-            height: 15px;
-            flex: none;
-        }
+		.legend-item input {
+			accent-color: var(--colorBACK);
+			width: 15px;
+			height: 15px;
+			flex: none;
+		}
 
-        .swatch {
-            display: inline-block;
-            width: 26px;
-            height: 5px;
-            border-radius: 3px;
-            flex: none;
-        }
+		.swatch {
+			display: inline-block;
+			width: 26px;
+			height: 5px;
+			border-radius: 3px;
+			flex: none;
+		}
 
-        .check-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 8px;
-            font-weight: 400;
-            font-size: 0.9em;
-            cursor: pointer;
-        }
+		.check-row {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			margin-top: 8px;
+			font-weight: 400;
+			font-size: 0.9em;
+			cursor: pointer;
+		}
 
-        .check-row input {
-            accent-color: var(--accent);
-            width: 15px;
-            height: 15px;
-            flex: none;
-        }
+		.check-row input {
+			accent-color: var(--colorUFRO);
+			width: 15px;
+			height: 15px;
+			flex: none;
+		}
 
-        /* Pantallas angostas: los controles pasan arriba del gráfico */
-        @media (max-width: 820px) {
-            .sim-layout { grid-template-columns: minmax(0, 1fr); }
-            .controls-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
-            .main-content { padding: 8px; }
-        }
-    </style>
+		/* Pantallas angostas: los controles pasan arriba del gráfico */
+		@media (max-width: 820px) {
+			.sim-layout { grid-template-columns: minmax(0, 1fr); }
+			.controls-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+			.main-content { padding: 8px; }
+		}
+	</style>
 </head>
 <body>
-    <div class="container">
-        <div class="main-content">
-            <div class="sim-layout">
+	<div class="container">
+		<div class="main-content">
+			<div class="sim-layout">
 
-                <aside class="sidebar">
-                    <div class="controls-container">
-                        <div class="controls-grid">
-                            <div class="control-group">
-                                <h3>Energía relativa al pozo</h3>
-                                <div class="input-row">
-                                    <label for="eta1">&eta;:</label>
-                                    <input type="number" id="eta1" value="1.02" min="1.01" max="5" step="0.01">
-                                </div>
-                                <input type="range" id="eta1r" min="1.01" max="5" step="0.01" value="1.02" aria-label="eta">
-                                <div class="range-limits"><span>1.01</span><span>5.00</span></div>
-                                <label class="check-row"><input type="checkbox" id="res1"> Marcar resonancias (T = 1) en &Lambda; = n/2</label>
-                            </div>
-                        </div>
-                        <button class="btn-secondary" id="reset1" type="button">&#8635; Restablecer</button>
-                    </div>
-                </aside>
+				<aside class="sidebar">
+					<div class="controls-container">
+						<div class="controls-grid">
+							<div class="control-group">
+								<h3>Energía relativa al pozo</h3>
+								<div class="input-row">
+									<label for="eta1"  style="font-size: 1.4em;">&eta;:</label>
+									<input type="number" id="eta1" value="1.02" min="1.01" max="5" step="0.01">
+								</div>
+								<input type="range" id="eta1r" min="1.01" max="5" step="0.01" value="1.02" aria-label="eta">
+								<div class="range-limits"><span>1.01</span><span>5.00</span></div>
+								<label class="check-row"><input type="checkbox" id="res1"> Marcar resonancias (T = 1) en &Lambda; = n/2</label>
+							</div>
+						</div>
+						<button class="btn-secondary" id="reset1" type="button">&#8635; Restablecer</button>
+					</div>
+				</aside>
 
-                <div class="plot-column">
-                    <div class="canvas-container">
-                        <canvas id="plot1" class="crosshair" width="1000" height="440"></canvas>
-                    </div>
-                    <div class="info-panel">
-                        <div class="info-grid">
-                            <div class="info-box"><h4>Energía</h4><div class="info-value" id="i1_energy">&Delta;E = 1.02 &Delta;V</div></div>
-                            <div class="info-box"><h4>k<sub>out</sub> / k<sub>in</sub></h4><div class="info-value" id="i1_ratio">0.00</div></div>
-                            <div class="info-box"><h4>T mínimo</h4><div class="info-value" id="i1_tmin">0.000</div></div>
-                            <div class="info-box"><h4>&Lambda; (cursor)</h4><div class="info-value" id="i1_lam">&mdash;</div></div>
-                            <div class="info-box"><h4>R (cursor)</h4><div class="info-value" id="i1_R">&mdash;</div></div>
-                            <div class="info-box"><h4>T (cursor)</h4><div class="info-value" id="i1_T">&mdash;</div></div>
-                        </div>
-                    </div>
-                </div>
+				<div class="plot-column">
+					<div class="canvas-container">
+						<canvas id="plot1" class="crosshair" width="1000" height="440"></canvas>
+					</div>
+					<div class="info-panel">
+						<div class="info-grid">
+							<div class="info-box"><h4>Energía</h4><div class="info-value" id="i1_energy">&Delta;E = 1.02 &Delta;V</div></div>
+							<div class="info-box"><h4>k<sub>out</sub> / k<sub>in</sub></h4><div class="info-value" id="i1_ratio">0.00</div></div>
+							<div class="info-box"><h4>T mínimo</h4><div class="info-value" id="i1_tmin">0.000</div></div>
+							<div class="info-box"><h4>&Lambda; (cursor)</h4><div class="info-value" id="i1_lam">&mdash;</div></div>
+							<div class="info-box"><h4>R (cursor)</h4><div class="info-value" id="i1_R">&mdash;</div></div>
+							<div class="info-box"><h4>T (cursor)</h4><div class="info-value" id="i1_T">&mdash;</div></div>
+						</div>
+					</div>
+				</div>
 
-            </div>
-        </div>
-    </div>
+			</div>
+		</div>
+	</div>
 
-    <script>
-    (function () {
-        'use strict';
+	<script>
+	(function () {
+		'use strict';
 
-        /* ============================================================
-           Constantes físicas (electrón). Energías en eV, longitudes en Å.
-           k = sqrt(2 m c^2 * E) / (hbar c)
-           ============================================================ */
-        // Ajuste: ancho máximo del gráfico (px). Aumentar para aprovechar un Moodle muy ancho.
-        var CFG = { plotMaxWidth: 1250 };
+		/* ============================================================
+		   Constantes físicas (electrón). Energías en eV, longitudes en Å.
+		   k = sqrt(2 m c^2 * E) / (hbar c)
+		   ============================================================ */
+		// Ajuste: ancho máximo del gráfico (px). Aumentar para aprovechar un Moodle muy ancho.
+		var CFG = { plotMaxWidth: 1250 };
+		
+		var FONT = (window.getComputedStyle(document.documentElement).getPropertyValue('--font') || '').trim() ||
+		   '"Segoe UI", Arial, sans-serif';
+		var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
+		var HBARC = 1973.269804;    // eV·Å
 
-        var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
-        var HBARC = 1973.269804;    // eV·Å
+		function kOf(energyEV) { return Math.sqrt(2 * MC2 * energyEV) / HBARC; }  // Å^-1
 
-        function kOf(energyEV) { return Math.sqrt(2 * MC2 * energyEV) / HBARC; }  // Å^-1
+		/* ============================================================
+		   Números complejos mínimos: [re, im]
+		   ============================================================ */
+		function cmul(a, b) { return [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]]; }
+		function cdiv(a, b) {
+			var d = b[0] * b[0] + b[1] * b[1];
+			return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
+		}
+		function cexp(theta) { return [Math.cos(theta), Math.sin(theta)]; }   // e^{i theta}
+		function cscale(a, s) { return [a[0] * s, a[1] * s]; }
+		function cabs2(a) { return a[0] * a[0] + a[1] * a[1]; }
 
-        /* ============================================================
-           Números complejos mínimos: [re, im]
-           ============================================================ */
-        function cmul(a, b) { return [a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0]]; }
-        function cdiv(a, b) {
-            var d = b[0] * b[0] + b[1] * b[1];
-            return [(a[0] * b[0] + a[1] * b[1]) / d, (a[1] * b[0] - a[0] * b[1]) / d];
-        }
-        function cexp(theta) { return [Math.cos(theta), Math.sin(theta)]; }   // e^{i theta}
-        function cscale(a, s) { return [a[0] * s, a[1] * s]; }
-        function cabs2(a) { return a[0] * a[0] + a[1] * a[1]; }
+		/* ============================================================
+		   Resultados analíticos
+		   ============================================================ */
 
-        /* ============================================================
-           Resultados analíticos
-           ============================================================ */
+		// R y T en función de los parámetros reducidos (eta, Lambda)
+		function RT(eta, lam) {
+			var den = 8 * eta * (eta - 1) - Math.cos(4 * Math.PI * lam) + 1;
+			var s = Math.sin(2 * Math.PI * lam);
+			return [2 * s * s / den, 8 * eta * (eta - 1) / den];
+		}
 
-        // R y T en función de los parámetros reducidos (eta, Lambda)
-        function RT(eta, lam) {
-            var den = 8 * eta * (eta - 1) - Math.cos(4 * Math.PI * lam) + 1;
-            var s = Math.sin(2 * Math.PI * lam);
-            return [2 * s * s / den, 8 * eta * (eta - 1) / den];
-        }
+		// Coeficientes de las ondas (con A1 = 1) para eta, L (Å), dV (eV)
+		function coefficients(eta, L, dV) {
+			var q = kOf(eta * dV);          // k_in
+			var k = kOf((eta - 1) * dV);    // k_out
+			var e2 = cexp(2 * q * L);
+			var dm = (q - k) * (q - k), dp = (q + k) * (q + k);
+			var den = [dm * e2[0] - dp, dm * e2[1]];
+			var numR = cscale(cmul([e2[0] - 1, e2[1]], cexp(-k * L)), k * k - q * q);
+			var B1 = cdiv(numR, den);
+			var A3 = cdiv(cmul([-4 * q * k, 0], cexp((q - k) * L)), den);
+			// empalme en x = +L/2
+			var A2 = cscale(cmul(A3, cexp((k - q) * L / 2)), (q + k) / (2 * q));
+			var B2 = cscale(cmul(A3, cexp((k + q) * L / 2)), (q - k) / (2 * q));
+			return { q: q, k: k, B1: B1, A2: A2, B2: B2, A3: A3 };
+		}
 
-        // Coeficientes de las ondas (con A1 = 1) para eta, L (Å), dV (eV)
-        function coefficients(eta, L, dV) {
-            var q = kOf(eta * dV);          // k_in
-            var k = kOf((eta - 1) * dV);    // k_out
-            var e2 = cexp(2 * q * L);
-            var dm = (q - k) * (q - k), dp = (q + k) * (q + k);
-            var den = [dm * e2[0] - dp, dm * e2[1]];
-            var numR = cscale(cmul([e2[0] - 1, e2[1]], cexp(-k * L)), k * k - q * q);
-            var B1 = cdiv(numR, den);
-            var A3 = cdiv(cmul([-4 * q * k, 0], cexp((q - k) * L)), den);
-            // empalme en x = +L/2
-            var A2 = cscale(cmul(A3, cexp((k - q) * L / 2)), (q + k) / (2 * q));
-            var B2 = cscale(cmul(A3, cexp((k + q) * L / 2)), (q - k) / (2 * q));
-            return { q: q, k: k, B1: B1, A2: A2, B2: B2, A3: A3 };
-        }
+		/* ============================================================
+		   Utilidades de dibujo
+		   ============================================================ */
+		function sizeFor(cv, ratio, minH, maxH) {
+			var p = cv.parentElement, cs = window.getComputedStyle(p);
+			var avail = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 6;
+			var w = Math.max(300, Math.min(CFG.plotMaxWidth, Math.floor(avail)));
+			var h = Math.round(Math.max(minH, Math.min(maxH, w * ratio)));
+			return [w, h];
+		}
 
-        /* ============================================================
-           Utilidades de dibujo
-           ============================================================ */
-        function sizeFor(cv, ratio, minH, maxH) {
-            var p = cv.parentElement, cs = window.getComputedStyle(p);
-            var avail = p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight) - 6;
-            var w = Math.max(300, Math.min(CFG.plotMaxWidth, Math.floor(avail)));
-            var h = Math.round(Math.max(minH, Math.min(maxH, w * ratio)));
-            return [w, h];
-        }
+		// Ajusta el tamaño del canvas al espacio disponible (nítido en pantallas de alta densidad)
+		function ensureSize(S, cv, ratio, minH, maxH) {
+			var d = sizeFor(cv, ratio, minH, maxH);
+			if (S.ctx && S.w === d[0] && S.h === d[1]) { return; }
+			var dpr = Math.min(window.devicePixelRatio || 1, 3);
+			cv.width = Math.round(d[0] * dpr);
+			cv.height = Math.round(d[1] * dpr);
+			cv.style.width = d[0] + 'px';
+			cv.style.height = d[1] + 'px';
+			S.ctx = cv.getContext('2d');
+			S.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+			S.w = d[0]; S.h = d[1];
+		}
 
-        // Ajusta el tamaño del canvas al espacio disponible (nítido en pantallas de alta densidad)
-        function ensureSize(S, cv, ratio, minH, maxH) {
-            var d = sizeFor(cv, ratio, minH, maxH);
-            if (S.ctx && S.w === d[0] && S.h === d[1]) { return; }
-            var dpr = Math.min(window.devicePixelRatio || 1, 3);
-            cv.width = Math.round(d[0] * dpr);
-            cv.height = Math.round(d[1] * dpr);
-            cv.style.width = d[0] + 'px';
-            cv.style.height = d[1] + 'px';
-            S.ctx = cv.getContext('2d');
-            S.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            S.w = d[0]; S.h = d[1];
-        }
+		// Texto con subíndices: "V_out", "k_{in}", "lambda_dB"; align: 'left' | 'center' | 'right'
+		function drawText(ctx, str, x, y, size, align, color, weight) {
+			var parts = str.split(/(_\{[^}]*\}|_[A-Za-z0-9]+)/).filter(function (p) { return p.length; });
+			var font = (weight || 'normal') + ' ';
+			var segs = [], total = 0, i, p, sub, t, fs, w;
+			for (i = 0; i < parts.length; i++) {
+				p = parts[i];
+				sub = p.charAt(0) === '_';
+				t = sub ? p.replace(/^_\{?|\}$/g, '') : p;
+				fs = sub ? size * 0.72 : size;
+				ctx.font = font + fs + 'px ' + FONT;
+				w = ctx.measureText(t).width;
+				segs.push({ t: t, sub: sub, fs: fs, w: w });
+				total += w;
+			}
+			var x0 = align === 'center' ? x - total / 2 : (align === 'right' ? x - total : x);
+			ctx.fillStyle = color || '#333';
+			ctx.textAlign = 'left';
+			ctx.textBaseline = 'alphabetic';
+			for (i = 0; i < segs.length; i++) {
+				ctx.font = font + segs[i].fs + 'px ' + FONT;
+				ctx.fillText(segs[i].t, x0, y + (segs[i].sub ? size * 0.22 : 0));
+				x0 += segs[i].w;
+			}
+		}
 
-        // Texto con subíndices: "V_out", "k_{in}", "lambda_dB"; align: 'left' | 'center' | 'right'
-        function drawText(ctx, str, x, y, size, align, color, weight) {
-            var parts = str.split(/(_\{[^}]*\}|_[A-Za-z0-9]+)/).filter(function (p) { return p.length; });
-            var font = (weight || 'normal') + ' ';
-            var segs = [], total = 0, i, p, sub, t, fs, w;
-            for (i = 0; i < parts.length; i++) {
-                p = parts[i];
-                sub = p.charAt(0) === '_';
-                t = sub ? p.replace(/^_\{?|\}$/g, '') : p;
-                fs = sub ? size * 0.72 : size;
-                ctx.font = font + fs + 'px "Segoe UI", Arial, sans-serif';
-                w = ctx.measureText(t).width;
-                segs.push({ t: t, sub: sub, fs: fs, w: w });
-                total += w;
-            }
-            var x0 = align === 'center' ? x - total / 2 : (align === 'right' ? x - total : x);
-            ctx.fillStyle = color || '#333';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'alphabetic';
-            for (i = 0; i < segs.length; i++) {
-                ctx.font = font + segs[i].fs + 'px "Segoe UI", Arial, sans-serif';
-                ctx.fillText(segs[i].t, x0, y + (segs[i].sub ? size * 0.22 : 0));
-                x0 += segs[i].w;
-            }
-        }
+		// Paso "bonito" para los ticks
+		function niceStep(range, target) {
+			var raw = range / target, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
+			var f = raw / mag, s = f < 1.5 ? 1 : (f < 3.5 ? 2 : (f < 7.5 ? 5 : 10));
+			return s * mag;
+		}
 
-        // Paso "bonito" para los ticks
-        function niceStep(range, target) {
-            var raw = range / target, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
-            var f = raw / mag, s = f < 1.5 ? 1 : (f < 3.5 ? 2 : (f < 7.5 ? 5 : 10));
-            return s * mag;
-        }
+		function fmtTick(v) {
+			var r = Math.round(v * 1000) / 1000;
+			return (r === 0 ? 0 : r).toString();
+		}
 
-        function fmtTick(v) {
-            var r = Math.round(v * 1000) / 1000;
-            return (r === 0 ? 0 : r).toString();
-        }
+		/* ============================================================
+		   Vincular deslizador + campo numérico
+		   ============================================================ */
+		function bindPair(numEl, rangeEl, onChange) {
+			function clamp(v) {
+				var lo = parseFloat(numEl.min), hi = parseFloat(numEl.max);
+				return Math.min(hi, Math.max(lo, v));
+			}
+			rangeEl.addEventListener('input', function () {
+				numEl.value = rangeEl.value;
+				onChange();
+			});
+			numEl.addEventListener('input', function () {
+				var v = parseFloat(numEl.value);
+				if (isNaN(v)) { return; }
+				rangeEl.value = clamp(v);
+				onChange();
+			});
+			numEl.addEventListener('change', function () {
+				var v = parseFloat(numEl.value);
+				if (isNaN(v)) { v = parseFloat(rangeEl.defaultValue); }
+				v = clamp(v);
+				numEl.value = v;
+				rangeEl.value = v;
+				onChange();
+			});
+		}
 
-        /* ============================================================
-           Vincular deslizador + campo numérico
-           ============================================================ */
-        function bindPair(numEl, rangeEl, onChange) {
-            function clamp(v) {
-                var lo = parseFloat(numEl.min), hi = parseFloat(numEl.max);
-                return Math.min(hi, Math.max(lo, v));
-            }
-            rangeEl.addEventListener('input', function () {
-                numEl.value = rangeEl.value;
-                onChange();
-            });
-            numEl.addEventListener('input', function () {
-                var v = parseFloat(numEl.value);
-                if (isNaN(v)) { return; }
-                rangeEl.value = clamp(v);
-                onChange();
-            });
-            numEl.addEventListener('change', function () {
-                var v = parseFloat(numEl.value);
-                if (isNaN(v)) { v = parseFloat(rangeEl.defaultValue); }
-                v = clamp(v);
-                numEl.value = v;
-                rangeEl.value = v;
-                onChange();
-            });
-        }
+		function getNum(el, fallback) {
+			var v = parseFloat(el.value);
+			if (isNaN(v)) { v = fallback; }
+			return Math.min(parseFloat(el.max), Math.max(parseFloat(el.min), v));
+		}
 
-        function getNum(el, fallback) {
-            var v = parseFloat(el.value);
-            if (isNaN(v)) { v = fallback; }
-            return Math.min(parseFloat(el.max), Math.max(parseFloat(el.min), v));
-        }
+		function setPair(numEl, rangeEl, v) { numEl.value = v; rangeEl.value = v; }
 
-        function setPair(numEl, rangeEl, v) { numEl.value = v; rangeEl.value = v; }
+		/* ============================================================
+		   Simulación 1: R y T vs Λ
+		   ============================================================ */
+		var P1 = {
+			cv: document.getElementById('plot1'),
+			num: document.getElementById('eta1'),
+			rng: document.getElementById('eta1r'),
+			res: document.getElementById('res1'),
+			hover: null,
+			lamMin: 0.01, lamMax: 6.0
+		};
+		var S1 = { ctx: null, w: 0, h: 0 };
+		ensureSize(S1, P1.cv, 0.46, 340, 470);
+		var C_R = '#5E81B5', C_T = '#E19C24';
 
-        /* ============================================================
-           Simulación 1: R y T vs Λ
-           ============================================================ */
-        var P1 = {
-            cv: document.getElementById('plot1'),
-            num: document.getElementById('eta1'),
-            rng: document.getElementById('eta1r'),
-            res: document.getElementById('res1'),
-            hover: null,
-            lamMin: 0.01, lamMax: 6.0
-        };
-        var S1 = { ctx: null, w: 0, h: 0 };
-        ensureSize(S1, P1.cv, 0.46, 340, 470);
-        var C_R = '#5E81B5', C_T = '#E19C24';
+		function drawPlot1() {
+			var eta = getNum(P1.num, 1.02);
+			ensureSize(S1, P1.cv, 0.46, 340, 470);
+			var ctx = S1.ctx, W = S1.w, H = S1.h;
+			var fs = Math.max(0.62, Math.min(1, W / 760));
+			var ml = 78, mr = 30, mt = 92, mb = 66;
+			var pw = W - ml - mr, ph = H - mt - mb;
+			var xmin = 0, xmax = P1.lamMax, ymin = 0, ymax = 1.05;
+			function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
+			function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
 
-        function drawPlot1() {
-            var eta = getNum(P1.num, 1.02);
-            ensureSize(S1, P1.cv, 0.46, 340, 470);
-            var ctx = S1.ctx, W = S1.w, H = S1.h;
-            var fs = Math.max(0.62, Math.min(1, W / 760));
-            var ml = 78, mr = 30, mt = 78, mb = 66;
-            var pw = W - ml - mr, ph = H - mt - mb;
-            var xmin = 0, xmax = P1.lamMax, ymin = 0, ymax = 1.05;
-            function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
-            function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
+			ctx.clearRect(0, 0, W, H);
+			ctx.fillStyle = '#fff';
+			ctx.fillRect(ml, mt, pw, ph);
 
-            ctx.clearRect(0, 0, W, H);
-            ctx.fillStyle = '#fff';
-            ctx.fillRect(ml, mt, pw, ph);
+			// rejilla y ticks
+			var i, v;
+			ctx.lineWidth = 1;
+			for (i = 0; i <= 12; i++) {                      // x: cada 0.5
+				v = i * 0.5;
+				ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
+				ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
+				if (i % 2 === 0) {
+					drawText(ctx, String(v), X(v), mt + ph + 22, 14, 'center', '#555');
+				}
+			}
+			for (i = 0; i <= 10; i++) {                      // y: cada 0.1
+				v = i / 10;
+				ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
+				ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
+				if (i % 2 === 0) {
+					drawText(ctx, v.toFixed(1), ml - 10, Y(v) + 5, 14, 'right', '#555');
+				}
+			}
 
-            // rejilla y ticks
-            var i, v;
-            ctx.lineWidth = 1;
-            for (i = 0; i <= 12; i++) {                      // x: cada 0.5
-                v = i * 0.5;
-                ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
-                ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
-                if (i % 2 === 0) {
-                    drawText(ctx, String(v), X(v), mt + ph + 22, 14, 'center', '#555');
-                }
-            }
-            for (i = 0; i <= 10; i++) {                      // y: cada 0.1
-                v = i / 10;
-                ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
-                ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
-                if (i % 2 === 0) {
-                    drawText(ctx, v.toFixed(1), ml - 10, Y(v) + 5, 14, 'right', '#555');
-                }
-            }
+			// resonancias T = 1 en Λ = n/2
+			if (P1.res.checked) {
+				ctx.setLineDash([2, 5]); ctx.strokeStyle = '#005092'; ctx.lineWidth = 1.4;
+				for (i = 1; i <= 12; i++) {
+					ctx.beginPath(); ctx.moveTo(X(i / 2), mt); ctx.lineTo(X(i / 2), mt + ph); ctx.stroke();
+				}
+				ctx.setLineDash([]);
+			}
 
-            // resonancias T = 1 en Λ = n/2
-            if (P1.res.checked) {
-                ctx.setLineDash([2, 5]); ctx.strokeStyle = '#764ba2'; ctx.lineWidth = 1.4;
-                for (i = 1; i <= 12; i++) {
-                    ctx.beginPath(); ctx.moveTo(X(i / 2), mt); ctx.lineTo(X(i / 2), mt + ph); ctx.stroke();
-                }
-                ctx.setLineDash([]);
-            }
+			// marco
+			ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
+			ctx.strokeRect(ml, mt, pw, ph);
 
-            // marco
-            ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
-            ctx.strokeRect(ml, mt, pw, ph);
+			// curvas
+			var N = 1500, j, lam, rt, xs = [], rs = [], ts = [];
+			for (j = 0; j <= N; j++) {
+				lam = P1.lamMin + (P1.lamMax - P1.lamMin) * j / N;
+				rt = RT(eta, lam);
+				xs.push(lam); rs.push(rt[0]); ts.push(rt[1]);
+			}
+			ctx.save();
+			ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
+			ctx.lineJoin = 'round'; ctx.lineWidth = 2.8;
+			[[rs, C_R], [ts, C_T]].forEach(function (cu) {
+				ctx.strokeStyle = cu[1]; ctx.beginPath();
+				for (j = 0; j <= N; j++) {
+					if (j === 0) { ctx.moveTo(X(xs[j]), Y(cu[0][j])); } else { ctx.lineTo(X(xs[j]), Y(cu[0][j])); }
+				}
+				ctx.stroke();
+			});
+			ctx.restore();
 
-            // curvas
-            var N = 1500, j, lam, rt, xs = [], rs = [], ts = [];
-            for (j = 0; j <= N; j++) {
-                lam = P1.lamMin + (P1.lamMax - P1.lamMin) * j / N;
-                rt = RT(eta, lam);
-                xs.push(lam); rs.push(rt[0]); ts.push(rt[1]);
-            }
-            ctx.save();
-            ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
-            ctx.lineJoin = 'round'; ctx.lineWidth = 2.8;
-            [[rs, C_R], [ts, C_T]].forEach(function (cu) {
-                ctx.strokeStyle = cu[1]; ctx.beginPath();
-                for (j = 0; j <= N; j++) {
-                    if (j === 0) { ctx.moveTo(X(xs[j]), Y(cu[0][j])); } else { ctx.lineTo(X(xs[j]), Y(cu[0][j])); }
-                }
-                ctx.stroke();
-            });
-            ctx.restore();
+			// etiquetas de ejes y título
+			drawText(ctx, 'Λ = L/λ_dB', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
+			ctx.save();
+			ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
+			drawText(ctx, 'R, T', 0, 0, 17, 'center', '#333', 'bold');
+			ctx.restore();
+			drawText(ctx, 'Coeficientes de reflexión y transmisión', W / 2, 30, Math.round(20 * fs), 'center', '#333', 'bold');
+			drawText(ctx, 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV', W / 2, 56, Math.round(20 * fs), 'center', '#555');
 
-            // etiquetas de ejes y título
-            drawText(ctx, 'Λ = L/λ_dB', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
-            ctx.save();
-            ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
-            drawText(ctx, 'R, T', 0, 0, 17, 'center', '#333', 'bold');
-            ctx.restore();
-            drawText(ctx, 'Coeficientes de reflexión y transmisión', W / 2, 30, Math.round(20 * fs), 'center', '#333', 'bold');
-            drawText(ctx, 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV', W / 2, 56, Math.round(17 * fs), 'center', '#555');
+			// leyenda
+			var boxW = 112;                      // ancho de la caja (súbelo si el texto se sale)
+			var lx = ml + pw - (boxW - 10);      // alinea el borde derecho de la caja con el borde derecho del gráfico
+			var ly = mt - 60;                    // altura: la caja termina 4 px sobre el gráfico
+			ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
+			ctx.fillRect(lx - 10, ly - 6, 112, 62); ctx.strokeRect(lx - 10, ly - 6, 112, 62);
+			ctx.lineWidth = 3;
+			ctx.strokeStyle = C_R; ctx.beginPath(); ctx.moveTo(lx, ly + 10); ctx.lineTo(lx + 30, ly + 10); ctx.stroke();
+			drawText(ctx, 'R = |r|²', lx + 38, ly + 15, 17, 'left', '#333','bold');
+			ctx.strokeStyle = C_T; ctx.beginPath(); ctx.moveTo(lx, ly + 36); ctx.lineTo(lx + 30, ly + 36); ctx.stroke();
+			drawText(ctx, 'T = |t|²', lx + 38, ly + 41, 17, 'left', '#333','bold');
 
-            // leyenda
-            var lx = ml + pw - 120, ly = mt + 14;
-            ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
-            ctx.fillRect(lx - 10, ly - 6, 112, 62); ctx.strokeRect(lx - 10, ly - 6, 112, 62);
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = C_R; ctx.beginPath(); ctx.moveTo(lx, ly + 10); ctx.lineTo(lx + 30, ly + 10); ctx.stroke();
-            drawText(ctx, 'R = |r|²', lx + 38, ly + 15, 14, 'left', '#333');
-            ctx.strokeStyle = C_T; ctx.beginPath(); ctx.moveTo(lx, ly + 36); ctx.lineTo(lx + 30, ly + 36); ctx.stroke();
-            drawText(ctx, 'T = |t|²', lx + 38, ly + 41, 14, 'left', '#333');
+			// cursor
+			var lamC = P1.hover;
+			if (lamC !== null) {
+				var rc = RT(eta, lamC), xc = X(lamC);
+				ctx.strokeStyle = 'rgba(60,60,60,0.55)'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
+				ctx.beginPath(); ctx.moveTo(xc, mt); ctx.lineTo(xc, mt + ph); ctx.stroke();
+				ctx.setLineDash([]);
+				[[rc[0], C_R], [rc[1], C_T]].forEach(function (p) {
+					ctx.fillStyle = p[1]; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+					ctx.beginPath(); ctx.arc(xc, Y(p[0]), 6, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+				});
+				var bx = xc + 14, by = mt + ph - 74;
+				if (bx + 150 > ml + pw) { bx = xc - 164; }
+				ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.strokeStyle = '#667eea'; ctx.lineWidth = 1.5;
+				ctx.fillRect(bx, by, 150, 66); ctx.strokeRect(bx, by, 150, 66);
+				drawText(ctx, 'Λ = ' + lamC.toFixed(3), bx + 10, by + 20, 14, 'left', '#333', 'bold');
+				drawText(ctx, 'R = ' + rc[0].toFixed(4), bx + 10, by + 39, 14, 'left', C_R, 'bold');
+				drawText(ctx, 'T = ' + rc[1].toFixed(4), bx + 10, by + 58, 14, 'left', '#b9780f', 'bold');
+			}
 
-            // cursor
-            var lamC = P1.hover;
-            if (lamC !== null) {
-                var rc = RT(eta, lamC), xc = X(lamC);
-                ctx.strokeStyle = 'rgba(60,60,60,0.55)'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
-                ctx.beginPath(); ctx.moveTo(xc, mt); ctx.lineTo(xc, mt + ph); ctx.stroke();
-                ctx.setLineDash([]);
-                [[rc[0], C_R], [rc[1], C_T]].forEach(function (p) {
-                    ctx.fillStyle = p[1]; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
-                    ctx.beginPath(); ctx.arc(xc, Y(p[0]), 6, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
-                });
-                var bx = xc + 14, by = mt + ph - 74;
-                if (bx + 150 > ml + pw) { bx = xc - 164; }
-                ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.strokeStyle = '#667eea'; ctx.lineWidth = 1.5;
-                ctx.fillRect(bx, by, 150, 66); ctx.strokeRect(bx, by, 150, 66);
-                drawText(ctx, 'Λ = ' + lamC.toFixed(3), bx + 10, by + 20, 14, 'left', '#333', 'bold');
-                drawText(ctx, 'R = ' + rc[0].toFixed(4), bx + 10, by + 39, 14, 'left', C_R, 'bold');
-                drawText(ctx, 'T = ' + rc[1].toFixed(4), bx + 10, by + 58, 14, 'left', '#b9780f', 'bold');
-            }
+			updateInfo1(eta);
+		}
 
-            updateInfo1(eta);
-        }
+		function updateInfo1(eta) {
+			document.getElementById('i1_energy').textContent = 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV';
+			document.getElementById('i1_ratio').textContent = Math.sqrt((eta - 1) / eta).toFixed(3);
+			document.getElementById('i1_tmin').textContent = (4 * eta * (eta - 1) / Math.pow(2 * eta - 1, 2)).toFixed(4);
+			var h = P1.hover;
+			if (h === null) {
+				document.getElementById('i1_lam').textContent = '—';
+				document.getElementById('i1_R').textContent = '—';
+				document.getElementById('i1_T').textContent = '—';
+			} else {
+				var rt = RT(eta, h);
+				document.getElementById('i1_lam').textContent = h.toFixed(3);
+				document.getElementById('i1_R').textContent = rt[0].toFixed(4);
+				document.getElementById('i1_T').textContent = rt[1].toFixed(4);
+			}
+		}
 
-        function updateInfo1(eta) {
-            document.getElementById('i1_energy').textContent = 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV';
-            document.getElementById('i1_ratio').textContent = Math.sqrt((eta - 1) / eta).toFixed(3);
-            document.getElementById('i1_tmin').textContent = (4 * eta * (eta - 1) / Math.pow(2 * eta - 1, 2)).toFixed(4);
-            var h = P1.hover;
-            if (h === null) {
-                document.getElementById('i1_lam').textContent = '—';
-                document.getElementById('i1_R').textContent = '—';
-                document.getElementById('i1_T').textContent = '—';
-            } else {
-                var rt = RT(eta, h);
-                document.getElementById('i1_lam').textContent = h.toFixed(3);
-                document.getElementById('i1_R').textContent = rt[0].toFixed(4);
-                document.getElementById('i1_T').textContent = rt[1].toFixed(4);
-            }
-        }
+		function hoverFromEvent(e) {
+			var rect = P1.cv.getBoundingClientRect();
+			var pt = (e.touches && e.touches.length) ? e.touches[0] : e;
+			var px = (pt.clientX - rect.left) * (S1.w / rect.width);
+			var ml = 78, mr = 30, pw = S1.w - ml - mr;
+			var lam = (px - ml) / pw * P1.lamMax;
+			if (lam < P1.lamMin || lam > P1.lamMax) { P1.hover = null; } else { P1.hover = lam; }
+			drawPlot1();
+		}
+		P1.cv.addEventListener('mousemove', hoverFromEvent);
+		P1.cv.addEventListener('touchstart', hoverFromEvent, { passive: true });
+		P1.cv.addEventListener('touchmove', hoverFromEvent, { passive: true });
+		P1.cv.addEventListener('mouseleave', function () { P1.hover = null; drawPlot1(); });
 
-        function hoverFromEvent(e) {
-            var rect = P1.cv.getBoundingClientRect();
-            var pt = (e.touches && e.touches.length) ? e.touches[0] : e;
-            var px = (pt.clientX - rect.left) * (S1.w / rect.width);
-            var ml = 78, mr = 30, pw = S1.w - ml - mr;
-            var lam = (px - ml) / pw * P1.lamMax;
-            if (lam < P1.lamMin || lam > P1.lamMax) { P1.hover = null; } else { P1.hover = lam; }
-            drawPlot1();
-        }
-        P1.cv.addEventListener('mousemove', hoverFromEvent);
-        P1.cv.addEventListener('touchstart', hoverFromEvent, { passive: true });
-        P1.cv.addEventListener('touchmove', hoverFromEvent, { passive: true });
-        P1.cv.addEventListener('mouseleave', function () { P1.hover = null; drawPlot1(); });
+		bindPair(P1.num, P1.rng, drawPlot1);
+		P1.res.addEventListener('change', drawPlot1);
+		document.getElementById('reset1').addEventListener('click', function () {
+			setPair(P1.num, P1.rng, 1.02);
+			P1.res.checked = false;
+			P1.hover = null;
+			drawPlot1();
+		});
 
-        bindPair(P1.num, P1.rng, drawPlot1);
-        P1.res.addEventListener('change', drawPlot1);
-        document.getElementById('reset1').addEventListener('click', function () {
-            setPair(P1.num, P1.rng, 1.02);
-            P1.res.checked = false;
-            P1.hover = null;
-            drawPlot1();
-        });
+		/* Arranque */
+		drawPlot1();
+		window.addEventListener('resize', drawPlot1);
+		if (document.fonts) {
+			var redraw = function () { drawPlot2(); };
+			if (document.fonts.load) {
+				// fuerza la descarga de la fuente y redibuja cuando llega
+				Promise.all([document.fonts.load('400 16px ' + FONT), document.fonts.load('700 16px ' + FONT)])
+					.then(redraw, redraw);
+			}
+			if (document.fonts.ready) { document.fonts.ready.then(redraw); }
+		}
+		if (document.fonts && document.fonts.ready) {
+			document.fonts.ready.then(function () { drawPlot1(); });   // file 2: drawPlot2()
+		}
 
-        /* Arranque */
-        drawPlot1();
-        window.addEventListener('resize', drawPlot1);
-
-        /* ============================================================
-           Aviso de altura al contenedor (iframe de Moodle).
-           Envía la altura del contenido con postMessage para que
-           renderSimulation ajuste el iframe y no se recorte nada.
-           Si la página se abre sola, no hace nada.
-           ============================================================ */
-        (function () {
-            if (window.parent === window) { return; }
-            var last = 0, pending = false;
-            function send() {
-                pending = false;
-                var h = Math.ceil(document.body.getBoundingClientRect().height);
-                if (Math.abs(h - last) < 2) { return; }
-                last = h;
-                window.parent.postMessage({ type: 'sim-resize', height: h }, '*');
-            }
-            function schedule() {
-                if (pending) { return; }
-                pending = true;
-                window.requestAnimationFrame(send);
-            }
-            window.addEventListener('load', schedule);
-            window.addEventListener('resize', schedule);
-            if (window.ResizeObserver) { new ResizeObserver(schedule).observe(document.body); }
-            schedule();
-        })();
-    })();
-    </script>
+		/* ============================================================
+		   Aviso de altura al contenedor (iframe de Moodle).
+		   Envía la altura del contenido con postMessage para que
+		   renderSimulation ajuste el iframe y no se recorte nada.
+		   Si la página se abre sola, no hace nada.
+		   ============================================================ */
+		(function () {
+			if (window.parent === window) { return; }
+			var last = 0, pending = false;
+			function send() {
+				pending = false;
+				var h = Math.ceil(document.body.getBoundingClientRect().height);
+				if (Math.abs(h - last) < 2) { return; }
+				last = h;
+				window.parent.postMessage({ type: 'sim-resize', height: h }, '*');
+			}
+			function schedule() {
+				if (pending) { return; }
+				pending = true;
+				window.setTimeout(send, 30);
+			}
+			window.addEventListener('load', schedule);
+			window.addEventListener('resize', schedule);
+			if (window.ResizeObserver) { new ResizeObserver(schedule).observe(document.body); }
+			schedule();
+		})();
+	})();
+	</script>
 </body>
 </html>
