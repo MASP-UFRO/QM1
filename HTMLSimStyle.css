@@ -328,3 +328,12 @@ button {
 	overflow-y: hidden;
 	max-width: 100%;
 }
+
+/* Fila de ecuaciones y texto con espaciado automático */
+.eqrow {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	align-items: baseline;
+	gap: 6px 18px;
+}
