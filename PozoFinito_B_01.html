@@ -47,11 +47,11 @@
 					<span>\( \psi_j''(x)+k_j^2\,\psi_j(x)=0, \)</span>
 					<span>donde</span>
 					<span>\(
-						\begin{aligned}
+						\begin{align}
 							k_1 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{out})} = k_\text{out},\\
-							k_2 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{in})} = k_\text{in},\\
+							k_2 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{in})}  = k_\text{in},\\
 							k_3 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{out})} = k_\text{out}.
-						\end{aligned}
+						\end{align}
 					\)</span>
 				</div>
 				<p>Las soluciones para cada región serán de la forma</p>
@@ -78,11 +78,11 @@
 				</ul>
 				<p>Con estas sustituciones, podemos escribir también que</p>
 				\[
-					\begin{aligned}
-						k_\text{in} &= \sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}, \\
-						k_\text{out} &= \sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}, \\
-						\Lambda &= L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}} &&= \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}.
-					\end{aligned}
+					\begin{array}{rcccl}
+						k_\text{in} &=& \sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}} &=& \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}, \\
+						k_\text{out} &=& \sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)} &=& \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}, \\
+						\Lambda &=& L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}} &=& \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}.
+					\end{array}
 				\]
 
 				<h2>Condiciones de continuidad</h2>
@@ -115,7 +115,7 @@
 				</div>
 				<p>Es decir, habrá comportamiento oscilatorio en la Región <span class="reg r2">2</span> y comportamiento exponencial en las Regiones <span class="reg r1">1</span> y <span class="reg r3">3</span>.</p>
 				\[
-					\begin{array}{rcrcl}
+					\begin{array}{rcccl}
 						\psi_1 & = & A_1e^{-\gamma_\text{out}x} & + & B_1e^{\gamma_\text{out}x}, \\
 						\psi_2 & = & A_2e^{ik_\text{in}x} & + & B_2e^{-ik_\text{in}x}, \\
 						\psi_3 & = & A_3e^{-\gamma_\text{out}x} & + & B_3e^{\gamma_\text{out}x}.
@@ -128,11 +128,11 @@
 				</ul>
 				<p>Si imponemos de antemano que \(A_1=B_3=0\), no tendremos que lidiar con ninguna de esas divergencias. Con ello, ya vemos que la función de onda tendrá comportamiento oscilatorio en la Región <span class="reg r2">2</span> y comportamiento <i>evanescente</i> en las Regiones <span class="reg r1">1</span> y <span class="reg r3">3</span>:</p>
 				\[
-					\begin{array}{rcrcl}
-						\psi_1 & = & B_1e^{\gamma_\text{out}x} & & , \\
-						\psi_2 & = & A_2e^{ik_\text{in}x} & + & B_2e^{-ik_\text{in}x}, \\
-						\psi_3 & = & A_3e^{-\gamma_\text{out}x} & & .
-					\end{array}
+					\begin{align}
+						\psi_1 & = B_1e^{\gamma_\text{out}x}, \\
+						\psi_2 & = A_2e^{ik_\text{in}x} + B_2e^{-ik_\text{in}x}, \\
+						\psi_3 & = A_3e^{-\gamma_\text{out}x}.
+					\end{align}
 				\]
 				<p>Tenemos un grado de <b>confinamiento</b>. Cuando un estado se encuentra confinado debido a que su energía no supera el valor del potencial salvo en regiones acotadas diremos que este estado es un <b>estado ligado</b> (<i>bound states</i>). Los del caso (a), en cambio, suelen llamarse <i>estados de scattering</i>.</p>
 				<p>Puede notar también que \(k_\text{in}^2+\gamma_\text{out}^2=\dfrac{2m\,\Delta V}{\hbar^2}\)</p>
@@ -151,11 +151,11 @@
 				Recordemos que habíamos construido las funciones de onda por tramos,</p>
 				<div class="eqrow">
 					<span>\(
-						\begin{array}{rcrcl}
-							\psi_1 & = & B_1e^{\gamma_\text{out}x} & & , \\
-							\psi_2 & = & A_2e^{ik_\text{in}x} & + & B_2e^{-ik_\text{in}x}, \\
-							\psi_3 & = & A_3e^{-\gamma_\text{out}x} & & .
-						\end{array}
+						\begin{align}
+							\psi_1 & = B_1e^{\gamma_\text{out}x}, \\
+							\psi_2 & = A_2e^{ik_\text{in}x} + B_2e^{-ik_\text{in}x}, \\
+							\psi_3 & = A_3e^{-\gamma_\text{out}x}.
+						\end{align}
 					\)</span>
 					<span>que también podemos expresar como</span>
 					<span>\(
@@ -346,8 +346,9 @@
 							\text{Impares} & : & \sqrt{1-\eta}\sin(\pi\Lambda) & = & -\sqrt{\eta}\cos(\pi\Lambda),
 						\end{array}
 					\)</span>
-					<span>donde \(\Lambda=\dfrac{L}{2\pi}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta},\)</span>
-				</div>
+					<span>donde</span>
+					<span>\(\Lambda=\dfrac{L}{2\pi}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta},\)</span>
+				</div><br>
 				<p>o bien como \(F_\text{par}(\eta)=0\) y \(F_\text{impar}(\eta)=0\), donde</p>
 				<div class="eqrow">
 					<span>\(
@@ -356,7 +357,8 @@
 							F_\text{impar}(\eta) &= \sqrt{1-\eta}\sin(c\sqrt{\eta})+\sqrt{\eta}\cos(c\sqrt{\eta}),
 						\end{aligned}
 					\)</span>
-					<span>siendo \(c=\dfrac{L}{2}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}.\)</span>
+					<span>siendo</span>
+					<span>\(c=\dfrac{L}{2}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}.\)</span>
 				</div>
 				<p>Estas simplificaciones nos permiten empezar la búsqueda.</p>
 				<ul>
@@ -490,7 +492,15 @@
 						\[ n_{\max}=n\left(\varphi=\tfrac{\pi}{2}\right)=\frac{2}{\pi}\left(\frac{\pi}{2}+c\sin\frac{\pi}{2}\right)=1+\frac{2c}{\pi}. \]
 					</li>
 					<li>Pero \(n_{\max}\) debe ser un número entero y \(\frac{2c}{\pi}\) puede no serlo. Podemos forzarlo como
-						\[ n_{\max}=\left\lfloor 1+\frac{2c}{\pi}\right\rfloor\ =\ \left\lceil\frac{2c}{\pi}\right\rceil,\quad\text{donde } \lfloor x\rfloor \text{ denota la parte entera de } x \text{ y } \lceil x\rceil \text{ es la función techo (ceiling).} \]
+						<div class="eqrow">
+							<span>\(n_{\max}=\left\lfloor 1+\frac{2c}{\pi}\right\rfloor\ =\ \left\lceil\frac{2c}{\pi}\right\rceil\),</span>
+							<span>donde</span>
+							<span>\(\lfloor x\rfloor\)</span>
+							<span>denota la parte entera de \(x\) y </span>
+							<span>\( \lceil x\rceil \)</span>
+							<span>es la función techo (ceiling).</span>
+						</div> 
+						\[ ,\quad\text{donde } \lfloor x\rfloor \text{ denota la parte entera de } x \text{ y } \lceil x\rceil \text{ es la función techo (ceiling).} \]
 					</li>
 					<li>Con esto, concluimos que \(1\le n\le\left\lceil\frac{2c}{\pi}\right\rceil\) y que <i><b>existirán </b></i>\(n_\text{bnd}=\left\lceil\frac{2c}{\pi}\right\rceil\)<i><b> estados ligados</b></i>.</li>
 					<li>Para interpretar mejor este número de estados ligados:
