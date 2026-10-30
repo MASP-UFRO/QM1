@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Teoría (caso b)</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Diagramas de flujo: columna izquierda con ecuaciones, columna derecha con texto */
+		.flow { display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: 2px 22px; align-items: center; margin: 0.9em 0; }
+		.flow .l { text-align: center; }
+		.flow .r::before { content: "\2022\00a0\00a0"; }
+		.flow .r.nob::before { content: none; }
+		.flow .sub { display: block; margin-left: 1.4em; }
+		@media (max-width: 620px) { .flow { grid-template-columns: minmax(0, 1fr); } .flow .l { text-align: left; } }
+	</style>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+				<h2>Pozo finito de potencial, caso (b)</h2>
+				<p>Este archivo muestra cómo resolver la ecuación de Schrödinger independiente del tiempo (<b>ESIT</b>) para un pozo finito de potencial cuando la energía de la partícula es mayor que el mínimo del potencial, pero menor que el máximo.</p>
+				<figure>
+					<img src="PozoFinito_B_01_Fig.svg" alt="Pozo de potencial finito dividido en tres regiones, con la energía entre el fondo del pozo y el potencial exterior">
+					<figcaption>Las tres regiones: <span class="reg r1">1</span> \(x<-L/2\), <span class="reg r2">2</span> \(|x|\le L/2\) (interior del pozo) y <span class="reg r3">3</span> \(x>L/2\).</figcaption>
+				</figure>
+				<p>Para cada región indicada en la figura tendremos una ESIT de la forma</p>
+				<div class="eqrow">
+					<span>\( -\dfrac{\hbar^2}{2m}\,\dfrac{d^2\psi_j}{dx^2}+V_j\,\psi_j=\mathcal{E}\,\psi_j, \)</span>
+					<span>donde</span>
+					<span>\( j=1,2,3, \)</span>
+					<span>\( V_1=V_3=V_\text{out} \)</span>
+					<span>y</span>
+					<span>\( V_2=V_\text{in}. \)</span>
+				</div>
+				<p>Estas ecuaciones son equivalentes a</p>
+				<div class="eqrow">
+					<span>\( \psi_j''(x)+k_j^2\,\psi_j(x)=0, \)</span>
+					<span>donde</span>
+					<span>\(
+						\begin{aligned}
+							k_1 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{out})} = k_\text{out},\\
+							k_2 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{in})} = k_\text{in},\\
+							k_3 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{out})} = k_\text{out}.
+						\end{aligned}
+					\)</span>
+				</div>
+				<p>Las soluciones para cada región serán de la forma</p>
+				<div class="eqrow">
+					<span>\( \psi_j(x)=A_j\,e^{i k_j x}+B_j\,e^{-i k_j x}, \)</span>
+					<span>donde los coeficientes \(A_j\) y \(B_j\) son incógnitas a determinar.</span>
+				</div>
+				<p>Note que si la energía \(\mathcal{E}\) es menor que alguno de los \(V_j\), ocurrirá que el respectivo \(k_j\) será un número puramente imaginario: \(k_j\to i\gamma_j\).</p>
+				<p>Para simplificar la descripción, hay algunos parámetros auxiliares que usaremos en ocasiones:</p>
+				<ul>
+					<li>\(\Delta V=V_\text{out}-V_\text{in}\): la “profundidad” del pozo.</li>
+					<li>\(\Delta\mathcal{E}=\mathcal{E}-V_\text{in}\): indica cuánto sobresale la energía \(\mathcal{E}\) por encima del fondo del pozo.</li>
+					<li>\(\eta=\Delta\mathcal{E}/\Delta V\): ubicación de la energía \(\mathcal{E}\) relativa a la profundidad del pozo. <br>
+						Por ejemplo, \(\eta=\frac{1}{2}\) indica que \(\mathcal{E}\) está exactamente a la mitad entre \(V_\text{in}\) y \(V_\text{out}\).</li>
+					<li>\(\lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}}\): longitud de onda de de&nbsp;Broglie de la partícula, tomando \(\Delta\mathcal{E}\) como referencia.
+						<ul>
+							<li>Imagine que la energía cinética (\(p^2/2m\)) de la partícula fuese \(\Delta\mathcal{E}\).</li>
+							<li>Entonces, \(p=\sqrt{2m\,\Delta\mathcal{E}}\).</li>
+							<li>La hipótesis de de&nbsp;Broglie dice que \(p=\hbar\,k\), donde \(k=2\pi/\lambda_\text{dB}\).</li>
+							<li>Despejando, se obtiene que \(\lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}}\).</li>
+						</ul>
+					</li>
+					<li>\(\Lambda=L/\lambda_\text{dB}\): ancho del pozo, pero expresado en múltiplos de \(\lambda_\text{dB}\).</li>
+				</ul>
+				<p>Con estas sustituciones, podemos escribir también que</p>
+				\[
+					\begin{aligned}
+						k_\text{in} &= \sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}, \\
+						k_\text{out} &= \sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}, \\
+						\Lambda &= L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}} &&= \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}.
+					\end{aligned}
+				\]
+
+				<h2>Condiciones de continuidad</h2>
+				<p>Se impone que la función de onda sea continua para que la probabilidad de encontrar a la partícula en una zona no tenga vacíos físicamente inadmisibles.</p>
+				<p>Dado que el potencial \(V(x)\) es finito en todo su dominio, la derivada de la función de Honda también es continua.</p>
+				<p>Los puntos “problemáticos” son \(x=\pm L/2\), que es donde el potencial exhibe discontinuidades y, a causa de ello, es también donde separamos la función de onda en tramos. Impondremos las condiciones de continuidad en esos puntos \(x=\pm L/2\):</p>
+				\[
+					\begin{align*}
+						\psi_1(-L/2)&=\psi_2(-L/2) &\Rightarrow\quad& A_1e^{-iLk_\text{out}/2}+B_1e^{iLk_\text{out}/2} = A_2e^{-iLk_\text{in}/2}+B_2e^{iLk_\text{in}/2}, \\
+						\psi_1'(-L/2)&=\psi_2'(-L/2) &\Rightarrow\quad& ik_\text{out}\left(A_1e^{-iLk_\text{out}/2}-B_1e^{iLk_\text{out}/2}\right) = ik_\text{in}\left(A_2e^{-iLk_\text{in}/2}-B_2e^{iLk_\text{in}/2}\right), \\
+						\psi_2(+L/2)&=\psi_3(+L/2) &\Rightarrow\quad& A_2e^{iLk_\text{in}/2}+B_2e^{-iLk_\text{in}/2} = A_3e^{iLk_\text{out}/2}+B_3e^{-iLk_\text{out}/2}, \\
+						\psi_2'(+L/2)&=\psi_3'(+L/2) &\Rightarrow\quad& ik_\text{in}\left(A_2e^{iLk_\text{in}/2}-B_2e^{-iLk_\text{in}/2}\right) = ik_\text{out}\left(A_3e^{iLk_\text{out}/2}-B_3e^{-iLk_\text{out}/2}\right).
+					\end{align*}
+				\]
+				<p>Así, estas cuatro ecuaciones forman un sistema de ecuaciones lineales para los coeficientes \(A_1, B_1, A_2, B_2, A_3, B_3\). Otras ecuaciones y/o condiciones adicionales se verán caso a caso.</p>
+
+				<h2>Caso (b): \(V_\text{out}>\mathcal{E}>V_\text{in}\)</h2>
+				<p>Aquí ocurrirá que</p>
+				<div class="eqrow">
+					<span>\( k_1=k_3=i\gamma_\text{out} \)</span>
+					<span>y</span>
+					<span>\( k_2=k_\text{in}, \)</span>
+					<span>donde</span>
+					<span>\(
+						\left\{\begin{aligned}
+							k_\text{in} &= \sqrt{\tfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{in})}\,,\\
+							\gamma_\text{out} &= \sqrt{\tfrac{2m}{\hbar^2}(V_\text{out}-\mathcal{E})}\,.
+						\end{aligned}\right.
+					\)</span>
+				</div>
+				<p>Es decir, habrá comportamiento oscilatorio en la Región <span class="reg r2">2</span> y comportamiento exponencial en las Regiones <span class="reg r1">1</span> y <span class="reg r3">3</span>.</p>
+				\[
+					\begin{array}{rcrcl}
+						\psi_1 & = & A_1e^{-\gamma_\text{out}x} & + & B_1e^{\gamma_\text{out}x}, \\
+						\psi_2 & = & A_2e^{ik_\text{in}x} & + & B_2e^{-ik_\text{in}x}, \\
+						\psi_3 & = & A_3e^{-\gamma_\text{out}x} & + & B_3e^{\gamma_\text{out}x}.
+					\end{array}
+				\]
+				<p>Las exponenciales reales pueden converger asintoticamente a cero o diverger cuando nos alejamos del origen. Considerando que \(\gamma_\text{out}\) es positivo:</p>
+				<ul>
+					<li>En la Región <span class="reg r1">1</span>, \(e^{-\gamma_\text{out}x}\) diverge cuando \(x\to-\infty\).</li>
+					<li>En la Región <span class="reg r3">3</span>, \(e^{+\gamma_\text{out}x}\) diverge cuando \(x\to+\infty\).</li>
+				</ul>
+				<p>Si imponemos de antemano que \(A_1=B_3=0\), no tendremos que lidiar con ninguna de esas divergencias. Con ello, ya vemos que la función de onda tendrá comportamiento oscilatorio en la Región <span class="reg r2">2</span> y comportamiento <i>evanescente</i> en las Regiones <span class="reg r1">1</span> y <span class="reg r3">3</span>:</p>
+				\[
+					\begin{array}{rcrcl}
+						\psi_1 & = & B_1e^{\gamma_\text{out}x} & & , \\
+						\psi_2 & = & A_2e^{ik_\text{in}x} & + & B_2e^{-ik_\text{in}x}, \\
+						\psi_3 & = & A_3e^{-\gamma_\text{out}x} & & .
+					\end{array}
+				\]
+				<p>Tenemos un grado de <b>confinamiento</b>. Cuando un estado se encuentra confinado debido a que su energía no supera el valor del potencial salvo en regiones acotadas diremos que este estado es un <b>estado ligado</b> (<i>bound states</i>). Los del caso (a), en cambio, suelen llamarse <i>estados de scattering</i>.</p>
+				<p>Puede notar también que \(k_\text{in}^2+\gamma_\text{out}^2=\dfrac{2m\,\Delta V}{\hbar^2}\)</p>
+
+				<h2>Paridad de las eigenfunciones</h2>
+				<p>Este pozo de potencial, en la forma en que fue definido, es una función <i>par</i> ya que \(V(-x)=V(x)\). Debido a ello, el operador hamiltoniano conmuta con el operador de paridad. Y nosotros sabemos que dos observables que conmuten <i>pueden</i> escribirse con los mismos estados propios.</p>
+				\[
+					[\hat{H},\hat{\Pi}]=\hat{\mathbb{O}}
+					\quad\Leftrightarrow\quad
+					\exists\,|\Psi_n\rangle:\quad
+					\hat{H}|\Psi_n\rangle=\mathcal{E}_n|\Psi_n\rangle
+					\ \wedge\
+					\hat{\Pi}|\Psi_n\rangle=s_n|\Psi_n\rangle,\quad s_n=\pm1.
+				\]
+				<p>Debido a lo anterior, las funciones de onda propias de este pozo podrán categorizarse en eigenfunciones <i>pares</i> e <i>impares</i>.<br>
+				Recordemos que habíamos construido las funciones de onda por tramos,</p>
+				<div class="eqrow">
+					<span>\(
+						\begin{array}{rcrcl}
+							\psi_1 & = & B_1e^{\gamma_\text{out}x} & & , \\
+							\psi_2 & = & A_2e^{ik_\text{in}x} & + & B_2e^{-ik_\text{in}x}, \\
+							\psi_3 & = & A_3e^{-\gamma_\text{out}x} & & .
+						\end{array}
+					\)</span>
+					<span>que también podemos expresar como</span>
+					<span>\(
+						\Psi(x)=\begin{cases}
+							B_1e^{\gamma_\text{out}x} & x\lt -\frac{L}{2}\\
+							A_2e^{ik_\text{in}x}+B_2e^{-ik_\text{in}x} & -\frac{L}{2}\le x\lt\frac{L}{2}\\
+							A_3e^{-\gamma_\text{out}x} & \frac{L}{2}\lt x
+						\end{cases}
+					\)</span>
+				</div>
+				<p>Si tomamos en cuenta la opción de paridad,</p>
+				\[
+					\Psi_\text{par}(-x)=+\Psi_\text{par}(x)\quad\Rightarrow\quad
+					\Psi_\text{par}(x)=\begin{cases}
+						B_1e^{\gamma_\text{out}x} & x\lt -\frac{L}{2}\\
+						2A_2\cos(k_\text{in}x) & -\frac{L}{2}\le x\lt\frac{L}{2}\\
+						B_1e^{-\gamma_\text{out}x} & \frac{L}{2}\lt x
+					\end{cases}
+				\]
+				<p style="text-align:center">y</p>
+				\[
+					\Psi_\text{impar}(-x)=-\Psi_\text{impar}(x)\quad\Rightarrow\quad
+					\Psi_\text{impar}(x)=\begin{cases}
+						-B_1e^{\gamma_\text{out}x} & x\lt -\frac{L}{2}\\
+						2i\,A_2\sin(k_\text{in}x) & -\frac{L}{2}\le x\lt\frac{L}{2}\\
+						B_1e^{-\gamma_\text{out}x} & \frac{L}{2}\lt x
+					\end{cases}
+				\]
+				<p>Vemos que la paridad puede aprovecharse a favor para eliminar incógnitas. Si bien ahora tenemos dos ramas, pares e impares, cada rama solo tiene 2 incógnitas en vez de 4. Incluso podemos simplificar esto aún más al reabsorber las constantes \(A_2\) y \(B_1\) en nuevas constantes:</p>
+				<div class="eqrow">
+					<span>\(
+						\Psi_\text{par}(x)=\begin{cases}
+							\mathcal{B}_\text{par}e^{\gamma_\text{out}x} & x\lt -\frac{L}{2}\\
+							\mathcal{A}_\text{par}\cos(k_\text{in}x) & -\frac{L}{2}\le x\lt\frac{L}{2}\\
+							\mathcal{B}_\text{par}e^{-\gamma_\text{out}x} & \frac{L}{2}\lt x
+						\end{cases}
+					\)</span>
+					<span>\(
+						\Psi_\text{impar}(x)=\begin{cases}
+							-\mathcal{B}_\text{impar}e^{\gamma_\text{out}x} & x\lt -\frac{L}{2}\\
+							\mathcal{A}_\text{impar}\sin(k_\text{in}x) & -\frac{L}{2}\le x\lt\frac{L}{2}\\
+							\mathcal{B}_\text{impar}e^{-\gamma_\text{out}x} & \frac{L}{2}\lt x
+						\end{cases}
+					\)</span>
+				</div>
+				<p>En el caso <b>(a)</b>, el potencial es simétrico, pero el contexto fue interpretado como asimétrico: la partícula venía desde una dirección específica y usamos esa amplitud incidente como referencia. Es por ello que no utilizamos la paridad para analizar ese caso. No obstante, si no nos hubiera importado la interpretación y solo hubiésemos querido calcular soluciones, también podríamos haber aplicado las simplificaciones debido a la simetría de paridad.</p>
+
+				<h2>Sistemas de ecuaciones y condiciones sobre la energía</h2>
+				<p>Ahora tendremos un sistema de ecuaciones para la rama par y otro para la rama impar. Incorporando también las modificaciones \(k_\text{out}\to i\gamma_\text{out}\), \(A_1\to0\) y \(B_3\to0\), tendremos</p>
+				<div class="eqrow">
+					<span>\(
+						\left(\begin{array}{rcl}
+							\mathcal{B}_\text{par}\,e^{-\frac{L\gamma_\text{out}}{2}} & = & \mathcal{A}_\text{par}\cos\left(\frac{Lk_\text{in}}{2}\right) \\
+							\gamma_\text{out}\,\mathcal{B}_\text{par}\,e^{-\frac{L\gamma_\text{out}}{2}} & = & k_\text{in}\,\mathcal{A}_\text{par}\sin\left(\frac{Lk_\text{in}}{2}\right) \\
+							\mathcal{A}_\text{par}\cos\left(\frac{Lk_\text{in}}{2}\right) & = & \mathcal{B}_\text{par}\,e^{-\frac{L\gamma_\text{out}}{2}} \\
+							-k_\text{in}\,\mathcal{A}_\text{par}\sin\left(\frac{Lk_\text{in}}{2}\right) & = & -\gamma_\text{out}\,\mathcal{B}_\text{par}\,e^{-\frac{L\gamma_\text{out}}{2}}
+						\end{array}\right)
+					\)</span>
+					<span>y</span>
+					<span>\(
+						\left(\begin{array}{rcl}
+							-\mathcal{B}_\text{impar}\,e^{-\frac{L\gamma_\text{out}}{2}} & = & -\mathcal{A}_\text{impar}\sin\left(\frac{Lk_\text{in}}{2}\right) \\
+							-\gamma_\text{out}\,\mathcal{B}_\text{impar}\,e^{-\frac{L\gamma_\text{out}}{2}} & = & k_\text{in}\,\mathcal{A}_\text{impar}\cos\left(\frac{Lk_\text{in}}{2}\right) \\
+							\mathcal{A}_\text{impar}\sin\left(\frac{Lk_\text{in}}{2}\right) & = & \mathcal{B}_\text{impar}\,e^{-\frac{L\gamma_\text{out}}{2}} \\
+							k_\text{in}\,\mathcal{A}_\text{impar}\cos\left(\frac{Lk_\text{in}}{2}\right) & = & -\gamma_\text{out}\,\mathcal{B}_\text{impar}\,e^{-\frac{L\gamma_\text{out}}{2}}
+						\end{array}\right)
+					\)</span>
+				</div>
+				<p>En ambas ramas se puede notar que las últimas dos ecuaciones son equivalentes a las dos primeras ecuaciones, de modo que los sistemas tienen dos ecuaciones efectivas:</p>
+				<div class="eqrow">
+					<span>\(
+						\left(\begin{array}{rcl}
+							\mathcal{A}_\text{par}\cos\left(\frac{Lk_\text{in}}{2}\right) & = & \mathcal{B}_\text{par}\,e^{-\frac{L\gamma_\text{out}}{2}} \\
+							k_\text{in}\,\mathcal{A}_\text{par}\sin\left(\frac{Lk_\text{in}}{2}\right) & = & \gamma_\text{out}\,\mathcal{B}_\text{par}\,e^{-\frac{L\gamma_\text{out}}{2}}
+						\end{array}\right)
+					\)</span>
+					<span>y</span>
+					<span>\(
+						\left(\begin{array}{rcl}
+							\mathcal{A}_\text{impar}\sin\left(\frac{Lk_\text{in}}{2}\right) & = & \mathcal{B}_\text{impar}\,e^{-\frac{L\gamma_\text{out}}{2}} \\
+							k_\text{in}\,\mathcal{A}_\text{impar}\cos\left(\frac{Lk_\text{in}}{2}\right) & = & -\gamma_\text{out}\,\mathcal{B}_\text{impar}\,e^{-\frac{L\gamma_\text{out}}{2}}
+						\end{array}\right)
+					\)</span>
+				</div>
+				<p>Cada sistema solo tiene dos ecuaciones y dos incógnitas. Se pueden representar matricialmente como \(\mathbf{M}_s\cdot\vec{v}_s=\vec{0},\) donde:</p>
+				<ul>
+					<li>El subíndice \(s\) denota la paridad, <i>par</i> o <i>impar</i>. Usaremos \(s\) como el nombre de la paridad o como un signo \(\pm\) indistintamente.</li>
+					<li>\(\mathbf{M}_s\) es la matriz de coeficientes,
+						\[
+							\mathbf{M}_\text{par}=\begin{pmatrix}
+								e^{\frac{L\gamma_\text{out}}{2}}\cos\left(\frac{Lk_\text{in}}{2}\right) & -1 \\
+								k_\text{in}\,e^{\frac{L\gamma_\text{out}}{2}}\sin\left(\frac{Lk_\text{in}}{2}\right) & -\gamma_\text{out}
+							\end{pmatrix}
+							\quad\text{y}\quad
+							\mathbf{M}_\text{impar}=\begin{pmatrix}
+								e^{\frac{L\gamma_\text{out}}{2}}\sin\left(\frac{Lk_\text{in}}{2}\right) & -1 \\
+								k_\text{in}\,e^{\frac{L\gamma_\text{out}}{2}}\cos\left(\frac{Lk_\text{in}}{2}\right) & \gamma_\text{out}
+							\end{pmatrix}.
+						\]
+					</li>
+					<li>\(\vec{v}_s\) es el vector que contiene a las incógnitas,
+						\[
+							\vec{v}_s=\begin{pmatrix}\mathcal{A}_s\\ \mathcal{B}_s\end{pmatrix}.
+						\]
+					</li>
+				</ul>
+				<p>Ambos son sistemas homogéneos cuya solución es \(\vec{v}_s=\vec{0}\) (solución trivial). Esta solución es muy poco conveniente porque nos dice que la función de onda, básicamente, <i>no existe</i>. ¿Cómo evadimos la solución trivial? Si imponemos que el sistema de ecuaciones sea <i>linealmente dependiente</i>, entonces podremos escribir algunas de las incógnitas en función de la otras de forma no trivial. La dependencia lineal se puede forzar imponiendo que</p>
+				\[ \det(\mathbf{M}_s)=0. \]
+				<p>Esto se debe a que \(\det(\mathbf{M}_s)=0\) implica que \(\mathbf{M}_s\) no es invertible, de modo que la ruta \(\vec{v}=\mathbf{M}_s^{-1}\cdot\vec{0}=\vec{0}\) no sería matemáticamente válida. Así se evade la solución trivial.</p>
+				<p>Usando operadores lógicos,</p>
+				\[
+					\begin{array}{rcl}
+						\overbrace{\vec{v}_s\neq\vec{0}}^{\text{Queremos}:}\ \wedge\ \overbrace{\mathbf{M}_s\vec{v}_s=\vec{0}}^{\text{Tenemos}:}
+						& \Leftrightarrow &
+						\vec{v}_s\neq\vec{0}\ \wedge\ \left(\vec{v}_s=\mathbf{M}_s^{-1}\vec{0}\ \vee\ \nexists\,\mathbf{M}_s^{-1}\right) \\[6pt]
+						& \Leftrightarrow &
+						\vec{v}_s\neq\vec{0}\ \wedge\ \left(\vec{v}_s=\vec{0}\ \vee\ \det(\mathbf{M}_s)=0\right) \\[6pt]
+						& \Leftrightarrow &
+						\underbrace{\left(\vec{v}_s\neq\vec{0}\ \wedge\ \vec{v}_s=\vec{0}\right)}_{\text{Contradicción}}\ \vee\ \left(\vec{v}_s\neq\vec{0}\ \wedge\ \det(\mathbf{M}_s)=0\right) \\[6pt]
+						& \Leftrightarrow &
+						\vec{v}_s\neq\vec{0}\ \wedge\ \det(\mathbf{M}_s)=0
+					\end{array}
+				\]
+				<p><i>Si no hubiéramos considerado la simetría de paridad</i>, el sistema de ecuaciones modificado con \(k_\text{out}\to i\gamma_\text{out}\), \(A_1\to0\) y \(B_3\to0\) sería</p>
+				\[
+					\begin{align*}
+						B_1e^{-\frac{L\gamma_\text{out}}{2}} &= A_2e^{-\frac{1}{2}iLk_\text{in}}+B_2e^{\frac{1}{2}iLk_\text{in}} \\
+						B_1\gamma_\text{out}e^{-\frac{L\gamma_\text{out}}{2}} &= iA_2k_\text{in}e^{-\frac{1}{2}iLk_\text{in}}-iB_2k_\text{in}e^{\frac{1}{2}iLk_\text{in}} \\
+						A_2e^{\frac{1}{2}iLk_\text{in}}+B_2e^{-\frac{1}{2}iLk_\text{in}} &= A_3e^{-\frac{L\gamma_\text{out}}{2}} \\
+						iA_2k_\text{in}e^{\frac{1}{2}iLk_\text{in}}-iB_2k_\text{in}e^{-\frac{1}{2}iLk_\text{in}} &= -A_3\gamma_\text{out}e^{-\frac{L\gamma_\text{out}}{2}}
+					\end{align*}
+				\]
+				<p>Hay 4 ecuaciones y 4 incógnitas, \(B_1, A_2, B_2, A_3\). En este caso, el sistema también se puede representar como \(\mathbf{M}\cdot\vec{v}=\vec{0},\) solo que los vectores y matrices serán de dimensión 4. Y también se debe imponer \(\det(\mathbf{M})=0\) para evitar la solución trivial. Al final, se llega a los mismos resultados que considerando la paridad, pero el camino es un poco más largo.</p>
+
+				<h2>Discretización de la energía</h2>
+				<p>Acabamos de ver que se necesita imponer \(\det(\mathbf{M}_s)=0\). Para el sistema de ecuaciones de este caso,</p>
+				<div class="eqrow">
+					<span>\(
+						\left(\begin{array}{rcl}
+							\det(\mathbf{M}_\text{par})=0 & \Rightarrow & k_\text{in}\sin\left(\frac{Lk_\text{in}}{2}\right)=\gamma_\text{out}\cos\left(\frac{Lk_\text{in}}{2}\right) \\[6pt]
+							\det(\mathbf{M}_\text{impar})=0 & \Rightarrow & \gamma_\text{out}\sin\left(\frac{Lk_\text{in}}{2}\right)=-k_\text{in}\cos\left(\frac{Lk_\text{in}}{2}\right)
+						\end{array}\right),
+					\)</span>
+					<span>donde</span>
+					<span>\(
+						\left\{\begin{aligned}
+							k_\text{in} &= \sqrt{\tfrac{2m}{\hbar^2}\,\Delta\mathcal{E}}\,,\\
+							\gamma_\text{out} &= \sqrt{\tfrac{2m}{\hbar^2}\,(\Delta V-\Delta\mathcal{E})}\,.
+						\end{aligned}\right.
+					\)</span>
+				</div>
+				<p>Todos los parámetros que aparecen en esta imposición se pueden resumir en:</p>
+				<ul>
+					<li>\(m\), la masa de la partícula. Es fija.</li>
+					<li>\(L\), el ancho del pozo. Si bien se puede ajustar <i>externamente, </i>es fija para un pozo dado.</li>
+					<li>\(\Delta V=V_\text{out}-V_\text{in}\), la profundidad del pozo. También es fija para un pozo dado (y ajustable solo externamente).</li>
+					<li>\(\Delta\mathcal{E}=\mathcal{E}-V_\text{in}\), la energía de la partícula por encima del fondo del pozo. Como \(\mathcal{E}\) es variable, \(\Delta\mathcal{E}\) también lo es.</li>
+				</ul>
+				<p>El <i>único parámetro variable</i> que tiene cada \(\det(\mathbf{M}_s)=0\) es la <b>energía</b>. Es decir, los ceros de \(\det(\mathbf{M}_s)=0\) constituyen un listado de restricciones sobre los posibles valores que puede adoptar la energía del sistema. Dado que estos ceros suelen aparecer en cantidades discretas, podemos decir que la energía queda sometida a condiciones que imponen su <b>discretización</b>.</p>
+				<p>¿Y si un valor específico de energía no cumple con \(\det(\mathbf{M})=0\)? Pues, dicha energía está condenada a tener funciones de onda nula:</p>
+				\[
+					\mathbf{M}_s\cdot\vec{v}_s=\vec{0}\quad\Rightarrow\quad\left(\det(\mathbf{M}_s)\neq0\ \wedge\ \vec{v}_s=\vec{0}\right)\ \vee\ \left(\det(\mathbf{M}_s)=0\right).
+				\]
+				<ul>
+					<li>Si la energía no satisface \(\det(\mathbf{M}_s)=0\), termina forzando \(\vec{v}_s=\vec{0}\) (solución nula).</li>
+					<li>Si la energía sí cumple con \(\det(\mathbf{M}_s)=0\), ahí la solución <i>podría</i> no ser nula.</li>
+				</ul>
+				<p>No hay más opciones. La energía <b>debe</b> cumplir con \(\det(\mathbf{M}_s)=0\). Y como ahora las ecuaciones serán linealmente dependientes, se puede escribir los \(\mathcal{B}_s\) en función de los \(\mathcal{A}_s\):</p>
+				<div class="eqrow">
+					<span>\(\mathcal{B}_\text{par}=\mathcal{A}_\text{par}\,e^{\frac{L\gamma_\text{out}}{2}}\cos\left(\frac{k_\text{in}L}{2}\right)\)</span>
+					<span>y</span>
+					<span>\(\mathcal{B}_\text{impar}=\mathcal{A}_\text{impar}\,e^{\frac{L\gamma_\text{out}}{2}}\sin\left(\frac{k_\text{in}L}{2}\right).\)</span>
+				</div>
+
+				<h2>¿Cómo determinamos las energías desde \(\det(\mathbf{M})=0\)?</h2>
+				<p>Tenemos dos condiciones por separado,</p>
+				\[
+					\left\{\begin{array}{rl}
+						\text{Pares}: & k_\text{in}\sin\left(\frac{Lk_\text{in}}{2}\right)=\gamma_\text{out}\cos\left(\frac{Lk_\text{in}}{2}\right) \\[6pt]
+						\text{Impares}: & k_\text{in}\cos\left(\frac{Lk_\text{in}}{2}\right)=-\gamma_\text{out}\sin\left(\frac{Lk_\text{in}}{2}\right)
+					\end{array}\right.
+				\]
+				<p>y en ninguna de ellas podemos despejar algebraicamente los valores de energía ya que ambas son <i>ecuaciones transcendentales</i>. Toda búsqueda debe ser numérica. Por ello, debemos simplificar las expresiones e intentar usar variables adimensionales. Los parámetros auxiliares del comienzo sirven para este propósito, dejando ambas condiciones como</p>
+				<div class="eqrow">
+					<span>\(
+						\begin{array}{rcrcl}
+							\text{Pares} & : & \sqrt{1-\eta}\cos(\pi\Lambda) & = & \sqrt{\eta}\sin(\pi\Lambda), \\
+							\text{Impares} & : & \sqrt{1-\eta}\sin(\pi\Lambda) & = & -\sqrt{\eta}\cos(\pi\Lambda),
+						\end{array}
+					\)</span>
+					<span>donde \(\Lambda=\dfrac{L}{2\pi}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta},\)</span>
+				</div>
+				<p>o bien como \(F_\text{par}(\eta)=0\) y \(F_\text{impar}(\eta)=0\), donde</p>
+				<div class="eqrow">
+					<span>\(
+						\begin{aligned}
+							F_\text{par}(\eta) &= \sqrt{1-\eta}\cos(c\sqrt{\eta})-\sqrt{\eta}\sin(c\sqrt{\eta}), \\
+							F_\text{impar}(\eta) &= \sqrt{1-\eta}\sin(c\sqrt{\eta})+\sqrt{\eta}\cos(c\sqrt{\eta}),
+						\end{aligned}
+					\)</span>
+					<span>siendo \(c=\dfrac{L}{2}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}.\)</span>
+				</div>
+				<p>Estas simplificaciones nos permiten empezar la búsqueda.</p>
+				<ul>
+					<li>Las ecuaciones \(F_\text{par}(\eta)=0\) y \(F_\text{impar}(\eta)=0\) imponen condiciones sobre \(\eta\) y \(\Lambda\), que se grafican a continuación:
+						<figure>
+							<img src="PozoFinito_B_01_Fig2.svg" alt="Curvas det(M_par)=0 y det(M_impar)=0 en el plano (eta, Lambda)" style="max-width:600px">
+						</figure>
+					</li>
+					<li>Dados \(m\), \(L\), \(\Delta V\) fijos, calcule \(c=\dfrac{L}{2}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}\). Luego:
+						<div class="flow">
+							<div class="l">\(\mathcal{E}\)</div>
+							<div class="r">Tome un valor \(\mathcal{E}\) de energía.</div>
+							<div class="l">\(\downarrow\)</div><div></div>
+							<div class="l">\(\Delta\mathcal{E}\)</div>
+							<div class="r">Use \(\mathcal{E}\) para calcular \(\Delta\mathcal{E}\).</div>
+							<div class="l">\(\downarrow\)</div><div></div>
+							<div class="l">\(\Delta V\to\eta\)</div>
+							<div class="r">Use \(\Delta\mathcal{E}\) para calcular \(\eta\).</div>
+							<div class="l">\(\downarrow\)</div><div></div>
+							<div class="l">\((m,L,\Delta V)\to c\ \to\ \Lambda\)</div>
+							<div class="r">Use \(\eta\) para calcular \(\Lambda=\dfrac{c}{\pi}\sqrt{\eta}\).</div>
+							<div class="l">\(\downarrow\)</div><div></div>
+							<div class="l">\((\eta,\Lambda)\)</div>
+							<div class="r">Los valores obtenidos de \(\eta\) y \(\Lambda\) forman el punto \((\eta,\Lambda)\).</div>
+							<div class="l">\(\downarrow\)</div><div></div>
+							<div class="l">Compare</div>
+							<div class="r">¿Está \((\eta,\Lambda)\) contenido en alguna de las curvas?
+								<span class="sub">Sí: es una energía permitida</span>
+								<span class="sub">No: no es una energía permitida (solución trivial)</span>
+							</div>
+							<div class="l">\(\downarrow\)</div><div></div>
+							<div class="l">Repita</div>
+							<div class="r">Repita para otros valores de energía.</div>
+						</div>
+					</li>
+					<li>De este modo, las energías permitidas están en las intersecciones de las líneas del gráfico anterior con las de la curva
+						\[ \Lambda(\eta;L,\Delta V,m)=\frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}. \]
+						<figure>
+							<img src="PozoFinito_B_01_Fig3.svg" alt="Las mismas curvas junto con la línea Lambda(eta; L, DeltaV) para cuatro pozos distintos" style="max-width:600px">
+						</figure>
+					</li>
+					<li>Ya tenemos una idea gráfica de cómo se comportan estas energías, ¿pero cómo determinamos numéricamente esas intersecciones?
+						<ul>
+							<li>\(F_\text{par}(\eta)\) y \(F_\text{impar}(\eta)\) son no lineales. No parece sencillo encontrar sus ceros.</li>
+							<li>No obstante, la sustitución intermedia \(\eta=\sin^2\phi\) (con \(0\le\phi\le\frac{\pi}{2}\)) es de mucha ayuda:
+								<div class="eqrow">
+									<span>\(
+										\begin{aligned}
+											f_\text{par}(\phi) &= F_\text{par}(\eta\to\sin^2\phi) = \cos(\phi+c\sin(\phi)), \\
+											f_\text{impar}(\phi) &= F_\text{impar}(\eta\to\sin^2\phi) = \sin(\phi+c\sin(\phi)),
+										\end{aligned}
+									\)</span>
+									<span>y ambas son más fáciles de trabajar así.</span>
+								</div>
+							</li>
+							<li>Los respectivos ceros de ambas funciones están en
+								\[
+									\left\{\begin{aligned}
+										\phi_{j,\text{par}}+c\sin(\phi_{j,\text{par}}) &= (2j+1)\frac{\pi}{2} \\
+										\phi_{j,\text{impar}}+c\sin(\phi_{j,\text{impar}}) &= (2j)\frac{\pi}{2}
+									\end{aligned}\right.,\quad\text{con } j\in\mathbb{Z}.
+								\]
+								<ul>
+									<li>Se puede ver un cierto <i>mismatch</i> entre la paridad de la función y el número que multiplica al \(\frac{\pi}{2}\).</li>
+									<li>Por lo mismo, no se debe confundir <i>paridad de una función</i> con <i>paridad de un número cuántico</i>.</li>
+								</ul>
+							</li>
+							<li>Definamos un único número \(n\) para ambos casos:
+								<div class="eqrow">
+									<span>\(\phi_n+c\sin(\phi_n)=n\dfrac{\pi}{2},\)</span>
+									<span>donde</span>
+									<span>\(n\in\mathbb{Z}\)</span>
+									<span>y</span>
+									<span>\(
+										\left\{\begin{aligned}
+											\Psi_{n\ \text{impar}} &\ \text{son funciones pares}, \\
+											\Psi_{n\ \text{par}} &\ \text{son funciones impares}.
+										\end{aligned}\right.
+									\)</span>
+								</div>
+							</li>
+							<li>Así, debemos encontrar los \(\phi_n\) tales que \(\phi_n+c\sin(\phi_n)=n\frac{\pi}{2}\) y usamos esos \(\phi_n\) para calcular las energías.</li>
+							<li>Algorítmicamente:
+								<div class="flow">
+									<div class="l">\((m,L,\Delta V)\to c\)</div>
+									<div class="r">Dados \(m\), \(L\) y \(\Delta V\), calcule \(c=\dfrac{L}{2}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}\).</div>
+									<div class="l">\(\downarrow\)</div><div></div>
+									<div class="l">\(\phi_n+c\sin(\phi_n)=n\dfrac{\pi}{2}\)</div>
+									<div class="r">Busque valores \(\phi_n\in[0,\pi/2]\) tales que \(\phi_n+c\sin(\phi_n)=n\dfrac{\pi}{2}\), con \(n\in\mathbb{Z}\).</div>
+									<div class="l">\(\downarrow\)</div><div></div>
+									<div class="l">\(\phi_n\) y/o \(\phi_{j,s}\)</div>
+									<div class="r nob">
+										<span class="sub">– Los \(n\) impares generan soluciones pares \(\phi_{j,\text{par}}\), con \(j=\frac{n-1}{2}\).</span>
+										<span class="sub">– Los \(n\) pares generan soluciones impares \(\phi_{j,\text{impar}}\), con \(j=\frac{n}{2}\).</span>
+									</div>
+									<div class="l">\(\downarrow\)</div><div></div>
+									<div class="l">\(\eta_n\) y/o \(\eta_{j,s}\)</div>
+									<div class="r">Calcule \(\eta_n=\sin^2(\phi_n)\) o bien \(\eta_{j,s}=\sin^2(\phi_{j,s})\), donde \(s=\) par o impar.</div>
+									<div class="l">\(\downarrow\)</div><div></div>
+									<div class="l">\(\Delta\mathcal{E}_n\) y/o \(\Delta\mathcal{E}_{j,s}\)</div>
+									<div class="r">Calcule \(\Delta\mathcal{E}_n=\eta_n\,\Delta V\), o bien \(\Delta\mathcal{E}_{j,s}=\eta_{j,s}\,\Delta V\).</div>
+									<div class="l">\(\downarrow\)</div><div></div>
+									<div class="l">\(\mathcal{E}_n\) y/o \(\mathcal{E}_{j,s}\)</div>
+									<div class="r">Calcule \(\mathcal{E}_n=\Delta\mathcal{E}_n+V_\text{in}\), o bien \(\mathcal{E}_{j,s}=\Delta\mathcal{E}_{j,s}+V_\text{in}\).</div>
+									<div class="l">\(\downarrow\)</div><div></div>
+									<div class="l">\(\Psi_n\) y/o \(\Psi_{j,s}\)</div>
+									<div class="r">Use las energías y construya los \(\Psi_n(x)\) o los \(\Psi_{j,s}(x)\).</div>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+
+				<h2>¿Cuántos estados ligados tendra el sistema?</h2>
+				<p>Dado que \(0\le\eta\le1\), la definición \(\eta=\sin^2(\phi)\), requiere \(0\le\phi\le\frac{\pi}{2}\).</p>
+				<ul>
+					<li>Como \(\phi_n\ge0\), los \(n\) no pueden ser negativos.</li>
+					<li>Pero \(n\) tampoco puede ser igual a cero:
+						\[
+							\underbrace{n=0}_{\left(\begin{array}{c}n\ \text{par},\\ \Psi_n\ \text{impar}\end{array}\right)}
+							\ \Rightarrow\ \phi_0=0\ \Rightarrow\ \eta_0=0\ \Rightarrow\ k_\text{in}=0\ \wedge\ \gamma_\text{out}=0\ \Rightarrow\
+							\underbrace{\Psi_0=\text{constante}}_{\left(\begin{array}{c}\text{Función constante}\\ \text{e impar al mismo tiempo}\\ \text{solo pueder ser cero}\end{array}\right)}
+						\]
+					</li>
+					<li>Por lo tanto, \(n\ge1\). Ahora nos falta una cota superior para \(n\).</li>
+					<li>Los ceros están en \(\phi_n+c\sin(\phi_n)=n\frac{\pi}{2}\). Equivalentemente, \(n=\frac{2}{\pi}\left(\phi_n+c\sin(\phi_n)\right).\)</li>
+					<li>Notemos que la función \(n(\varphi)=\frac{2}{\pi}\left(\varphi+c\sin(\varphi)\right)\) es creciente en \(0\le\varphi\le\frac{\pi}{2}\), teniendo en cuenta que \(c>0\):
+						\[ \frac{dn}{d\varphi}=\frac{2}{\pi}\left(1+c\cos(\varphi)\right)>0,\quad\text{ya que } \cos(\varphi)>0 \text{ en el intervalo } \left[0,\tfrac{\pi}{2}\right]. \]
+					</li>
+					<li>Por lo tanto, dado un valor fijo de \(c\), el máximo de \(n\) estará en \(\varphi=\pi/2\):
+						\[ n_{\max}=n\left(\varphi=\tfrac{\pi}{2}\right)=\frac{2}{\pi}\left(\frac{\pi}{2}+c\sin\frac{\pi}{2}\right)=1+\frac{2c}{\pi}. \]
+					</li>
+					<li>Per \(n_{\max}\) debe ser un número entero y \(\frac{2c}{\pi}\) puede no serlo. Podemos forzarlo como
+						\[ n_{\max}=\left\lfloor 1+\frac{2c}{\pi}\right\rfloor\ =\ \left\lceil\frac{2c}{\pi}\right\rceil,\quad\text{donde } \lfloor x\rfloor \text{ denota la parte entera de } x \text{ y } \lceil x\rceil \text{ es la función techo (ceiling).} \]
+					</li>
+					<li>Con esto, concluimos que \(1\le n\le\left\lceil\frac{2c}{\pi}\right\rceil\) y que <i><b>existirán </b></i>\(n_\text{bnd}=\left\lceil\frac{2c}{\pi}\right\rceil\)<i><b> estados ligados</b></i>.</li>
+					<li>Para interpretar mejor este número de estados ligados:
+						<ul>
+							<li>Imagine que el pozo tuviera su propia longitud de onda de de&nbsp;Broglie (\(\lambda_{\Delta V}\)) correspondiente a la energía \(\Delta V\).</li>
+							<li>Entonces, \(\lambda_{\Delta V}=\dfrac{2\pi}{k_{E=\Delta V}}=\dfrac{2\pi}{\sqrt{2m\,\Delta V/\hbar^2}}\). Equivalentemente, \(\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}=\dfrac{2\pi}{\lambda_{\Delta V}}\).</li>
+							<li>En consecuencia, \(n_\text{bnd}=\left\lceil\dfrac{2c}{\pi}\right\rceil=\left\lceil\dfrac{2}{\pi}\dfrac{L}{2}\sqrt{\dfrac{2m\,\Delta V}{\hbar^2}}\right\rceil=\left\lceil\dfrac{2}{\pi}\dfrac{L}{2}\dfrac{2\pi}{\lambda_{\Delta V}}\right\rceil=\left\lceil\dfrac{2L}{\lambda_{\Delta V}}\right\rceil=\left\lceil\dfrac{L}{\lambda_{\Delta V}/2}\right\rceil.\)</li>
+						</ul>
+					</li>
+				</ul>
+				<p>Este numero \(n_\text{bnd}=\left\lceil\dfrac{L}{\lambda_{\Delta V}/2}\right\rceil\) nos recuerda a la relación de armónicos en una cuerda de guitarra: los armónicos permitidos eran aquellos donde la longitud de la cuerda era un número entero de semilongitudes de onda.<br>
+				Aquí tenemos que esa razón entre el ancho del pozo y semilongitudes de onda de de&nbsp;Broglie “del pozo” es quien nos dice cuántos estados ligados habrá.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

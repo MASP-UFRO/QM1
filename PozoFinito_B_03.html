@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Estados ligados (caso b)</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Estilos propios de este gráfico */
+		.legend {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			margin-top: 12px;
+			font-size: 1.05em;
+		}
+
+		.legend-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			cursor: pointer;
+			font-weight: 400;
+			color: #333;
+			user-select: none;
+		}
+
+		.legend-item input {
+			accent-color: var(--colorBACK);
+			width: 15px;
+			height: 15px;
+			flex: none;
+		}
+
+		.swatch {
+			display: inline-block;
+			width: 26px;
+			height: 5px;
+			border-radius: 3px;
+			flex: none;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="sim-layout">
+
+				<aside class="sidebar">
+					<div class="controls-container">
+						<div class="controls-grid">
+							<div class="control-group">
+								<h3>Ancho del pozo</h3>
+								<div class="input-row">
+									<label for="L2">L (&Aring;):</label>
+									<input type="number" id="L2" value="16.5" min="3" max="30" step="0.1">
+								</div>
+								<input type="range" id="L2r" min="3" max="30" step="0.1" value="16.5" aria-label="L">
+								<div class="range-limits"><span>3 &Aring;</span><span>30 &Aring;</span></div>
+							</div>
+							<div class="control-group">
+								<h3>Profundidad del pozo</h3>
+								<div class="input-row">
+									<label for="dV2">&Delta;V (eV):</label>
+									<input type="number" id="dV2" value="11.5" min="3" max="20" step="0.1">
+								</div>
+								<input type="range" id="dV2r" min="3" max="20" step="0.1" value="11.5" aria-label="DeltaV">
+								<div class="range-limits"><span>3 eV</span><span>20 eV</span></div>
+							</div>
+						</div>
+						<button class="btn-secondary" id="reset2" type="button">&#8635; Restablecer</button>
+
+						<div class="legend" id="legend2">
+							<label class="legend-item"><input type="checkbox" data-k="pot" checked><span class="swatch" style="background:#C56E1A"></span>Potencial</label>
+							<label class="legend-item"><input type="checkbox" data-k="en" checked><span class="swatch" style="background:repeating-linear-gradient(90deg,#777 0 6px,transparent 6px 10px)"></span>Niveles de energía</label>
+						</div>
+					</div>
+				</aside>
+
+				<div class="plot-column">
+					<div class="canvas-container">
+						<canvas id="plot2" width="1000" height="560"></canvas>
+					</div>
+					<div class="info-panel">
+						<div class="info-grid">
+							<div class="info-box"><h4>Estados ligados</h4><div class="info-value" id="i2_nb">0</div></div>
+							<div class="info-box"><h4>c</h4><div class="info-value" id="i2_c">0.00</div></div>
+							<div class="info-box"><h4>&Delta;E<sub>1</sub></h4><div class="info-value" id="i2_e1">0.00 eV</div></div>
+							<div class="info-box"><h4>&Delta;E<sub>n</sub> (último)</h4><div class="info-value" id="i2_en">0.00 eV</div></div>
+							<div class="info-box"><h4>&Delta;V &minus; &Delta;E<sub>n</sub> (último)</h4><div class="info-value" id="i2_gap">0.00 eV</div></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+	(function () {
+		'use strict';
+
+		var T = HTMLSim;
+		var kOf = T.kOf, ensureSize = T.ensureSize, drawText = T.drawText, niceStep = T.niceStep, fmtTick = T.fmtTick, bindPair = T.bindPair, getNum = T.getNum, setPair = T.setPair, boundStates = T.boundStates;
+
+		/* ============================================================
+		   Simulación 2: funciones de onda de los estados ligados
+		   Cada Ψ_n se dibuja a la altura de su energía ΔE_n (medida desde V_in).
+		   ============================================================ */
+		var P = {
+			cv: document.getElementById('plot2'),
+			L: document.getElementById('L2'), LR: document.getElementById('L2r'),
+			dV: document.getElementById('dV2'), dVR: document.getElementById('dV2r'),
+			show: { pot: true, en: true },
+			xMax: 30,       // Å: el gráfico cubre de -30 a +30
+			dVmax: 20
+		};
+		var S = { ctx: null, w: 0, h: 0 };
+		ensureSize(S, P.cv, 0.6, 400, 640);
+		// Colores de la paleta usada en Mathematica (ColorData[97])
+		var PAL = ['#5E81B5', '#E19C24', '#8FB032', '#EB6235', '#8778B3', '#C56E1A'];
+		var C_POT = '#C56E1A';
+		// paso de muestreo: 16 puntos por la longitud de onda más corta posible
+		var DX = 2 * Math.PI / (16 * kOf(P.dVmax));
+
+		function linspace(a, b, n) {
+			var arr = [], i;
+			for (i = 0; i <= n; i++) { arr.push(a + (b - a) * i / n); }
+			return arr;
+		}
+
+		function drawPlot() {
+			var L = getNum(P.L, 16.5), dV = getNum(P.dV, 11.5);
+			ensureSize(S, P.cv, 0.6, 400, 640);
+			var ctx = S.ctx, W = S.w, H = S.h;
+			var fs = Math.max(0.62, Math.min(1, W / 760));
+			var ml = 78, mr = 28, mt = 84, mb = 62;
+			var pw = W - ml - mr, ph = H - mt - mb;
+			var A1 = 0.025 * (dV + P.dVmax) / 2;                       // eV: escala (arbitraria) de la amplitud dibujada
+			var xmin = -P.xMax, xmax = P.xMax;
+			var ymin = -1.1 * A1;
+			var ymax = 1.05 * ((P.dVmax + 5 * dV) / 6 + A1);
+			function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
+			function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
+
+			var bs = boundStates(L, dV);
+
+			ctx.clearRect(0, 0, W, H);
+			ctx.fillStyle = '#fff';
+			ctx.fillRect(ml, mt, pw, ph);
+
+			// rejilla
+			var v, stepX = 10, stepY = niceStep(ymax - ymin, 8);
+			ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
+			for (v = Math.ceil(xmin / stepX) * stepX; v <= xmax + 1e-9; v += stepX) {
+				ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
+				drawText(ctx, fmtTick(v), X(v), mt + ph + 22, 17, 'center', '#555');
+			}
+			for (v = Math.ceil(ymin / stepY) * stepY; v <= ymax + 1e-9; v += stepY) {
+				ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
+				drawText(ctx, fmtTick(v), ml - 10, Y(v) + 5, 17, 'right', '#555');
+			}
+
+			// fronteras del pozo (±L/2)
+			ctx.setLineDash([5, 5]); ctx.strokeStyle = '#999'; ctx.lineWidth = 1.2;
+			ctx.beginPath();
+			ctx.moveTo(X(-L / 2), mt); ctx.lineTo(X(-L / 2), mt + ph);
+			ctx.moveTo(X(L / 2), mt); ctx.lineTo(X(L / 2), mt + ph);
+			ctx.stroke(); ctx.setLineDash([]);
+
+			ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
+			ctx.strokeRect(ml, mt, pw, ph);
+
+			ctx.save();
+			ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
+
+			// niveles de energía
+			if (P.show.en) {
+				ctx.setLineDash([9, 6]); ctx.strokeStyle = '#b5b5b5'; ctx.lineWidth = 1.2;
+				bs.states.forEach(function (s) {
+					ctx.beginPath(); ctx.moveTo(ml, Y(s.dE)); ctx.lineTo(ml + pw, Y(s.dE)); ctx.stroke();
+				});
+				ctx.setLineDash([]);
+			}
+
+			// funciones de onda: Ψ_n(x) = ΔE_n + A1 · ψ_n(x)
+			var n1 = Math.max(2, Math.ceil((P.xMax - L / 2) / DX));
+			var n2 = Math.max(2, Math.ceil(L / DX));
+			var x1 = linspace(-P.xMax, -L / 2, n1);
+			var x2 = linspace(-L / 2, L / 2, n2);
+			var x3 = linspace(L / 2, P.xMax, n1);
+			bs.states.forEach(function (s, idx) {
+				var k = kOf(s.dE), g = kOf(dV - s.dE);
+				var q = (Math.PI / 4) * (1 - (s.n % 2 === 1 ? -1 : 1));           // n impar: π/2 (coseno); n par: 0 (seno)
+				var amp3 = Math.exp(0.5 * L * g) * Math.sin(0.5 * k * L + q);
+				var amp1 = ((s.n + 1) % 2 === 0 ? 1 : -1) * amp3;                   // (−1)^(n+1) · amp3
+				ctx.strokeStyle = PAL[idx % PAL.length]; ctx.lineWidth = 2.2; ctx.lineJoin = 'round';
+				ctx.beginPath();
+				[[x1, function (x) { return amp1 * Math.exp(g * x); }],
+				 [x2, function (x) { return Math.sin(k * x + q); }],
+				 [x3, function (x) { return amp3 * Math.exp(-g * x); }]].forEach(function (seg, sidx) {
+					seg[0].forEach(function (x, i) {
+						var px = X(x), py = Y(s.dE + A1 * seg[1](x));
+						if (sidx === 0 && i === 0) { ctx.moveTo(px, py); } else { ctx.lineTo(px, py); }
+					});
+				});
+				ctx.stroke();
+			});
+
+			// potencial
+			if (P.show.pot) {
+				ctx.strokeStyle = C_POT; ctx.lineWidth = 3.4; ctx.lineJoin = 'miter';
+				ctx.beginPath();
+				ctx.moveTo(X(-P.xMax), Y(dV)); ctx.lineTo(X(-L / 2), Y(dV)); ctx.lineTo(X(-L / 2), Y(0));
+				ctx.lineTo(X(L / 2), Y(0)); ctx.lineTo(X(L / 2), Y(dV)); ctx.lineTo(X(P.xMax), Y(dV));
+				ctx.stroke();
+			}
+			ctx.restore();
+
+			// etiquetas de regiones (en la parte superior del gráfico)
+			drawText(ctx, '1', (X(-P.xMax) + X(-L / 2)) / 2, mt + 20, 25, 'center', '#888', 'bold');
+			drawText(ctx, '2', X(0), mt + 20, 25, 'center', '#888', 'bold');
+			drawText(ctx, '3', (X(L / 2) + X(P.xMax)) / 2, mt + 20, 25, 'center', '#888', 'bold');
+
+			// etiquetas de ejes
+			drawText(ctx, 'x (Å)', ml + pw / 2, H - 14, 22, 'center', '#333', 'bold');
+			ctx.save();
+			ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
+			drawText(ctx, 'V(x) y Ψ_n(x) en eV', 0, 0, 22, 'center', '#333', 'bold');
+			ctx.restore();
+
+			// título
+			var r1 = function (a) { return (Math.round(a * 10) / 10); };
+			drawText(ctx, 'Estados ligados', W / 2, 30, Math.round(22 * fs), 'center', '#333', 'bold');
+			drawText(ctx, 'ΔV = ' + r1(dV) + ' eV,   L = ' + r1(L) + ' Å   →   ' + bs.nbnd + ' estados ligados',
+					 W / 2, 58, Math.round(20 * fs), 'center', '#555', 'bold');
+
+			// información
+			var last = bs.states[bs.states.length - 1];
+			document.getElementById('i2_nb').textContent = bs.nbnd;
+			document.getElementById('i2_c').textContent = bs.c.toFixed(3);
+			document.getElementById('i2_e1').textContent = bs.states[0].dE.toFixed(3) + ' eV';
+			document.getElementById('i2_en').textContent = last.dE.toFixed(3) + ' eV';
+			document.getElementById('i2_gap').textContent = (dV - last.dE).toFixed(3) + ' eV';
+		}
+
+		bindPair(P.L, P.LR, drawPlot);
+		bindPair(P.dV, P.dVR, drawPlot);
+		Array.prototype.forEach.call(document.querySelectorAll('#legend2 input[type="checkbox"]'), function (cb) {
+			cb.addEventListener('change', function () { P.show[cb.getAttribute('data-k')] = cb.checked; drawPlot(); });
+		});
+		document.getElementById('reset2').addEventListener('click', function () {
+			setPair(P.L, P.LR, 16.5);
+			setPair(P.dV, P.dVR, 11.5);
+			drawPlot();
+		});
+
+		/* Arranque */
+		drawPlot();
+		window.addEventListener('resize', drawPlot);
+
+		T.onFontsReady(drawPlot);
+	})();
+	</script>
+</body>
+</html>

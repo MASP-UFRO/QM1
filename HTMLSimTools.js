@@ -10,6 +10,7 @@
    Expone un único objeto global: HTMLSim
      HTMLSim.CFG, HTMLSim.getFont()
      Física:   kOf, RT, coefficients, cmul, cdiv, cexp, cscale, cabs2
+               cOf, boundStates  (caso b: estados ligados)
      Dibujo:   sizeFor, ensureSize, drawText, niceStep, fmtTick
      Controles: bindPair, getNum, setPair
      Fuentes:  onFontsReady(fn)   -> vuelve a dibujar cuando llega la tipografía
@@ -90,6 +91,32 @@
 		var A2 = cscale(cmul(A3, cexp((k - q) * L / 2)), (q + k) / (2 * q));
 		var B2 = cscale(cmul(A3, cexp((k + q) * L / 2)), (q - k) / (2 * q));
 		return { q: q, k: k, B1: B1, A2: A2, B2: B2, A3: A3 };
+	}
+
+	/* ============================================================
+	   Caso (b): estados ligados  (V_in < E < V_out)
+	   c = (L/2) sqrt(2 m dV) / hbar            (adimensional)
+	   Los eta_n salen de  phi_n + c sin(phi_n) = n pi/2,  eta_n = sin^2(phi_n),
+	   con n = 1 ... ceil(2c/pi).  n impar -> función par;  n par -> impar.
+	   Devuelve { c, nbnd, states: [ {n, phi, eta, dE, par}, ... ] }  (dE en eV, medida desde V_in)
+	   ============================================================ */
+	function cOf(L, dV) { return (L / 2) * kOf(dV); }
+
+	function boundStates(L, dV) {
+		var c = cOf(L, dV), nb = Math.ceil(2 * c / Math.PI), states = [], n, lo, hi, mid, it, f, phi, eta;
+		for (n = 1; n <= nb; n++) {
+			f = function (p) { return p + c * Math.sin(p) - n * Math.PI / 2; };   // creciente en [0, pi/2]
+			if (f(Math.PI / 2) <= 0) { continue; }                                 // n = 2c/pi exacto: E = V_out, no es ligado
+			lo = 0; hi = Math.PI / 2;
+			for (it = 0; it < 60; it++) {
+				mid = (lo + hi) / 2;
+				if (f(mid) < 0) { lo = mid; } else { hi = mid; }
+			}
+			phi = (lo + hi) / 2;
+			eta = Math.sin(phi) * Math.sin(phi);
+			states.push({ n: n, phi: phi, eta: eta, dE: eta * dV, par: (n % 2 === 1) });
+		}
+		return { c: c, nbnd: states.length, states: states };
 	}
 
 	/* ============================================================
@@ -240,7 +267,7 @@
 
 	global.HTMLSim = {
 		CFG: CFG, getFont: getFont,
-		kOf: kOf, RT: RT, coefficients: coefficients,
+		kOf: kOf, RT: RT, coefficients: coefficients, cOf: cOf, boundStates: boundStates,
 		cmul: cmul, cdiv: cdiv, cexp: cexp, cscale: cscale, cabs2: cabs2,
 		sizeFor: sizeFor, ensureSize: ensureSize, drawText: drawText,
 		niceStep: niceStep, fmtTick: fmtTick,
