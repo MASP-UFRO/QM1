@@ -4,13 +4,9 @@
 //   { type: "drive",  id: "GOOGLE_FILE_ID" }
 
 const htmlRegistry = {
-  "ICF177_Bibliografia":    { type: "github", url: "https://masp-ufro.github.io/ICF177/InfoHTMLs/ICF177_Bibliografia.html" },
-  "ICF177_Evaluaciones":    { type: "github", url: "https://masp-ufro.github.io/ICF177/InfoHTMLs/ICF177_Evaluaciones.html" },
-  "ICF177_Pautas":          { type: "github", url: "https://masp-ufro.github.io/ICF177/InfoHTMLs/ICF177_Pautas.html" },
-  "ICF177_Proy_Descripcion":{ type: "github", url: "https://masp-ufro.github.io/ICF177/InfoHTMLs/ICF177_Proy_Descripcion.html" },
-  "ICF177_Proy_Fechas":     { type: "github", url: "https://masp-ufro.github.io/ICF177/InfoHTMLs/ICF177_Proy_Fechas.html" },
+  "QM1_PozoFinito_A":    { type: "github", url: "https://masp-ufro.github.io/QM1/PozoFinito_A.html" },
+  "QM1_PozoFinito_B":    { type: "github", url: "https://masp-ufro.github.io/QM1/PozoFinito_B.html" },
 };
-
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxO_3k0Sc6uvuxKBsD-0Bxl1orNDKoxXmrXYo0sdjvgOwhZsuEEsNpjeSb7ZHtdVwwRdw/exec';
 
 // 2. THE RENDER FUNCTION
