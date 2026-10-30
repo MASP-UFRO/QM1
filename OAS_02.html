@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>OAS cuántico - Evolución temporal</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Estilos propios de este gráfico */
+		select, input[type="text"] {
+			width: 100%; padding: 6px 10px; border: 2px solid #ddd; border-radius: 8px;
+			font-size: 0.95em; font-family: inherit; background: white; min-width: 0;
+		}
+		select:focus, input[type="text"]:focus { outline: none; border-color: var(--colorFICA); }
+		.params { margin-top: 8px; }
+		.hidden { display: none; }
+		.btn-row { display: flex; gap: 8px; margin-top: 8px; }
+		.note { font-size: 0.85em; color: #666; margin-top: 4px; }
+		.formula { font-size: 0.95em; color: #444; padding: 2px 6px; line-height: 1.5; }
+		.legend { display: flex; flex-direction: column; gap: 5px; margin-top: 12px; font-size: 1.0em; }
+		.legend-item { display: flex; align-items: center; gap: 8px; font-weight: 400; color: #333; }
+		.swatch { display: inline-block; width: 26px; height: 8px; border-radius: 3px; flex: none; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="sim-layout">
+
+				<aside class="sidebar">
+					<div class="controls-container">
+						<div class="controls-grid">
+
+							<div class="control-group">
+								<h3>Estado inicial |&Psi;(0)&rang;</h3>
+								<select id="mode" aria-label="Estado inicial">
+									<option value="Coherente" selected>Coherente</option>
+									<option value="Fock">Fock (de número)</option>
+									<option value="Normal">Normal (en n)</option>
+									<option value="Aleatorio">Aleatorio</option>
+									<option value="Escogido">Escogido</option>
+								</select>
+
+								<div class="params hidden" id="p_Fock">
+									<div class="input-row"><label for="fn">n:</label><input type="number" id="fn" value="20" min="0" max="300" step="1"></div>
+									<input type="range" id="fnr" min="0" max="300" step="1" value="20" aria-label="n">
+									<div class="range-limits"><span>0</span><span>300</span></div>
+								</div>
+
+								<div class="params" id="p_Coherente">
+									<div class="input-row"><label for="ca">|&alpha;|:</label><input type="number" id="ca" value="6" min="0" max="20" step="0.1"></div>
+									<input type="range" id="car" min="0" max="20" step="0.1" value="6" aria-label="modulo alfa">
+									<div class="range-limits"><span>0</span><span>20</span></div>
+									<div class="input-row"><label for="cp">arg(&alpha;) (°):</label><input type="number" id="cp" value="0" min="0" max="360" step="1"></div>
+									<input type="range" id="cpr" min="0" max="360" step="1" value="0" aria-label="fase alfa">
+									<div class="range-limits"><span>0°</span><span>360°</span></div>
+								</div>
+
+								<div class="params hidden" id="p_Normal">
+									<div class="input-row"><label for="nm">media:</label><input type="number" id="nm" value="100" min="0" max="400" step="1"></div>
+									<input type="range" id="nmr" min="0" max="400" step="1" value="100" aria-label="media">
+									<div class="range-limits"><span>0</span><span>400</span></div>
+									<div class="input-row"><label for="ns">desv.:</label><input type="number" id="ns" value="10" min="1" max="30" step="1"></div>
+									<input type="range" id="nsr" min="1" max="30" step="1" value="10" aria-label="desviacion">
+									<div class="range-limits"><span>1</span><span>30</span></div>
+								</div>
+
+								<div class="params hidden" id="p_Aleatorio">
+									<button class="btn-secondary" id="newrnd" type="button">&#127922; Nuevo estado aleatorio</button>
+									<div class="note">79 coeficientes complejos con parte real e imaginaria normales.</div>
+								</div>
+
+								<div class="params hidden" id="p_Escogido">
+									<input type="text" id="coefs" value="1 1 0 0" aria-label="coeficientes">
+									<div class="note">Coeficientes reales c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, … separados por espacios o comas (se normalizan).</div>
+								</div>
+							</div>
+
+							<div class="control-group">
+								<h3>Tiempo</h3>
+								<div class="input-row"><label for="tau">&tau; = t/T:</label><input type="number" id="tau" value="0" min="0" max="2" step="0.001"></div>
+								<input type="range" id="taur" min="0" max="2" step="0.001" value="0" aria-label="tau">
+								<div class="range-limits"><span>0</span><span>2 períodos</span></div>
+								<div class="input-row" style="margin-top:8px"><label for="spd">Rapidez:</label><input type="number" id="spd" value="0.25" min="0.02" max="1" step="0.01"></div>
+								<input type="range" id="spdr" min="0.02" max="1" step="0.01" value="0.25" aria-label="rapidez">
+								<div class="range-limits"><span>lenta</span><span>rápida</span></div>
+								<div class="btn-row">
+									<button class="btn-secondary" id="play" type="button">&#10074;&#10074; Pausa</button>
+									<button class="btn-secondary" id="rewind" type="button">&#8635; &tau; = 0</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="legend">
+							<div class="legend-item"><span class="swatch" style="background:rgba(255,235,0,0.45);border:1px solid #bbb"></span>Región clásicamente permitida</div>
+						</div>
+					</div>
+				</aside>
+
+				<div class="plot-column">
+					<div class="canvas-container"><canvas id="plotT" width="1000" height="760"></canvas></div>
+					<div class="info-panel">
+						<div class="info-grid">
+							<div class="info-box"><h4>&tau; = t/T</h4><div class="info-value" id="i_tau">0.000</div></div>
+							<div class="info-box"><h4>&lang;n&rang;</h4><div class="info-value" id="i_mean">0</div></div>
+							<div class="info-box"><h4>&sigma;<sub>n</sub></h4><div class="info-value" id="i_std">0</div></div>
+							<div class="info-box"><h4>u<sub>cl</sub> = &radic;(2&lang;n&rang;+1)</h4><div class="info-value" id="i_ucl">0</div></div>
+							<div class="info-box"><h4>Estados |n&rang;</h4><div class="info-value" id="i_ns">0</div></div>
+						</div>
+						<div class="formula">&psi;(x,t) = &sum;<sub>n</sub> c<sub>n</sub> e<sup>&minus;2&pi;i&tau;(n+1/2)</sup> &Phi;<sub>n</sub>(u), &nbsp; u = x/&beta;, &nbsp; &tau; = t/T, &nbsp; T = 2&pi;/&omega;.</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+	(function () {
+		'use strict';
+
+		var T = HTMLSim;
+		var ensureSize = T.ensureSize, drawText = T.drawText, niceStep = T.niceStep, fmtTick = T.fmtTick, bindPair = T.bindPair, getNum = T.getNum, setPair = T.setPair;
+
+		/* ============================================================
+		   Evolución temporal de un estado del OAS (como OAS_time.m)
+		     psi(x,t) = SUM_n  c_n exp(-2 pi i tau (n+1/2))  Phi_n(u)
+		   ============================================================ */
+		var $ = function (id) { return document.getElementById(id); };
+		var P = {
+			cv: $('plotT'), mode: $('mode'),
+			fn: $('fn'), fnR: $('fnr'), ca: $('ca'), caR: $('car'), cp: $('cp'), cpR: $('cpr'),
+			nm: $('nm'), nmR: $('nmr'), ns: $('ns'), nsR: $('nsr'),
+			tau: $('tau'), tauR: $('taur'), spd: $('spd'), spdR: $('spdr'),
+			coefs: $('coefs')
+		};
+		var S = { ctx: null, w: 0, h: 0 };
+		var UN = 2048;          // puntos en u
+		var NCAP = 700;         // máximo de niveles considerados
+		var rndRe = [], rndIm = [];
+		var D = null;           // datos del estado actual
+		var playing = true, last = 0, raf = 0, dirtyState = true;
+
+		function randn() {
+			var a = 1 - Math.random(), b = Math.random();
+			return Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b);
+		}
+		function newRandom() {
+			var i; rndRe = []; rndIm = [];
+			for (i = 0; i < 79; i++) { rndRe.push(randn()); rndIm.push(randn()); }
+		}
+		newRandom();
+
+		/* Coeficientes c_n del estado inicial */
+		function coefficients() {
+			var mode = P.mode.value, re = [], im = [], i, k;
+			if (mode === 'Fock') {
+				k = Math.round(getNum(P.fn, 20));
+				for (i = 0; i <= k; i++) { re.push(i === k ? 1 : 0); im.push(0); }
+			} else if (mode === 'Coherente') {
+				var a = getNum(P.ca, 6), th = getNum(P.cp, 0) * Math.PI / 180, lam = a * a;
+				var nmax = Math.min(NCAP, Math.floor(lam + 5 * a)), lnf = 0, p, amp;
+				for (i = 0; i <= nmax; i++) {
+					if (i > 0) { lnf += Math.log(i); }
+					// Poisson por logaritmos (evita factoriales enormes)
+					p = lam === 0 ? (i === 0 ? 1 : 0) : Math.exp(-lam + i * Math.log(lam) - lnf);
+					amp = Math.sqrt(p);
+					re.push(amp * Math.cos(i * th)); im.push(amp * Math.sin(i * th));
+				}
+			} else if (mode === 'Normal') {
+				var mu = getNum(P.nm, 100), sg = getNum(P.ns, 10), top = Math.min(NCAP, Math.ceil(mu + 6 * sg));
+				for (i = 0; i <= top; i++) { re.push(Math.exp(-(i - mu) * (i - mu) / (4 * sg * sg))); im.push(0); }
+			} else if (mode === 'Aleatorio') {
+				re = rndRe.slice(); im = rndIm.slice();
+			} else {
+				var parts = P.coefs.value.split(/[\s,;]+/), v;
+				for (i = 0; i < parts.length; i++) { v = parseFloat(parts[i]); if (isFinite(v)) { re.push(v); im.push(0); } }
+				if (!re.length) { re = [1]; im = [0]; }
+				if (re.length > NCAP + 1) { re.length = NCAP + 1; im.length = NCAP + 1; }
+			}
+			var nrm = 0;
+			for (i = 0; i < re.length; i++) { nrm += re[i] * re[i] + im[i] * im[i]; }
+			nrm = Math.sqrt(nrm) || 1;
+			for (i = 0; i < re.length; i++) { re[i] /= nrm; im[i] /= nrm; }
+			return { re: re, im: im };
+		}
+
+		/* Recalcula dominio, eigenfunciones y escala vertical (solo cuando cambia el estado) */
+		function buildState() {
+			var c = coefficients(), Nmax = c.re.length - 1, i, k, n;
+			var mean = 0, m2 = 0, p;
+			for (n = 0; n <= Nmax; n++) { p = c.re[n] * c.re[n] + c.im[n] * c.im[n]; mean += n * p; m2 += n * n * p; }
+			var std = Math.sqrt(Math.max(0, m2 - mean * mean));
+			// "n efectivo": el mínimo de 4 evita un dominio demasiado angosto para estados de energía muy baja
+			var Neff = mean + Math.max(5 * std, Math.sqrt(mean), 4);
+			var uMax = Math.sqrt(2 * Neff + 1), uCl = Math.sqrt(2 * mean + 1);
+
+			var u = new Float64Array(UN);
+			for (i = 0; i < UN; i++) { u[i] = (-1 + 2 * i / (UN - 1)) * uMax; }
+			var Phi = new Float64Array((Nmax + 1) * UN), q = Math.pow(Math.PI, -0.25), a, b, o, o1, o2;
+			for (i = 0; i < UN; i++) { Phi[i] = Math.exp(-0.5 * u[i] * u[i]) * q; }
+			if (Nmax >= 1) { for (i = 0; i < UN; i++) { Phi[UN + i] = Math.SQRT2 * u[i] * Phi[i]; } }
+			for (n = 2; n <= Nmax; n++) {
+				a = Math.sqrt(2 / n); b = Math.sqrt((n - 1) / n); o = n * UN; o1 = o - UN; o2 = o1 - UN;
+				for (i = 0; i < UN; i++) { Phi[o + i] = a * u[i] * Phi[o1 + i] - b * Phi[o2 + i]; }
+			}
+			var idx = [];
+			for (n = 0; n <= Nmax; n++) { if (c.re[n] * c.re[n] + c.im[n] * c.im[n] > 1e-24) { idx.push(n); } }
+
+			D = { c: c, Nmax: Nmax, mean: mean, std: std, uMax: uMax, uCl: uCl, u: u, Phi: Phi, idx: idx,
+				  re: new Float64Array(UN), im: new Float64Array(UN), pmax: 0 };
+
+			// valor máximo de |psi| a lo largo de un período (|psi| es periódico con período 1)
+			var pm = 0, t, j, mm;
+			for (t = 0; t < 1; t += 0.04) {
+				evalPsi(t);
+				for (j = 0; j < UN; j++) { mm = D.re[j] * D.re[j] + D.im[j] * D.im[j]; if (mm > pm) { pm = mm; } }
+			}
+			D.pmax = Math.sqrt(pm) * 1.08;
+
+			$('i_mean').textContent = mean.toFixed(2);
+			$('i_std').textContent = std.toFixed(2);
+			$('i_ucl').textContent = uCl.toFixed(3);
+			$('i_ns').textContent = idx.length;
+			dirtyState = false;
+		}
+
+		function evalPsi(tau) {
+			var re = D.re, im = D.im, Phi = D.Phi, c = D.c, idx = D.idx, i, j, k, ph, cs, sn, ar, ai, o, f;
+			re.fill(0); im.fill(0);
+			for (k = 0; k < idx.length; k++) {
+				i = idx[k];
+				ph = -2 * Math.PI * tau * (i + 0.5); cs = Math.cos(ph); sn = Math.sin(ph);
+				ar = c.re[i] * cs - c.im[i] * sn; ai = c.re[i] * sn + c.im[i] * cs;
+				o = i * UN;
+				for (j = 0; j < UN; j++) { f = Phi[o + j]; re[j] += ar * f; im[j] += ai * f; }
+			}
+		}
+
+		function curve(ctx, X, Y, u, y, color, lw) {
+			var j;
+			ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineJoin = 'round';
+			ctx.beginPath();
+			for (j = 0; j < UN; j++) { if (j === 0) { ctx.moveTo(X(u[j]), Y(y[j])); } else { ctx.lineTo(X(u[j]), Y(y[j])); } }
+			ctx.stroke();
+		}
+
+		function draw() {
+			if (dirtyState) { buildState(); }
+			var tau = getNum(P.tau, 0);
+			evalPsi(tau);
+			ensureSize(S, P.cv, 0.78, 520, 860);
+			var ctx = S.ctx, W = S.w, H = S.h, u = D.u, re = D.re, im = D.im, dens = new Float64Array(UN), j;
+			for (j = 0; j < UN; j++) { dens[j] = re[j] * re[j] + im[j] * im[j]; }
+			ctx.clearRect(0, 0, W, H);
+
+			var ml = 76, mr = 20, mt = 40, mb = 56, gap = 22;
+			var ph = (H - mt - mb - 2 * gap) / 3, pw = W - ml - mr;
+			var xmin = -1.05 * D.uMax, xmax = 1.05 * D.uMax, pm = D.pmax;
+			var panels = [
+				{ y0: -1.05 * pm, y1: 1.05 * pm, label: 'Re ψ(x,t)' },
+				{ y0: -1.05 * pm, y1: 1.05 * pm, label: 'Im ψ(x,t)' },
+				{ y0: -0.05 * pm * pm, y1: 1.05 * pm * pm, label: '|ψ(x,t)|²' }
+			];
+			var BLUE = '#0072BD', ORG = '#D95319', RED = '#ff0000';
+
+			panels.forEach(function (pn, k) {
+				var t0 = mt + k * (ph + gap);
+				var X = function (v) { return ml + (v - xmin) / (xmax - xmin) * pw; };
+				var Y = function (v) { return t0 + ph - (v - pn.y0) / (pn.y1 - pn.y0) * ph; };
+				ctx.fillStyle = '#fff'; ctx.fillRect(ml, t0, pw, ph);
+				var sx = niceStep(xmax - xmin, 12), sy = niceStep(pn.y1 - pn.y0, 4), v;
+				ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
+				for (v = Math.ceil(xmin / sx) * sx; v <= xmax + 1e-9; v += sx) {
+					ctx.beginPath(); ctx.moveTo(X(v), t0); ctx.lineTo(X(v), t0 + ph); ctx.stroke();
+					if (k === 2) { drawText(ctx, fmtTick(v), X(v), t0 + ph + 20, 16, 'center', '#555'); }
+				}
+				for (v = Math.ceil(pn.y0 / sy) * sy; v <= pn.y1 + 1e-9; v += sy) {
+					ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
+					drawText(ctx, fmtTick(v), ml - 8, Y(v) + 5, 16, 'right', '#555');
+				}
+				ctx.save(); ctx.beginPath(); ctx.rect(ml, t0, pw, ph); ctx.clip();
+				ctx.fillStyle = 'rgba(255,235,0,0.25)';
+				ctx.fillRect(X(-D.uCl), t0, X(D.uCl) - X(-D.uCl), ph);
+				if (k === 0) { curve(ctx, X, Y, u, im, ORG, 1.4); curve(ctx, X, Y, u, re, BLUE, 3.6); }
+				else if (k === 1) { curve(ctx, X, Y, u, re, BLUE, 1.4); curve(ctx, X, Y, u, im, ORG, 3.6); }
+				else { curve(ctx, X, Y, u, dens, RED, 3.2); }
+				ctx.restore();
+				ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6; ctx.strokeRect(ml, t0, pw, ph);
+				ctx.save(); ctx.translate(18, t0 + ph / 2); ctx.rotate(-Math.PI / 2);
+				drawText(ctx, pn.label, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
+			});
+			drawText(ctx, 'u = x/β, posición adimensional', ml + pw / 2, H - 10, 19, 'center', '#333', 'bold');
+			drawText(ctx, 'En amarillo: región clásicamente permitida', ml + pw / 2, 24, 19, 'center', '#333', 'bold');
+			$('i_tau').textContent = tau.toFixed(3);
+		}
+
+		/* ---------- Animación ---------- */
+		function frame(now) {
+			raf = 0;
+			if (playing) {
+				var dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
+				var t = getNum(P.tau, 0) + dt * getNum(P.spd, 0.25);
+				if (t > 2) { t -= 2; }
+				setPair(P.tau, P.tauR, t.toFixed(4));
+			}
+			last = playing ? now : 0;
+			draw();
+			if (playing) { schedule(); }
+		}
+		function schedule() { if (!raf) { raf = requestAnimationFrame(frame); } }
+		function refresh() { dirtyState = true; schedule(); }
+		function touch() { if (!playing) { schedule(); } }
+
+		/* ---------- Controles ---------- */
+		bindPair(P.fn, P.fnR, refresh);
+		bindPair(P.ca, P.caR, refresh);
+		bindPair(P.cp, P.cpR, refresh);
+		bindPair(P.nm, P.nmR, refresh);
+		bindPair(P.ns, P.nsR, refresh);
+		bindPair(P.tau, P.tauR, touch);
+		bindPair(P.spd, P.spdR, function () {});
+		P.coefs.addEventListener('input', refresh);
+		$('newrnd').addEventListener('click', function () { newRandom(); refresh(); });
+		P.mode.addEventListener('change', function () {
+			['Fock', 'Coherente', 'Normal', 'Aleatorio', 'Escogido'].forEach(function (m) {
+				$('p_' + m).classList.toggle('hidden', m !== P.mode.value);
+			});
+			refresh();
+		});
+		$('play').addEventListener('click', function () {
+			playing = !playing; last = 0;
+			this.innerHTML = playing ? '&#10074;&#10074; Pausa' : '&#9654; Reproducir';
+			schedule();
+		});
+		$('rewind').addEventListener('click', function () { setPair(P.tau, P.tauR, 0); schedule(); });
+
+		schedule();
+		window.addEventListener('resize', function () { schedule(); });
+		T.onFontsReady(function () { schedule(); });
+	})();
+	</script>
+</body>
+</html>

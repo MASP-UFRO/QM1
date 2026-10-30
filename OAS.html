@@ -1,0 +1,46 @@
+<h2 style="text-align: center;"><span style="color: #993300;">Oscilador arm&oacute;nico simple cu&aacute;ntico</span></h2>
+
+<h5 style="text-align: center;">
+	<br>
+	Puede bajar los scripts en formato Matlab: <a href="https://drive.google.com/file/d/1NRG1HiX5Xh_9IeLDSkB9lKf5NlKyabQ_/view?usp=sharing">eigenfunciones</a> y <a href="https://drive.google.com/file/d/1VCovGFXO4t3xYoCyx5D3epseHTrVQ2h5/view?usp=sharing">evoluci&oacute;n temporal</a>, o bien abrir las subsecciones ubicadas debajo.</h5>
+	<br>
+
+
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Eigenfunciones.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="OAS_01">Cargando animación...</div>
+
+		<script src="https://masp-ufro.github.io/ScriptsParaCV/InteractiveHTML.js" type="text/javascript"></script>
+		<script type="text/javascript">// <![CDATA[
+			var BASE = 'https://masp-ufro.github.io/QM1/';
+			document.querySelectorAll('.sim').forEach(function (el) {
+				// URL = BASE + id + '.html'; contenedor = el.id; altura inicial por defecto; ancho 100 %; expandRight activado
+				renderSimulation(BASE + el.id + '.html', el.id, undefined, '100%', true);
+			});
+		// ]]>
+		</script>
+
+	</div>
+</details>
+
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Evoluci&oacute;n temporal.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="OAS_02">Cargando animación...</div>
+
+		<script src="https://masp-ufro.github.io/ScriptsParaCV/InteractiveHTML.js" type="text/javascript"></script>
+		<script type="text/javascript">// <![CDATA[
+			var BASE = 'https://masp-ufro.github.io/QM1/';
+			document.querySelectorAll('.sim').forEach(function (el) {
+				renderSimulation(BASE + el.id + '.html', el.id, undefined, '100%', true);
+			});
+		// ]]>
+		</script>
+
+	</div>
+</details>

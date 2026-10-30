@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>OAS cuántico - Eigenfunciones</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Estilos propios de este gráfico */
+		.legend { display: flex; flex-direction: column; gap: 5px; margin-top: 12px; font-size: 1.0em; }
+		.legend-item { display: flex; align-items: center; gap: 8px; cursor: pointer; font-weight: 400; color: #333; user-select: none; }
+		.legend-item input { accent-color: var(--colorBACK); width: 15px; height: 15px; flex: none; }
+		.swatch { display: inline-block; width: 26px; height: 10px; border-radius: 3px; flex: none; }
+		.formula { font-size: 0.95em; color: #444; padding: 2px 6px; line-height: 1.5; }
+		.plot-column .canvas-container + .canvas-container { margin-top: 0; }
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="sim-layout">
+
+				<aside class="sidebar">
+					<div class="controls-container">
+						<div class="controls-grid">
+							<div class="control-group">
+								<h3>Nivel de energía</h3>
+								<div class="input-row">
+									<label for="n1">n:</label>
+									<input type="number" id="n1" value="9" min="0" max="700" step="1">
+								</div>
+								<input type="range" id="n1r" min="0" max="100" step="1" value="9" aria-label="n">
+								<div class="range-limits"><span>0</span><span>100 (casilla: hasta 700)</span></div>
+							</div>
+						</div>
+						<button class="btn-secondary" id="reset1" type="button">&#8635; Restablecer</button>
+
+						<div class="legend" id="legend1">
+							<label class="legend-item"><input type="checkbox" data-k="rcl" checked><span class="swatch" style="background:rgba(255,235,0,0.35);border:1px solid #bbb"></span>Región clásicamente permitida</label>
+							<label class="legend-item"><input type="checkbox" data-k="q" checked><span class="swatch" style="background:#D95319"></span>|&Phi;<sub>n</sub>|&sup2;, fuera de la región</label>
+							<label class="legend-item"><input type="checkbox" data-k="c" checked><span class="swatch" style="background:#4DBEEE"></span>|&Phi;<sub>n</sub>|&sup2;, dentro de la región</label>
+							<label class="legend-item"><input type="checkbox" data-k="pc" checked><span class="swatch" style="background:rgba(0,0,0,0.25)"></span>Probabilidad &ldquo;clásica&rdquo;</label>
+							<label class="legend-item"><input type="checkbox" data-k="v" checked><span class="swatch" style="background:rgba(126,47,142,0.6)"></span>V(&beta;u)/&#8463;&omega;</label>
+						</div>
+					</div>
+				</aside>
+
+				<div class="plot-column">
+					<div class="canvas-container"><canvas id="plotA" width="1000" height="300"></canvas></div>
+					<div class="canvas-container"><canvas id="plotB" width="1000" height="420"></canvas></div>
+					<div class="info-panel">
+						<div class="info-grid">
+							<div class="info-box"><h4>&Eacute;nergía E<sub>n</sub></h4><div class="info-value" id="i_E">0</div></div>
+							<div class="info-box"><h4>u<sub>cl</sub> = &radic;(2n+1)</h4><div class="info-value" id="i_u">0</div></div>
+							<div class="info-box"><h4>Nodos</h4><div class="info-value" id="i_nod">0</div></div>
+							<div class="info-box"><h4>Puntos</h4><div class="info-value" id="i_pts">0</div></div>
+						</div>
+						<div class="formula">&Phi;<sub>n</sub>(u) = A<sub>0</sub> / &radic;(2<sup>n</sup> n!) &middot; H<sub>n</sub>(u) &middot; e<sup>&minus;u&sup2;/2</sup>, &nbsp; A<sub>0</sub> = (m&omega;/&pi;&#8463;)<sup>1/4</sup>, &nbsp; u = x/&beta;, &nbsp; &beta; = &radic;(&#8463;/m&omega;). &nbsp; R<sub>cl</sub>: región clásicamente permitida.</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<script>
+	(function () {
+		'use strict';
+
+		var T = HTMLSim;
+		var ensureSize = T.ensureSize, drawText = T.drawText, niceStep = T.niceStep, fmtTick = T.fmtTick, bindPair = T.bindPair, getNum = T.getNum, setPair = T.setPair;
+
+		/* ============================================================
+		   Eigenfunciones del oscilador armónico simple (OAS)
+		   Misma construcción que OAS_eigenfunctions.m: u = x/beta, energías en unidades de hbar*omega,
+		   Phi_n por recurrencia  Phi_n = sqrt(2/n) u Phi_{n-1} - sqrt((n-1)/n) Phi_{n-2}.
+		   ============================================================ */
+		var P = {
+			n: document.getElementById('n1'), nR: document.getElementById('n1r'),
+			cvA: document.getElementById('plotA'), cvB: document.getElementById('plotB'),
+			show: { rcl: true, q: true, c: true, pc: true, v: true }
+		};
+		var SA = { ctx: null, w: 0, h: 0 }, SB = { ctx: null, w: 0, h: 0 };
+		// Colores por defecto de Matlab (colororder)
+		var COL = { phi: '#0072BD', Q: '#D95319', Cl: '#4DBEEE', V: 'rgba(126,47,142,0.5)', yel: 'rgba(255,235,0,0.25)' };
+		var DD = 0.1;   // fracción de V_max usada como altura de la densidad dibujada
+
+		function trapz(x, y) {
+			var s = 0, i;
+			for (i = 1; i < x.length; i++) { s += 0.5 * (x[i] - x[i - 1]) * (y[i] + y[i - 1]); }
+			return s;
+		}
+
+		function compute(n) {
+			var En = n + 0.5, uCl = Math.sqrt(2 * n + 1);
+			var uMax = Math.max(Math.sqrt(2 * (n + 3) + 1) * 1.1, Math.sqrt((2 * n + 1) / (1 - DD)));
+			var uN = Math.max(1024, Math.round(16 * (n + 1) * (uMax / uCl)));
+			var u = new Float64Array(uN), phi0 = new Float64Array(uN), i, k, s;
+			for (i = 0; i < uN; i++) { u[i] = (-1 + 2 * i / (uN - 1)) * uMax; phi0[i] = Math.exp(-0.5 * u[i] * u[i]); }
+			var sq = new Float64Array(uN);
+			for (i = 0; i < uN; i++) { sq[i] = phi0[i] * phi0[i]; }
+			s = Math.sqrt(trapz(u, sq));
+			for (i = 0; i < uN; i++) { phi0[i] /= s; }
+
+			var phi = new Float64Array(uN), pm2, pm1, a, b;
+			if (n === 0) {
+				phi.set(phi0);
+			} else {
+				pm2 = new Float64Array(phi0);
+				pm1 = new Float64Array(uN);
+				for (i = 0; i < uN; i++) { pm1[i] = 2 * u[i] * phi0[i] / Math.SQRT2; }
+				if (n === 1) { phi.set(pm1); }
+				for (k = 2; k <= n; k++) {
+					a = Math.sqrt(2 / k); b = Math.sqrt((k - 1) / k);
+					for (i = 0; i < uN; i++) { phi[i] = a * u[i] * pm1[i] - b * pm2[i]; }
+					var tmp = pm2; pm2 = pm1; pm1 = tmp;
+					pm1.set(phi);
+				}
+			}
+
+			var Pn = new Float64Array(uN), V = new Float64Array(uN), Vmax = uMax * uMax / 2;
+			for (i = 0; i < uN; i++) { Pn[i] = phi[i] * phi[i]; V[i] = 0.5 * u[i] * u[i]; }
+			s = trapz(u, Pn);
+			var PMax = 0;
+			for (i = 0; i < uN; i++) { Pn[i] /= s; if (Pn[i] > PMax) { PMax = Pn[i]; } }
+			var kProb = DD * Vmax / PMax;
+			for (i = 0; i < uN; i++) { Pn[i] *= kProb; }
+
+			// "Probabilidad clásica"
+			var pCl = new Float64Array(uN), du = 2 * uMax / (uN - 1), den;
+			for (i = 0; i < uN; i++) {
+				if (Math.abs(u[i]) <= uCl) {
+					den = uCl * uCl - u[i] * u[i];
+					pCl[i] = du / Math.sqrt(Math.max(den, 1e-12)) / Math.PI;
+				}
+			}
+			s = trapz(u, pCl);
+			for (i = 0; i < uN; i++) { pCl[i] *= kProb / s; }
+
+			return { n: n, En: En, uCl: uCl, uMax: uMax, uN: uN, u: u, phi: phi, P: Pn, pCl: pCl, V: V, Vmax: Vmax };
+		}
+
+		function axes(ctx, r, xmin, xmax, ymin, ymax, xl, yl) {
+			var X = function (v) { return r.l + (v - xmin) / (xmax - xmin) * r.w; };
+			var Y = function (v) { return r.t + r.h - (v - ymin) / (ymax - ymin) * r.h; };
+			ctx.fillStyle = '#fff'; ctx.fillRect(r.l, r.t, r.w, r.h);
+			var sx = niceStep(xmax - xmin, 10), sy = niceStep(ymax - ymin, 6), v;
+			ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
+			for (v = Math.ceil(xmin / sx) * sx; v <= xmax + 1e-9; v += sx) {
+				ctx.beginPath(); ctx.moveTo(X(v), r.t); ctx.lineTo(X(v), r.t + r.h); ctx.stroke();
+				drawText(ctx, fmtTick(v), X(v), r.t + r.h + 20, 16, 'center', '#555');
+			}
+			for (v = Math.ceil(ymin / sy) * sy; v <= ymax + 1e-9; v += sy) {
+				ctx.beginPath(); ctx.moveTo(r.l, Y(v)); ctx.lineTo(r.l + r.w, Y(v)); ctx.stroke();
+				drawText(ctx, fmtTick(v), r.l - 8, Y(v) + 5, 16, 'right', '#555');
+			}
+			ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6; ctx.strokeRect(r.l, r.t, r.w, r.h);
+			drawText(ctx, xl, r.l + r.w / 2, r.t + r.h + 44, 19, 'center', '#333', 'bold');
+			ctx.save(); ctx.translate(18, r.t + r.h / 2); ctx.rotate(-Math.PI / 2);
+			drawText(ctx, yl, 0, 0, 19, 'center', '#333', 'bold'); ctx.restore();
+			return { X: X, Y: Y };
+		}
+
+		function band(ctx, A, u, top, base, color, stroke) {
+			var i, N = u.length;
+			ctx.beginPath();
+			ctx.moveTo(A.X(u[0]), A.Y(top(0)));
+			for (i = 1; i < N; i++) { ctx.lineTo(A.X(u[i]), A.Y(top(i))); }
+			for (i = N - 1; i >= 0; i--) { ctx.lineTo(A.X(u[i]), A.Y(base(i))); }
+			ctx.closePath();
+			ctx.fillStyle = color; ctx.fill();
+			if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke(); }
+		}
+
+		function draw() {
+			var n = Math.round(getNum(P.n, 9));
+			var D = compute(n), u = D.u, N = D.uN, i;
+			var E = D.En, uCl = D.uCl, show = P.show;
+
+			/* ---------- Gráfico A: Phi_n(u) ---------- */
+			ensureSize(SA, P.cvA, 0.3, 230, 360);
+			var ctx = SA.ctx, W = SA.w, H = SA.h;
+			ctx.clearRect(0, 0, W, H);
+			var r = { l: 70, t: 34, w: W - 70 - 20, h: H - 34 - 54 };
+			var ym = 0, ymax;
+			for (i = 0; i < N; i++) { if (Math.abs(D.phi[i]) > ym) { ym = Math.abs(D.phi[i]); } }
+			ymax = 1.25 * ym;
+			var A = axes(ctx, r, -D.uMax, D.uMax, -ymax, ymax, 'u = x/β, posición adimensional', '∝ Φ_n(u)');
+			ctx.save(); ctx.beginPath(); ctx.rect(r.l, r.t, r.w, r.h); ctx.clip();
+			if (show.rcl) {
+				ctx.fillStyle = COL.yel;
+				ctx.fillRect(A.X(-uCl), r.t, A.X(uCl) - A.X(-uCl), r.h);
+			}
+			ctx.strokeStyle = COL.phi; ctx.lineWidth = 3; ctx.lineJoin = 'round';
+			ctx.beginPath();
+			for (i = 0; i < N; i++) { if (i === 0) { ctx.moveTo(A.X(u[i]), A.Y(D.phi[i])); } else { ctx.lineTo(A.X(u[i]), A.Y(D.phi[i])); } }
+			ctx.stroke();
+			ctx.restore();
+			drawText(ctx, 'Φ_n(u),   n = ' + n, r.l + r.w / 2, 22, 20, 'center', '#333', 'bold');
+
+			/* ---------- Gráfico B: densidad de probabilidad a la altura de E_n ---------- */
+			ensureSize(SB, P.cvB, 0.42, 280, 520);
+			ctx = SB.ctx; W = SB.w; H = SB.h;
+			ctx.clearRect(0, 0, W, H);
+			r = { l: 70, t: 34, w: W - 70 - 20, h: H - 34 - 54 };
+			var B = axes(ctx, r, -D.uMax, D.uMax, 0, D.Vmax, 'u = x/β, posición adimensional', 'E_n y V, en ħω');
+			ctx.save(); ctx.beginPath(); ctx.rect(r.l, r.t, r.w, r.h); ctx.clip();
+
+			// región clásicamente permitida: entre la recta E_n y la parábola
+			if (show.rcl) {
+				ctx.beginPath();
+				var first = true, idx = [];
+				for (i = 0; i < N; i++) { if (D.V[i] <= E) { idx.push(i); } }
+				if (idx.length) {
+					idx.forEach(function (j) { if (first) { ctx.moveTo(B.X(u[j]), B.Y(E)); first = false; } else { ctx.lineTo(B.X(u[j]), B.Y(E)); } });
+					for (i = idx.length - 1; i >= 0; i--) { ctx.lineTo(B.X(u[idx[i]]), B.Y(D.V[idx[i]])); }
+					ctx.closePath(); ctx.fillStyle = COL.yel; ctx.fill();
+				}
+			}
+			var edge = n < 200;
+			if (show.q) { band(ctx, B, u, function (k) { return E + D.P[k]; }, function () { return E; }, COL.Q, edge ? COL.Q : null); }
+			if (show.c) { band(ctx, B, u, function (k) { return E + (Math.abs(u[k]) <= uCl ? D.P[k] : 0); }, function () { return E; }, COL.Cl, edge ? COL.Cl : null); }
+			if (show.pc) { band(ctx, B, u, function (k) { return E + D.pCl[k]; }, function () { return E; }, 'rgba(0,0,0,0.15)', null); }
+			if (show.v) {
+				ctx.strokeStyle = COL.V; ctx.lineWidth = 5; ctx.lineJoin = 'round';
+				ctx.beginPath();
+				for (i = 0; i < N; i++) { if (i === 0) { ctx.moveTo(B.X(u[i]), B.Y(D.V[i])); } else { ctx.lineTo(B.X(u[i]), B.Y(D.V[i])); } }
+				ctx.stroke();
+			}
+			ctx.restore();
+			drawText(ctx, '|Φ_n|² a la altura de E_n = ' + E + ' ħω', r.l + r.w / 2, 22, 20, 'center', '#333', 'bold');
+
+			document.getElementById('i_E').textContent = E + ' ħω';
+			document.getElementById('i_u').textContent = uCl.toFixed(3);
+			document.getElementById('i_nod').textContent = n;
+			document.getElementById('i_pts').textContent = N;
+		}
+
+		bindPair(P.n, P.nR, draw);
+		Array.prototype.forEach.call(document.querySelectorAll('#legend1 input[type="checkbox"]'), function (cb) {
+			cb.addEventListener('change', function () { P.show[cb.getAttribute('data-k')] = cb.checked; draw(); });
+		});
+		document.getElementById('reset1').addEventListener('click', function () { setPair(P.n, P.nR, 9); draw(); });
+
+		draw();
+		window.addEventListener('resize', draw);
+		T.onFontsReady(draw);
+	})();
+	</script>
+</body>
+</html>
