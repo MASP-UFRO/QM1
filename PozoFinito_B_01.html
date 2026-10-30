@@ -87,7 +87,7 @@
 
 				<h2>Condiciones de continuidad</h2>
 				<p>Se impone que la función de onda sea continua para que la probabilidad de encontrar a la partícula en una zona no tenga vacíos físicamente inadmisibles.</p>
-				<p>Dado que el potencial \(V(x)\) es finito en todo su dominio, la derivada de la función de Honda también es continua.</p>
+				<p>Dado que el potencial \(V(x)\) es finito en todo su dominio, la derivada de la función de onda también es continua.</p>
 				<p>Los puntos “problemáticos” son \(x=\pm L/2\), que es donde el potencial exhibe discontinuidades y, a causa de ello, es también donde separamos la función de onda en tramos. Impondremos las condiciones de continuidad en esos puntos \(x=\pm L/2\):</p>
 				\[
 					\begin{align*}
@@ -121,7 +121,7 @@
 						\psi_3 & = & A_3e^{-\gamma_\text{out}x} & + & B_3e^{\gamma_\text{out}x}.
 					\end{array}
 				\]
-				<p>Las exponenciales reales pueden converger asintoticamente a cero o diverger cuando nos alejamos del origen. Considerando que \(\gamma_\text{out}\) es positivo:</p>
+				<p>Las exponenciales reales pueden converger asintóticamente a cero o diverger cuando nos alejamos del origen. Considerando que \(\gamma_\text{out}\) es positivo:</p>
 				<ul>
 					<li>En la Región <span class="reg r1">1</span>, \(e^{-\gamma_\text{out}x}\) diverge cuando \(x\to-\infty\).</li>
 					<li>En la Región <span class="reg r3">3</span>, \(e^{+\gamma_\text{out}x}\) diverge cuando \(x\to+\infty\).</li>
@@ -338,7 +338,7 @@
 						\text{Impares}: & k_\text{in}\cos\left(\frac{Lk_\text{in}}{2}\right)=-\gamma_\text{out}\sin\left(\frac{Lk_\text{in}}{2}\right)
 					\end{array}\right.
 				\]
-				<p>y en ninguna de ellas podemos despejar algebraicamente los valores de energía ya que ambas son <i>ecuaciones transcendentales</i>. Toda búsqueda debe ser numérica. Por ello, debemos simplificar las expresiones e intentar usar variables adimensionales. Los parámetros auxiliares del comienzo sirven para este propósito, dejando ambas condiciones como</p>
+				<p>y en ninguna de ellas podemos despejar algebraicamente los valores de energía ya que ambas son <i>ecuaciones trascendentales</i>. Toda búsqueda debe ser numérica. Por ello, debemos simplificar las expresiones e intentar usar variables adimensionales. Los parámetros auxiliares del comienzo sirven para este propósito, dejando ambas condiciones como</p>
 				<div class="eqrow">
 					<span>\(
 						\begin{array}{rcrcl}
@@ -470,7 +470,7 @@
 					</li>
 				</ul>
 
-				<h2>¿Cuántos estados ligados tendra el sistema?</h2>
+				<h2>¿Cuántos estados ligados tendrá el sistema?</h2>
 				<p>Dado que \(0\le\eta\le1\), la definición \(\eta=\sin^2(\phi)\), requiere \(0\le\phi\le\frac{\pi}{2}\).</p>
 				<ul>
 					<li>Como \(\phi_n\ge0\), los \(n\) no pueden ser negativos.</li>
@@ -478,7 +478,7 @@
 						\[
 							\underbrace{n=0}_{\left(\begin{array}{c}n\ \text{par},\\ \Psi_n\ \text{impar}\end{array}\right)}
 							\ \Rightarrow\ \phi_0=0\ \Rightarrow\ \eta_0=0\ \Rightarrow\ k_\text{in}=0\ \wedge\ \gamma_\text{out}=0\ \Rightarrow\
-							\underbrace{\Psi_0=\text{constante}}_{\left(\begin{array}{c}\text{Función constante}\\ \text{e impar al mismo tiempo}\\ \text{solo pueder ser cero}\end{array}\right)}
+							\underbrace{\Psi_0=\text{constante}}_{\left(\begin{array}{c}\text{Función constante}\\ \text{e impar al mismo tiempo}\\ \text{solo puede ser cero}\end{array}\right)}
 						\]
 					</li>
 					<li>Por lo tanto, \(n\ge1\). Ahora nos falta una cota superior para \(n\).</li>
@@ -489,7 +489,7 @@
 					<li>Por lo tanto, dado un valor fijo de \(c\), el máximo de \(n\) estará en \(\varphi=\pi/2\):
 						\[ n_{\max}=n\left(\varphi=\tfrac{\pi}{2}\right)=\frac{2}{\pi}\left(\frac{\pi}{2}+c\sin\frac{\pi}{2}\right)=1+\frac{2c}{\pi}. \]
 					</li>
-					<li>Per \(n_{\max}\) debe ser un número entero y \(\frac{2c}{\pi}\) puede no serlo. Podemos forzarlo como
+					<li>Pero \(n_{\max}\) debe ser un número entero y \(\frac{2c}{\pi}\) puede no serlo. Podemos forzarlo como
 						\[ n_{\max}=\left\lfloor 1+\frac{2c}{\pi}\right\rfloor\ =\ \left\lceil\frac{2c}{\pi}\right\rceil,\quad\text{donde } \lfloor x\rfloor \text{ denota la parte entera de } x \text{ y } \lceil x\rceil \text{ es la función techo (ceiling).} \]
 					</li>
 					<li>Con esto, concluimos que \(1\le n\le\left\lceil\frac{2c}{\pi}\right\rceil\) y que <i><b>existirán </b></i>\(n_\text{bnd}=\left\lceil\frac{2c}{\pi}\right\rceil\)<i><b> estados ligados</b></i>.</li>
@@ -501,7 +501,7 @@
 						</ul>
 					</li>
 				</ul>
-				<p>Este numero \(n_\text{bnd}=\left\lceil\dfrac{L}{\lambda_{\Delta V}/2}\right\rceil\) nos recuerda a la relación de armónicos en una cuerda de guitarra: los armónicos permitidos eran aquellos donde la longitud de la cuerda era un número entero de semilongitudes de onda.<br>
+				<p>Este número \(n_\text{bnd}=\left\lceil\dfrac{L}{\lambda_{\Delta V}/2}\right\rceil\) nos recuerda a la relación de armónicos en una cuerda de guitarra: los armónicos permitidos eran aquellos donde la longitud de la cuerda era un número entero de semilongitudes de onda.<br>
 				Aquí tenemos que esa razón entre el ancho del pozo y semilongitudes de onda de de&nbsp;Broglie “del pozo” es quien nos dice cuántos estados ligados habrá.</p>
 			</div>
 		</div>
