@@ -293,6 +293,7 @@ button {
 }
 
 .theory figure img {
+	width: 100%;
 	max-width: 100%;
 	height: auto;
 	border: 2px solid var(--colorUFRO);
