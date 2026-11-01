@@ -14,7 +14,7 @@
 		1. Teoría para energías generales.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_G01">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_G01">Cargando animación...</div>
 	</div>
 </details>
 <details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
@@ -22,7 +22,7 @@
 		2. Condiciones de continuidad.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_G02">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_G02">Cargando animación...</div>
 	</div>
 </details>
 
@@ -36,7 +36,7 @@
 		Teoría.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_A01">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_A01">Cargando animación...</div>
 	</div>
 </details>
 <details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
@@ -44,8 +44,8 @@
 		Gráficos interactivos.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_A02">Cargando animación...</div>
-		<div class="sim" id="PozoFinito_A03">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_A02">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_A03">Cargando animación...</div>
 	</div>
 </details>
 
@@ -61,7 +61,7 @@
 		Teoría.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_B01">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_B01">Cargando animación...</div>
 	</div>
 </details>
 <details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
@@ -69,8 +69,8 @@
 		Gráficos interactivos.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_B02">Cargando animación...</div>
-		<div class="sim" id="PozoFinito_B03">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_B02">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_B03">Cargando animación...</div>
 	</div>
 </details>
 
@@ -83,7 +83,7 @@
 	<div style="padding:12px">
 
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_C01">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_C01">Cargando animación...</div>
 	</div>
 	</div>
 </details>
@@ -92,17 +92,19 @@
 		4. Resumen de los casos.
 	</summary>
 	<div style="padding:12px">
-		<div class="sim" id="PozoFinito_R01">Cargando animación...</div>
+		<div class="simPF" id="PozoFinito_R01">Cargando animación...</div>
 	</div>
 </details>
 
 <script src="https://masp-ufro.github.io/ScriptsParaCV/InteractiveHTML.js" type="text/javascript"></script>
 <script type="text/javascript">// <![CDATA[
-	var BASE = 'https://masp-ufro.github.io/QM1/PozoFinito/';
-	document.querySelectorAll('.sim').forEach(function (el) {
-		// URL = BASE + id + '.html'; contenedor = el.id; altura inicial por defecto; ancho 100 %; expandRight activado
-		renderSimulation(BASE + el.id + '.html', el.id, undefined, '100%', true);
-	});
+	(function () {
+		var BASE = 'https://masp-ufro.github.io/QM1/PozoFinito/';
+		document.querySelectorAll('.simPF').forEach(function (el) {
+			// URL = BASE + id + '.html'; contenedor = el.id; altura inicial por defecto; ancho 100 %; expandRight activado
+			renderSimulation(BASE + el.id + '.html', el.id, undefined, '100%', true);
+		});
+	})();
 // ]]>
 </script>
 <br>
