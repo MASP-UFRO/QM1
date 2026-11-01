@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Resumen de los casos</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Diagramas de flujo: columna izquierda con ecuaciones, columna derecha con texto */
+		.flow { display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: 2px 22px; align-items: center; margin: 0.9em 0; }
+		.flow .l { text-align: center; }
+		.flow .r::before { content: "\2022\00a0\00a0"; }
+		.flow .r.nob::before { content: none; }
+		.flow .sub { display: block; margin-left: 1.4em; }
+		@media (max-width: 620px) { .flow { grid-template-columns: minmax(0, 1fr); } .flow .l { text-align: left; } }
+		/* Tabla resumen */
+		.sumtab { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95em; }
+		.sumtab th, .sumtab td { border: 1px solid #c9d3e0; padding: 6px 9px; text-align: left; vertical-align: top; }
+		.sumtab th { background: var(--colorBACK); color: var(--colorUFRO); }
+		.sumtab-wrap { overflow-x: auto; }
+	</style>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+<h2>Resumen de los casos</h2>
+<div class="sumtab-wrap">
+<table class="sumtab">
+	<tr><th>Caso</th><th>Energía</th><th>\(\eta\)</th><th>\(k_\text{in}\), \(k_\text{out}\)</th><th>Funciones de onda</th><th>Estados</th></tr>
+	<tr>
+		<td><b>(a)</b></td>
+		<td>\(\mathcal{E}>V_\text{out}>V_\text{in}\)</td>
+		<td>\(\eta>1\)</td>
+		<td>ambos reales</td>
+		<td>oscilatorias en las tres regiones</td>
+		<td>existe solución para <i>cualquier</i> energía (estados de scattering, espectro continuo); sistema no homogéneo</td>
+	</tr>
+	<tr>
+		<td><b>(b)</b></td>
+		<td>\(V_\text{out}>\mathcal{E}>V_\text{in}\)</td>
+		<td>\(0<\eta<1\)</td>
+		<td>\(k_\text{in}\) real, \(k_\text{out}=i\gamma_\text{out}\)</td>
+		<td>oscilatoria en la Región <span class="reg r2">2</span>, evanescente en las Regiones <span class="reg r1">1</span> y <span class="reg r3">3</span></td>
+		<td>estados ligados, solo para energías discretas (\(\det(\mathbf{M}_s)=0\)); en número finito \(n_\text{bnd}=\lceil 2c/\pi\rceil\)</td>
+	</tr>
+	<tr>
+		<td><b>(c)</b></td>
+		<td>\(\mathcal{E}\lt V_\text{in}\)</td>
+		<td>\(\eta<0\)</td>
+		<td>\(k_\text{in}=i\gamma_\text{in}\), \(k_\text{out}=i\gamma_\text{out}\)</td>
+		<td>exponenciales reales en las tres regiones</td>
+		<td>no hay estados (\(\det(\mathbf{M}_s)>0\) siempre)</td>
+	</tr>
+</table>
+</div>
+<p>En conjunto, el espectro del pozo finito consta de un número finito de niveles discretos entre \(V_\text{in}\) y \(V_\text{out}\), y de un continuo para \(\mathcal{E}>V_\text{out}\).</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

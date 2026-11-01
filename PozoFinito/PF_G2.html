@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Condiciones de continuidad</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Diagramas de flujo: columna izquierda con ecuaciones, columna derecha con texto */
+		.flow { display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: 2px 22px; align-items: center; margin: 0.9em 0; }
+		.flow .l { text-align: center; }
+		.flow .r::before { content: "\2022\00a0\00a0"; }
+		.flow .r.nob::before { content: none; }
+		.flow .sub { display: block; margin-left: 1.4em; }
+		@media (max-width: 620px) { .flow { grid-template-columns: minmax(0, 1fr); } .flow .l { text-align: left; } }
+		/* Tabla resumen */
+		.sumtab { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95em; }
+		.sumtab th, .sumtab td { border: 1px solid #c9d3e0; padding: 6px 9px; text-align: left; vertical-align: top; }
+		.sumtab th { background: var(--colorBACK); color: var(--colorUFRO); }
+		.sumtab-wrap { overflow-x: auto; }
+	</style>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+<h2>Condiciones de continuidad</h2>
+				<p>Se impone que la función de onda sea continua para que la probabilidad de encontrar a la partícula en una zona no tenga vacíos físicamente inadmisibles.</p>
+				<p>Dado que el potencial \(V(x)\) es finito en todo su dominio, la derivada de la función de onda también es continua.</p>
+				<p>Los puntos “problemáticos” son \(x=\pm L/2\), que es donde el potencial exhibe discontinuidades y, a causa de ello, es también donde separamos la función de onda en tramos. Impondremos las condiciones de continuidad en esos puntos \(x=\pm L/2\):</p>
+				\[
+					\begin{align*}
+						\psi_1(-L/2)&=\psi_2(-L/2) &\Rightarrow\quad& A_1e^{-iLk_\text{out}/2}+B_1e^{iLk_\text{out}/2} = A_2e^{-iLk_\text{in}/2}+B_2e^{iLk_\text{in}/2}, \\
+						\psi_1'(-L/2)&=\psi_2'(-L/2) &\Rightarrow\quad& ik_\text{out}\left(A_1e^{-iLk_\text{out}/2}-B_1e^{iLk_\text{out}/2}\right) = ik_\text{in}\left(A_2e^{-iLk_\text{in}/2}-B_2e^{iLk_\text{in}/2}\right), \\
+						\psi_2(+L/2)&=\psi_3(+L/2) &\Rightarrow\quad& A_2e^{iLk_\text{in}/2}+B_2e^{-iLk_\text{in}/2} = A_3e^{iLk_\text{out}/2}+B_3e^{-iLk_\text{out}/2}, \\
+						\psi_2'(+L/2)&=\psi_3'(+L/2) &\Rightarrow\quad& ik_\text{in}\left(A_2e^{iLk_\text{in}/2}-B_2e^{-iLk_\text{in}/2}\right) = ik_\text{out}\left(A_3e^{iLk_\text{out}/2}-B_3e^{-iLk_\text{out}/2}\right).
+					\end{align*}
+				\]
+				<p>Así, estas cuatro ecuaciones forman un sistema de ecuaciones lineales para los coeficientes \(A_1, B_1, A_2, B_2, A_3, B_3\). Otras ecuaciones y/o condiciones adicionales se verán caso a caso.</p>
+
+				
+<h2>Sistemas homogéneos y no homogéneos</h2>
+<p>Dependiendo del caso, al reducir las incógnitas el sistema lineal queda escrito matricialmente como \(\mathbf{M}\cdot\vec{v}=\vec{b}\), donde \(\mathbf{M}\) es la matriz de coeficientes, \(\vec{v}\) es el vector que contiene a las incógnitas y \(\vec{b}\) es el término inhomogéneo. Hay dos posibilidades:</p>
+<ul>
+	<li><b>Sistema no homogéneo</b> (\(\vec{b}\neq\vec{0}\)): ocurre cuando se fija un coeficiente de referencia, como la amplitud de una onda incidente (caso (a)). La solución es <i>no trivial</i> y no se necesita imponer ninguna condición sobre el determinante, de modo que <b>no aparece ninguna discretización de la energía</b>.</li>
+	<li><b>Sistema homogéneo</b> (\(\vec{b}=\vec{0}\)): ocurre cuando no hay ninguna onda de referencia (casos (b) y (c)). Aquí sí aparece una condición sobre la energía, como se explica a continuación.</li>
+</ul>
+<p>Un sistema homogéneo \(\mathbf{M}\cdot\vec{v}=\vec{0}\) siempre admite la solución \(\vec{v}=\vec{0}\) (solución trivial). Esta solución es muy poco conveniente porque nos dice que la función de onda, básicamente, <i>no existe</i>. ¿Cómo evadimos la solución trivial? Si imponemos que el sistema de ecuaciones sea <i>linealmente dependiente</i>, entonces podremos escribir algunas de las incógnitas en función de la otras de forma no trivial. La dependencia lineal se puede forzar imponiendo que</p>
+				\[ \det(\mathbf{M})=0. \]
+				<p>Esto se debe a que \(\det(\mathbf{M})=0\) implica que \(\mathbf{M}\) no es invertible, de modo que la ruta \(\vec{v}=\mathbf{M}^{-1}\cdot\vec{0}=\vec{0}\) no sería matemáticamente válida. Así se evade la solución trivial.</p>
+				<p>Usando operadores lógicos,</p>
+				\[
+					\begin{array}{rcl}
+						\overbrace{\vec{v}\neq\vec{0}}^{\text{Queremos}:}\ \wedge\ \overbrace{\mathbf{M}\vec{v}=\vec{0}}^{\text{Tenemos}:}
+						& \Leftrightarrow &
+						\vec{v}\neq\vec{0}\ \wedge\ \left(\vec{v}=\mathbf{M}^{-1}\vec{0}\ \vee\ \nexists\,\mathbf{M}^{-1}\right) \\[6pt]
+						& \Leftrightarrow &
+						\vec{v}\neq\vec{0}\ \wedge\ \left(\vec{v}=\vec{0}\ \vee\ \det(\mathbf{M})=0\right) \\[6pt]
+						& \Leftrightarrow &
+						\underbrace{\left(\vec{v}\neq\vec{0}\ \wedge\ \vec{v}=\vec{0}\right)}_{\text{Contradicción}}\ \vee\ \left(\vec{v}\neq\vec{0}\ \wedge\ \det(\mathbf{M})=0\right) \\[6pt]
+						& \Leftrightarrow &
+						\vec{v}\neq\vec{0}\ \wedge\ \det(\mathbf{M})=0
+					\end{array}
+				\]
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>

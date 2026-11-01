@@ -1,0 +1,118 @@
+<hr><br>
+<h2 style="text-align: center;"><span style="color: #993300;">Pozo de potencial finito</span></h2>
+
+<h5 style="text-align: center;">
+	<br>
+	Puede bajar los scripts en formato Wolfram Mathematica del <a href="https://drive.google.com/file/d/1gl29tJwl5KujfCxxgWcEsdGBoQIAjRHs/view?usp=sharing">caso (a)</a> y del <a href="https://drive.google.com/file/d/1cm2A8Rx7I11tJS6B9nL_UCh8V-eqB6_2/view?usp=sharing">caso (b)</a>, o bien abrir las subsecciones ubicadas debajo.</h5>
+	<br>
+
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		1. Teoría para energías generales.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PF_G1">Cargando animación...</div>
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		2. Condiciones de continuidad.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PF_G2">Cargando animación...</div>
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		3. Casos.
+	</summary>
+	<div style="padding:12px">
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Caso (a): E &gt; V<sub>out</sub> &gt; V<sub>in</sub>
+	</summary>
+	<div style="padding:12px">
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Teoría.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PF_A1">Cargando animación...</div>
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Gráficos interactivos.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PozoFinito_A_02">Cargando animación...</div>
+		<div class="sim" id="PozoFinito_A_03">Cargando animación...</div>
+	</div>
+</details>
+
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Caso (b): V<sub>out</sub> &gt; E &gt; V<sub>in</sub>
+	</summary>
+	<div style="padding:12px">
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Teoría.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PF_B1">Cargando animación...</div>
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Gráficos interactivos.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PozoFinito_B_02">Cargando animación...</div>
+		<div class="sim" id="PozoFinito_B_03">Cargando animación...</div>
+	</div>
+</details>
+
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Caso (c): E &lt; V<sub>in</sub>
+	</summary>
+	<div style="padding:12px">
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		Teoría.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PF_C1">Cargando animación...</div>
+	</div>
+</details>
+
+	</div>
+</details>
+
+	</div>
+</details>
+<details style="margin:8px 0; border:1px solid #005092; border-radius:10px; overflow:hidden">
+	<summary style="cursor:pointer; padding:12px 16px; background:#ffffff; color:#005092; font-weight:600">
+		4. Resumen de los casos.
+	</summary>
+	<div style="padding:12px">
+		<div class="sim" id="PF_R">Cargando animación...</div>
+	</div>
+</details>
+
+<script src="https://masp-ufro.github.io/ScriptsParaCV/InteractiveHTML.js" type="text/javascript"></script>
+<script type="text/javascript">// <![CDATA[
+	var BASE = 'https://masp-ufro.github.io/QM1/';
+	document.querySelectorAll('.sim').forEach(function (el) {
+		// URL = BASE + id + '.html'; contenedor = el.id; altura inicial por defecto; ancho 100 %; expandRight activado
+		renderSimulation(BASE + el.id + '.html', el.id, undefined, '100%', true);
+	});
+// ]]>
+</script>
+<br>
+<br>

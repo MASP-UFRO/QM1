@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pozo finito - Teoría general</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<style>
+		/* Diagramas de flujo: columna izquierda con ecuaciones, columna derecha con texto */
+		.flow { display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: 2px 22px; align-items: center; margin: 0.9em 0; }
+		.flow .l { text-align: center; }
+		.flow .r::before { content: "\2022\00a0\00a0"; }
+		.flow .r.nob::before { content: none; }
+		.flow .sub { display: block; margin-left: 1.4em; }
+		@media (max-width: 620px) { .flow { grid-template-columns: minmax(0, 1fr); } .flow .l { text-align: left; } }
+		/* Tabla resumen */
+		.sumtab { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95em; }
+		.sumtab th, .sumtab td { border: 1px solid #c9d3e0; padding: 6px 9px; text-align: left; vertical-align: top; }
+		.sumtab th { background: var(--colorBACK); color: var(--colorUFRO); }
+		.sumtab-wrap { overflow-x: auto; }
+	</style>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+<h2>Planteamiento</h2>
+<p>Una partícula de masa \(m\) y energía \(\mathcal{E}\) se mueve en el pozo de potencial</p>
+				\[
+				V(x)=\begin{cases} V_\text{in}, & |x|\le L/2,\\[2pt] V_\text{out}, & |x|>L/2,\end{cases}
+				\qquad V_\text{out}>V_\text{in}.
+				\]
+				<p>Las tres regiones son: <span class="reg r1">1</span> \(x<-L/2\), <span class="reg r2">2</span> \(|x|\le L/2\) (interior del pozo) y <span class="reg r3">3</span> \(x>L/2\).</p>
+<p>Según el valor de la energía \(\mathcal{E}\) distinguiremos tres casos:</p>
+<ul>
+	<li><b>caso (a):</b> \(\mathcal{E}>V_\text{out}>V_\text{in}\), la energía supera al potencial en todo punto;</li>
+	<li><b>caso (b):</b> \(V_\text{out}>\mathcal{E}>V_\text{in}\), la energía es mayor que el mínimo del potencial, pero menor que el máximo;</li>
+	<li><b>caso (c):</b> \(V_\text{in}>\mathcal{E}\), la energía es menor que el mínimo del potencial.</li>
+</ul>
+<p>Esta teoría general y las condiciones de continuidad son comunes a los tres casos. Cada caso se estudia luego por separado.</p>
+
+<h2>Ecuación de Schrödinger y soluciones por región</h2>
+<p>En cada región el potencial es constante y la ecuación de Schrödinger independiente del tiempo (<b>ESIT</b>) puede escribirse como</p>
+				<div class="eqrow">
+					<span>\( -\dfrac{\hbar^2}{2m}\,\dfrac{d^2\psi_j}{dx^2}+V_j\,\psi_j(x)=\mathcal{E}\,\psi_j, \)</span>
+					<span>donde</span>
+					<span>\( j=1,2,3, \)</span>
+					<span>\( V_1=V_3=V_\text{out} \)</span>
+					<span>y</span>
+					<span>\( V_2=V_\text{in}. \)</span>
+				</div>
+				<p>Estas ecuaciones son equivalentes a</p>
+				<div class="eqrow">
+					<span>\( \psi_j''(x)+k_j^2\,\psi_j(x)=0, \)</span>
+					<span>donde</span>
+					<span>\(
+						\begin{aligned}
+							k_1 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{out})} = k_\text{out},\\
+							k_2 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{in})} = k_\text{in},\\
+							k_3 &= \sqrt{\dfrac{2m}{\hbar^2}(\mathcal{E}-V_\text{out})} = k_\text{out}.
+						\end{aligned}
+					\)</span>
+				</div>
+				<p>Las soluciones para cada región serán de la forma</p>
+				<div class="eqrow">
+					<span>\( \psi_j(x)=A_j\,e^{i k_j x}+B_j\,e^{-i k_j x}, \)</span>
+					<span>donde los coeficientes \(A_j\) y \(B_j\) son incógnitas a determinar.</span>
+				</div>
+				<p>Note que si la energía \(\mathcal{E}\) es menor que alguno de los \(V_j\), ocurrirá que el respectivo \(k_j\) será un número puramente imaginario: \(k_j\to i\gamma_j\).</p>
+				<p>Para simplificar la descripción, hay algunos parámetros auxiliares que usaremos en ocasiones. Para que los resultados no dependan de unidades concretas, recurrimos a cantidades adimensionales: medimos la energía en múltiplos de la profundidad del pozo y su ancho en unidades de longitudes de onda de de&nbsp;Broglie. Sean:</p>
+				<ul>
+					<li>\(\Delta V=V_\text{out}-V_\text{in}\): la “profundidad” del pozo.</li>
+					<li>\(\Delta\mathcal{E}=\mathcal{E}-V_\text{in}\): indica cuánto sobresale la energía \(\mathcal{E}\) por encima del fondo del pozo.</li>
+					<li>\(\eta=\Delta\mathcal{E}/\Delta V\): ubicación de la energía \(\mathcal{E}\) relativa a la profundidad del pozo. <br>
+						Por ejemplo, \(\eta=\frac{1}{2}\) indica que \(\mathcal{E}\) está exactamente a la mitad entre \(V_\text{in}\) y \(V_\text{out}\).</li>
+					<li>\(\lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}}\): longitud de onda de de&nbsp;Broglie de la partícula, tomando \(\Delta\mathcal{E}\) como referencia.
+						<ul>
+							<li>Imagine que la energía cinética (\(p^2/2m\)) de la partícula fuese \(\Delta\mathcal{E}\).</li>
+							<li>Entonces, \(p=\sqrt{2m\,\Delta\mathcal{E}}\).</li>
+							<li>La hipótesis de de&nbsp;Broglie dice que \(p=\hbar\,k\), donde \(k=2\pi/\lambda_\text{dB}\).</li>
+							<li>Despejando, se obtiene que \(\lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}}\).</li>
+						</ul>
+					</li>
+					<li>\(\Lambda=L/\lambda_\text{dB}\): ancho del pozo, pero expresado en múltiplos de \(\lambda_\text{dB}\).</li>
+				</ul>
+				<p>Con estas sustituciones, podemos escribir también que</p>
+				\[
+					\begin{aligned}
+						k_\text{in} &= \sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}, \\
+						k_\text{out} &= \sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}, \\
+						\Lambda &= L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}} &&= \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}.
+					\end{aligned}
+				\]
+
+				
+<p>Según el valor de \(\mathcal{E}\), el parámetro \(\eta\) queda en distintos rangos:</p>
+<div class="eqrow">
+	<span>caso (a): \(\eta>1\),</span>
+	<span>caso (b): \(0<\eta<1\),</span>
+	<span>caso (c): \(\eta<0\).</span>
+</div>
+
+<h2>Paridad de las eigenfunciones</h2>
+				<p>Este pozo de potencial, en la forma en que fue definido, es una función <i>par</i> ya que \(V(-x)=V(x)\). Debido a ello, el operador hamiltoniano conmuta con el operador de paridad. Y nosotros sabemos que dos observables que conmuten <i>pueden</i> escribirse con los mismos estados propios.</p>
+				\[
+					[\hat{H},\hat{\Pi}]=\hat{\mathbb{O}}
+					\quad\Leftrightarrow\quad
+					\exists\,|\Psi_n\rangle:\quad
+					\hat{H}|\Psi_n\rangle=\mathcal{E}_n|\Psi_n\rangle
+					\ \wedge\
+					\hat{\Pi}|\Psi_n\rangle=s_n|\Psi_n\rangle,\quad s_n=\pm1.
+				\]
+				<p>Debido a lo anterior, las funciones de onda propias de este pozo podrán categorizarse en eigenfunciones <i>pares</i> e <i>impares</i>.</p>
+<p>En el caso <b>(a)</b>, el potencial es simétrico, pero el contexto fue interpretado como asimétrico: la partícula venía desde una dirección específica y usamos esa amplitud incidente como referencia. Es por ello que no utilizamos la paridad para analizar ese caso. No obstante, si no nos hubiera importado la interpretación y solo hubiésemos querido calcular soluciones, también podríamos haber aplicado las simplificaciones debido a la simetría de paridad.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
