@@ -79,48 +79,63 @@
 					<span>donde los coeficientes \(A_j\) y \(B_j\) son incógnitas a determinar.</span>
 				</div>
 				<p>Note que si la energía \(\mathcal{E}\) es menor que alguno de los \(V_j\), ocurrirá que el respectivo \(k_j\) será un número puramente imaginario: \(k_j\to i\gamma_j\).</p>
-				<p>Para simplificar la descripción, hay algunos parámetros auxiliares que usaremos en ocasiones. Para que los resultados no dependan de unidades concretas, recurrimos a cantidades adimensionales: medimos la energía en múltiplos de la profundidad del pozo y su ancho en unidades de longitudes de onda de de&nbsp;Broglie. Sean:</p>
+				<br>
+				<p>Recurriremos a algunos parámetros auxiliares para simplificar la descripción:</p> 
+				<ul>
+					<li>Mediremos la energía en múltiplos de la profundidad del pozo.</li>
+					<li>Cuantificaremos el ancho del pozo en unidades de longitudes de onda de de&nbsp;Broglie.</li>
+				</ul>
+				<br>
+				<p>Sean:</p>
 				<ul>
 					<li>\(\Delta V=V_\text{out}-V_\text{in}\): la “profundidad” del pozo.</li>
 					<li>\(\Delta\mathcal{E}=\mathcal{E}-V_\text{in}\): indica cuánto sobresale la energía \(\mathcal{E}\) por encima del fondo del pozo.</li>
 					<li>\(\eta=\Delta\mathcal{E}/\Delta V\): ubicación de la energía \(\mathcal{E}\) relativa a la profundidad del pozo. <br>
-						Por ejemplo, \(\eta=\frac{1}{2}\) indica que \(\mathcal{E}\) está exactamente a la mitad entre \(V_\text{in}\) y \(V_\text{out}\).</li>
+						<ul><ul>
+							<li>Por ejemplo, \(\eta=\frac{1}{2}\) indica que \(\mathcal{E}\) está exactamente a la mitad entre \(V_\text{in}\) y \(V_\text{out}\). </li>
+						</ul></ul></li>
 					<li>\(\lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}}\): longitud de onda de de&nbsp;Broglie de la partícula, tomando \(\Delta\mathcal{E}\) como referencia.
-						<ul>
+						<ul><ul>
 							<li>Imagine que la energía cinética (\(p^2/2m\)) de la partícula fuese \(\Delta\mathcal{E}\).</li>
 							<li>Entonces, \(p=\sqrt{2m\,\Delta\mathcal{E}}\).</li>
 							<li>La hipótesis de de&nbsp;Broglie dice que \(p=\hbar\,k\), donde \(k=2\pi/\lambda_\text{dB}\).</li>
 							<li>Despejando, se obtiene que \(\lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}}\).</li>
-						</ul>
+						</ul></ul>
 					</li>
 					<li>\(\Lambda=L/\lambda_\text{dB}\): ancho del pozo, pero expresado en múltiplos de \(\lambda_\text{dB}\).</li>
 				</ul>
+				<br>
 				<p>Con estas sustituciones, podemos escribir también que</p>
-				\[
-					\begin{aligned}
-						k_\text{in} &= \sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}, \\
-						k_\text{out} &= \sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)} &&= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}, \\
-						\Lambda &= L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}} &&= \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}.
-					\end{aligned}
-				\]
-
-				
+				<div class="eqrow">
+					<span>\( \begin{align}
+						k_\text{in} &= \sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}}, \\
+						k_\text{out} &= \sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)}, \\
+						\Lambda &= L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}},
+					\end{align} \)</span>
+					<span>o bien</span>
+					<span><span>\( \begin{align}
+						k_\text{in} &= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}, \\
+						k_\text{out} &= \sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}, \\
+						\Lambda &= \frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}.
+					\end{align} \)</span>
+				</div>
+				<br>
 <p>Según el valor de \(\mathcal{E}\), el parámetro \(\eta\) queda en distintos rangos:</p>
 <div class="eqrow">
-	<span>caso (a): \(\eta>1\),</span>
-	<span>caso (b): \(0<\eta<1\),</span>
-	<span>caso (c): \(\eta<0\).</span>
+	<span><b>caso (a):</b> \(\eta>1\),</span>
+	<span><b>caso (b):</b> \(0<\eta<1\),</span>
+	<span><b>caso (c):</b> \(\eta<0\).</span>
 </div>
 
 <h2>Paridad de las eigenfunciones</h2>
 				<p>Este pozo de potencial, en la forma en que fue definido, es una función <i>par</i> ya que \(V(-x)=V(x)\). Debido a ello, el operador hamiltoniano conmuta con el operador de paridad. Y nosotros sabemos que dos observables que conmuten <i>pueden</i> escribirse con los mismos estados propios.</p>
 				\[
-					[\hat{H},\hat{\Pi}]=\hat{\mathbb{O}}
+					[\widehat{\mathbf{H}},\widehat{\mathbf{\Pi}}]=\widehat{\mathbf{\mathbb{O}}}
 					\quad\Leftrightarrow\quad
 					\exists\,|\Psi_n\rangle:\quad
-					\hat{H}|\Psi_n\rangle=\mathcal{E}_n|\Psi_n\rangle
-					\ \wedge\
-					\hat{\Pi}|\Psi_n\rangle=s_n|\Psi_n\rangle,\quad s_n=\pm1.
+					\widehat{\mathbf{H}}|\Psi_n\rangle=\mathcal{E}_n|\Psi_n\rangle
+					\quad \wedge\quad 
+					\widehat{\mathbf{\Pi}}|\Psi_n\rangle=s_n|\Psi_n\rangle,\quad s_n=\pm1.
 				\]
 				<p>Debido a lo anterior, las funciones de onda propias de este pozo podrán categorizarse en eigenfunciones <i>pares</i> e <i>impares</i>.</p>
 <p>En el caso <b>(a)</b>, el potencial es simétrico, pero el contexto fue interpretado como asimétrico: la partícula venía desde una dirección específica y usamos esa amplitud incidente como referencia. Es por ello que no utilizamos la paridad para analizar ese caso. No obstante, si no nos hubiera importado la interpretación y solo hubiésemos querido calcular soluciones, también podríamos haber aplicado las simplificaciones debido a la simetría de paridad.</p>
