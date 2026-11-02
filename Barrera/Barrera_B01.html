@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Barrera de potencial - Teoría (caso b)</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+<h2>Caso (b): \(V_\text{in}>\mathcal{E}>V_\text{out}\)</h2>
+<figure>
+	<img src="Barrera_B01_Fig.svg" alt="Barrera de potencial con la energía entre la base y la cima de la barrera">
+	<figcaption>Las tres regiones: <span class="reg r1">1</span> \(x\lt-L/2\), <span class="reg r2">2</span> \(|x|\le L/2\) (interior de la barrera) y <span class="reg r3">3</span> \(x\gt L/2\).</figcaption>
+</figure>
+<p>Ocurrirá que \(k_\text{out}\) es real y positivo, mientras que \(k_\text{in}=i\gamma_\text{in}\) será un imaginario puro. Es decir, las eigenfunciones serán oscilatorias fuera de la barrera y exponenciales dentro de ella. Al igual que en los otros casos analizados, supondremos que (i) la onda viene desde la izquierda para usar \(A_1\) como coeficiente de referencia y (ii) no hay nada con qué reflejarse en la Región <span class="reg r3">3</span>, de modo que \(B_3=0\).</p>
+<p>No obstante, a diferencia del pozo finito, el comportamiento exponencial en la Región <span class="reg r2">2</span> no permite anular alguna de las incógnitas. Esto se debe a que la Región <span class="reg r2">2</span>, al estar espacialmente acotada, las exponenciales no alcanzan a diverger allí. De este modo, este caso no es matemáticamente tan distinto al caso (a), salvo por \(0\lt\eta\le1\), de modo que los estudiaremos juntos.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

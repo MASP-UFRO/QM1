@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Barrera de potencial - Casos (a) y (b) unificados</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+<h2>¿Cómo unificamos los casos (a) y (b)?</h2>
+<p>Ambos tienen un \(k_\text{out}\) real y positivo, de modo que la naturaleza de las funciones será la misma afuera de la barrera. La única diferencia estará dentro de la barrera.</p>
+<ul>
+	<li>Si \(\Delta\mathcal{E}>\Delta V\), tendremos que \(\eta>1\), \(k_\text{in}>0\) y \(k_\text{in}^2>0\). La onda se moverá como
+		\[
+			\underset{\text{(Región 1, }\rightleftharpoons\text{)}}{\text{Onda oscilatoria}}
+			\;\to\;
+			\underset{\text{(Región 2, }\rightleftharpoons\text{)}}{\text{Onda oscilatoria}}
+			\;\to\;
+			\underset{\text{(Región 3, }\to\text{)}}{\text{Onda oscilatoria}}.
+		\]
+	</li>
+	<li>Si \(\Delta\mathcal{E}\lt\Delta V\), tendremos que \(0\lt\eta\le1\), \(k_\text{in}=i\gamma_\text{in}\) y \(k_\text{in}^2\le0\). La onda se moverá como
+		\[
+			\underset{\text{(Región 1, }\rightleftharpoons\text{)}}{\text{Onda oscilatoria}}
+			\;\to\;
+			\underset{\text{(Región 2, }\rightleftharpoons\text{)}}{\text{Onda evanescente}}
+			\;\to\;
+			\underset{\text{(Región 3, }\to\text{)}}{\text{Onda oscilatoria}}.
+		\]
+	</li>
+</ul>
+<p>Ambos casos tendrán 5 términos, respectivamente asociados a \(A_1\), \(B_1\), \(A_2\), \(B_2\) y \(A_3\). Y ambos casos constituirán sistemas de 4 ecuaciones para 5 coeficientes. Si ocupamos \(A_1\) como referencia, estas 4 ecuaciones pasan a ser un sistema inhomogéneo para \(B_1\), \(A_2\), \(B_2\) y \(A_3\). No será necesario imponer condiciones adicionales de dependencia lineal y, en consecuencia, no aparece discretización en la energía.</p>
+<p>En términos de cálculo, se tratará de permitir valores imaginarios para \(k_\text{in}\). El recordar que \(\cos(i\,x)=\cosh(x)\) y \(\sin(i\,x)=i\,\sinh(x)\) ayudará a unificar las expresiones, que ahora se tratarán únicamente en términos de \(0\lt\eta\lt\infty\), en lugar de separarlo en dos casos.</p>
+
+<h2>Sistema de ecuaciones y coeficientes de reflexión y transmisión</h2>
+<p>Si representamos matricialmente el sistema de ecuaciones debido a las condiciones de continuidad, tendremos</p>
+\[
+	\begin{pmatrix}
+		e^{\frac{1}{2}iLk_\text{out}} & -e^{-\frac{1}{2}iLk_\text{in}} & -e^{\frac{1}{2}iLk_\text{in}} & 0\\[2pt]
+		-ik_\text{out}\,e^{\frac{1}{2}iLk_\text{out}} & -ik_\text{in}\,e^{-\frac{1}{2}iLk_\text{in}} & ik_\text{in}\,e^{\frac{1}{2}iLk_\text{in}} & 0\\[2pt]
+		0 & e^{\frac{1}{2}iLk_\text{in}} & e^{-\frac{1}{2}iLk_\text{in}} & -e^{\frac{1}{2}iLk_\text{out}}\\[2pt]
+		0 & ik_\text{in}\,e^{\frac{1}{2}iLk_\text{in}} & -ik_\text{in}\,e^{-\frac{1}{2}iLk_\text{in}} & -ik_\text{out}\,e^{\frac{1}{2}iLk_\text{out}}
+	\end{pmatrix}
+	\cdot
+	\begin{pmatrix} B_1\\ A_2\\ B_2\\ A_3 \end{pmatrix}
+	=-A_1
+	\begin{pmatrix}
+		e^{-\frac{1}{2}iLk_\text{out}}\\[2pt]
+		ik_\text{out}\,e^{-\frac{1}{2}iLk_\text{out}}\\[2pt]
+		0\\[2pt]
+		0
+	\end{pmatrix}
+\]
+<p>Al igual que con el caso (a) del pozo de potencial, podemos definir amplitudes de reflexión (\(\mathscr{R}\)) y transmisión (\(\mathscr{T}\)), que contienen información de con cuánta probabilidad ocurrirá cada opción y si la onda gana alguna fase en ellas.</p>
+<div class="eqrow">
+	<span>\( \mathscr{R}=\dfrac{B_1}{A_1} \)</span>
+	<span>y</span>
+	<span>\( \mathscr{T}=\dfrac{A_3}{A_1}. \)</span>
+</div>
+<p>Nuevamente, las probabilidades de que la partícula termine siendo reflejada o transmitida se calculan como solemos hacerlo en Mecánica Cuántica: módulo al cuadrado de las amplitudes.</p>
+\[
+	\begin{aligned}
+		R &= |\mathscr{R}|^2 = \frac{2\,(k_\text{in}^2-k_\text{out}^2)^2\,\sin^2(Lk_\text{in})}{6k_\text{in}^2k_\text{out}^2+k_\text{in}^4+k_\text{out}^4-(k_\text{in}^2-k_\text{out}^2)^2\cos(2Lk_\text{in})}
+		\\[8pt]
+		T &= |\mathscr{T}|^2 = \frac{8\,k_\text{in}^2k_\text{out}^2}{6k_\text{in}^2k_\text{out}^2+k_\text{in}^4+k_\text{out}^4-(k_\text{in}^2-k_\text{out}^2)^2\cos(2Lk_\text{in})}
+	\end{aligned}
+\]
+<p>La parte potencialmente oscilatoria de estas probabilidades está en las funciones trigonométricas \(\cos(2Lk_\text{in})\) y \(\sin^2(Lk_\text{in})\).</p>
+<ul>
+	<li>Si la energía de la partícula es mayor que la altura máxima de la barrera (\(\eta>1\)), ocurrirá que \(R\) y \(T\) exhibirán máximos y mínimos para diversos valores de \(L\). Aparecerán resonancias (máximos en la transmisión o en la reflexión) y “anti-resonancias”.</li>
+	<li>Si la energía de la partícula no supera el máximo de la barrera (\(0\lt\eta\le1\)), estas funciones oscilatorias se transforman en funciones hiperbólicas.</li>
+</ul>
+<p>Para ver los gráficos interactivos, abra la sección «Gráficos interactivos» que sigue a continuación.</p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

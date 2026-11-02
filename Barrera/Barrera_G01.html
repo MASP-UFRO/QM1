@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Barrera de potencial - Teoría general</title>
+	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
+	<script>
+		/* Ecuaciones: misma sintaxis que en Moodle, \( ... \) en línea y \[ ... \] centradas */
+		window.MathJax = {
+			tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+			svg: { fontCache: 'global' }
+		};
+	</script>
+	<script async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="main-content">
+			<div class="theory">
+<h2>Barrera de potencial</h2>
+<p>Una barrera de potencial difiere del pozo en que \(V_\text{in}>V_\text{out}\).</p>
+<figure>
+	<img src="Barrera_G01_Fig.svg" alt="Barrera de potencial rectangular dividida en tres regiones">
+	<figcaption>Las tres regiones: <span class="reg r1">1</span> \(x\lt-L/2\), <span class="reg r2">2</span> \(|x|\le L/2\) (interior de la barrera) y <span class="reg r3">3</span> \(x\gt L/2\).</figcaption>
+</figure>
+<p>La teoría general para una barrera de potencial finita tiene muchas similitudes con el pozo de potencial, pues la función de onda también se debe construir como una función con 3 tramos en cuyos límites se impone continuidad de la función de onda y de sus derivadas:</p>
+<ul>
+	<li><b>ESIT:</b>
+		<div class="eqrow">
+			<span>\( -\dfrac{\hbar^2}{2m}\,\dfrac{d^2\psi_j}{dx^2}+V_j\,\psi_j=\mathcal{E}\,\psi_j, \)</span>
+			<span>donde</span>
+			<span>\( j=1,2,3, \)</span>
+			<span>\( V_1=V_3=V_\text{out} \)</span>
+			<span>y</span>
+			<span>\( V_2=V_\text{in}. \)</span>
+		</div>
+	</li>
+	<li>La ESIT es equivalente a \( \psi_j''(x)+k_j^2\,\psi_j(x)=0, \) donde \( k_j=\sqrt{\dfrac{2m}{\hbar^2}\,(\mathcal{E}-V_j)}\,. \)</li>
+	<li>Soluciones \( \psi_j(x)=A_j\,e^{i k_j x}+B_j\,e^{-i k_j x}, \) donde los \(A_j\) y \(B_j\) son incógnitas.</li>
+	<li>Para resolver los coeficientes, imponemos continuidad de \(\psi(x)\) y \(\psi'(x)\) para \(x=-\dfrac{L}{2}\) y para \(x=+\dfrac{L}{2}\).</li>
+	<li>Parámetros auxiliares similares a los del pozo finito, con algunas diferencias:
+		<ul>
+			<li>\(\Delta V=V_\text{in}-V_\text{out}\) se definirá como la “altura” de la barrera.</li>
+			<li>\(\Delta\mathcal{E}=\mathcal{E}-V_\text{out}\) será cuánto sobresale la energía respecto del mínimo (afuera) del potencial.</li>
+		</ul>
+	</li>
+	<li>Reutilizamos las definiciones
+		\( \eta=\Delta\mathcal{E}/\Delta V, \)
+		\( \lambda_\text{dB}=\sqrt{\dfrac{2\pi^2\hbar^2}{m\,\Delta\mathcal{E}}} \) y
+		\( \Lambda=L/\lambda_\text{dB}. \)
+	</li>
+	<li>Como consecuencia de las nuevas definiciones,
+		<ul>
+			<li>\(k_\text{in}\) cambia a
+				\[ k_\text{in}=\sqrt{\frac{2m}{\hbar^2}\,(\Delta\mathcal{E}-\Delta V)}=\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta-1}\,. \]
+			</li>
+			<li>\(k_\text{out}\) cambia a
+				\[ k_\text{out}=\sqrt{\frac{2m}{\hbar^2}\,\Delta\mathcal{E}}=\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}\,. \]
+			</li>
+			<li>Se mantiene
+				\[ \Lambda=L\sqrt{\frac{m}{2\pi^2\hbar^2}\,\Delta\mathcal{E}}=\frac{L}{2\pi}\sqrt{\frac{2m\,\Delta V}{\hbar^2}}\,\sqrt{\eta}\,. \]
+			</li>
+		</ul>
+	</li>
+</ul>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
