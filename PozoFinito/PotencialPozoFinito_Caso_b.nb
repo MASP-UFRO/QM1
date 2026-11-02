@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[    617003,      12753]
-NotebookOptionsPosition[    615211,      12717]
-NotebookOutlinePosition[    615643,      12734]
-CellTagsIndexPosition[    615600,      12731]
+NotebookDataLength[    617519,      12756]
+NotebookOptionsPosition[    615634,      12719]
+NotebookOutlinePosition[    616059,      12736]
+CellTagsIndexPosition[    616016,      12733]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -331,7 +331,6 @@ con:\\n\\n\\!\\(\\*SubscriptBox[StyleBox[\\\"V\\\",FontSlant->\\\"Italic\\\"],\
        GraphicsColor->GrayLevel[1],
        FontWeight->Bold,
        FontColor->GrayLevel[1]], {2.25, -0.25}]}},
-   PlotInteractivity :> True,
    AspectRatio->Automatic,
    Axes->{True, True},
    AxesLabel->{
@@ -479,6 +478,7 @@ unidades\\narbitrarias)\"", HoldForm], TraditionalForm],
           Part[#, 1]], 
          (Identity[#]& )[
           Part[#, 2]]}& )}},
+   PlotInteractivity:>True,
    PlotRange->{{-3.5, 3.5}, {-0.5, 3.3000000000000003`}},
    PlotRangeClipping->False,
    PlotRangePadding->{{0, 0}, {0, 0}},
@@ -559,8 +559,7 @@ forma \n\n",
      RowBox[{
       RowBox[{
        RowBox[{
-        SubsuperscriptBox["\[Psi]", "j", "\[DoublePrime]"], "(", "x", ")"}], 
-       "+", 
+        SubsuperscriptBox["\[Psi]", "j", "\[DoublePrime]"], "(", "x", ")"}], "+", 
        RowBox[{
         SubsuperscriptBox["k", "j", "2"], 
         RowBox[{
@@ -5930,8 +5929,7 @@ StyleBox[\\\"par\\\",FontWeight->\\\"Plain\\\"]]\\)) = 0\"",
              StripWrapperBoxes->True]}]},
           {" ", " ", "Repita", " ", "\[Bullet]", 
            RowBox[{
-           "Repita", " ", "para", " ", "otros", " ", "valores", " ", "de", 
-            " ", 
+           "Repita", " ", "para", " ", "otros", " ", "valores", " ", "de", " ", 
             RowBox[{"energ\[IAcute]a", ".", "     \t\t\t\t"}]}]}
          }], " "}]}]}]}]}], TraditionalForm]],ExpressionUUID->
   "53947b67-330b-bb41-8e52-036532755de3"],
@@ -9385,8 +9383,8 @@ No obstante, la sustituci\[OAcute]n intermedia ",
          FontSlant->"Plain"], 
         RowBox[{
          StyleBox["y",
-          FontSlant->"Plain"], " ", "ambas", " ", "son", " ", "m\[AAcute]s", 
-         " ", "f\[AAcute]ciles", " ", "de", " ", "trabajar", " ", 
+          FontSlant->"Plain"], " ", "ambas", " ", "son", " ", "m\[AAcute]s", " ",
+          "f\[AAcute]ciles", " ", "de", " ", "trabajar", " ", 
          RowBox[{"as\[IAcute]", ".", " \t"}]}]}]}
      }], "   "}], TraditionalForm]],ExpressionUUID->
   "a26246e7-0bfb-7145-8707-75983bd53772"],
@@ -10503,8 +10501,7 @@ Cell[CellGroupData[{
 Cell[BoxData[{
  RowBox[{
   RowBox[{
-   RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], ";"}], 
-  "  "}], "\[IndentingNewLine]", 
+   RowBox[{"Remove", "[", "\"\<Global`*\>\"", "]"}], ";"}], "  "}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"$Assumptions", "=", 
@@ -10602,8 +10599,8 @@ Cell[BoxData[{
           SuperscriptBox["\[HBar]", "2"]], 
          RowBox[{"(", 
           RowBox[{
-           SubscriptBox["V", "in"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], 
-      ",", "\[IndentingNewLine]", "\t", 
+           SubscriptBox["V", "in"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], ",",
+       "\[IndentingNewLine]", "\t", 
       RowBox[{
        SubscriptBox["\[Gamma]", "out"], "\[Rule]", 
        SqrtBox[
@@ -10613,8 +10610,8 @@ Cell[BoxData[{
           SuperscriptBox["\[HBar]", "2"]], 
          RowBox[{"(", 
           RowBox[{
-           SubscriptBox["V", "out"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], 
-      ",", "\[IndentingNewLine]", "\t", 
+           SubscriptBox["V", "out"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], ",",
+       "\[IndentingNewLine]", "\t", 
       RowBox[{"\[ScriptCapitalE]", "\[Rule]", 
        RowBox[{"\[CapitalDelta]\[ScriptCapitalE]", "+", 
         SubscriptBox["V", "in"]}]}], ",", "\[IndentingNewLine]", "\t", 
@@ -10680,8 +10677,8 @@ cuantos electronvolts de profundidad. Podemos ir cambiando L y \
           SuperscriptBox["\[HBar]", "2"]], 
          RowBox[{"(", 
           RowBox[{
-           SubscriptBox["V", "in"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], 
-      ",", "\[IndentingNewLine]", "\t\t", 
+           SubscriptBox["V", "in"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], ",",
+       "\[IndentingNewLine]", "\t\t", 
       RowBox[{
        SubscriptBox["\[Gamma]", "out"], "\[Rule]", 
        SqrtBox[
@@ -10691,8 +10688,8 @@ cuantos electronvolts de profundidad. Podemos ir cambiando L y \
           SuperscriptBox["\[HBar]", "2"]], 
          RowBox[{"(", 
           RowBox[{
-           SubscriptBox["V", "out"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], 
-      ",", "\[IndentingNewLine]", "\t\t", 
+           SubscriptBox["V", "out"], "-", "\[ScriptCapitalE]"}], ")"}]}]]}], ",",
+       "\[IndentingNewLine]", "\t\t", 
       RowBox[{
        SubscriptBox["\[Lambda]", "dB"], "\[Rule]", 
        SqrtBox[
@@ -10721,8 +10718,8 @@ cuantos electronvolts de profundidad. Podemos ir cambiando L y \
         FractionBox["6.62607015", 
          RowBox[{"2", "\[Pi]"}]], "\[Times]", 
         SuperscriptBox["10", 
-         RowBox[{"-", "34"}]], "\[ScriptCapitalJ]", " ", "\[ScriptS]"}]}], 
-      ",", "\[IndentingNewLine]", "\t\t", 
+         RowBox[{"-", "34"}]], "\[ScriptCapitalJ]", " ", "\[ScriptS]"}]}], ",",
+       "\[IndentingNewLine]", "\t\t", 
       RowBox[{"\[ScriptCapitalJ]", "\[Rule]", 
        FractionBox["\[ScriptE]\[ScriptCapitalV]", 
         RowBox[{"1.60217663", "\[Times]", 
@@ -10843,8 +10840,7 @@ cuantos electronvolts de profundidad. Podemos ir cambiando L y \
      RowBox[{
       SubscriptBox["A", "1"], "\[Rule]", "0"}], ",", 
      RowBox[{
-      SubscriptBox["B", "3"], "\[Rule]", "0"}]}], "}"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+      SubscriptBox["B", "3"], "\[Rule]", "0"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"ReduccionSimple", "=", 
@@ -10954,8 +10950,7 @@ cuantos electronvolts de profundidad. Podemos ir cambiando L y \
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"TsT", "[", 
-   RowBox[{
-   "\"\<Caso \
+   RowBox[{"\"\<Caso \
 \!\(\*StyleBox[\"(\",FontWeight->\"Bold\"]\)\!\(\*StyleBox[\"b\",FontWeight->\
 \"Bold\"]\)\!\(\*StyleBox[\")\",FontWeight->\"Bold\"]\): \
 \!\(\*Cell[TextData[Cell[BoxData[FormBox[RowBox[{
@@ -10980,8 +10975,8 @@ ExpressionUUID->\"d5af8304-d800-a141-990f-a14fc2c8938c\"]\)\\n\>\"", ",",
         SubscriptBox["v", "b"], "}"}], "\[Transpose]"}]}], "\[Equal]", 
      RowBox[{
       RowBox[{"{", 
-       SubscriptBox["b", "b"], "}"}], "\[Transpose]"}]}], ",", 
-    "\"\<\\n\\nSoluciones (?):\\n\>\"", ",", 
+       SubscriptBox["b", "b"], "}"}], "\[Transpose]"}]}], 
+    ",", "\"\<\\n\\nSoluciones (?):\\n\>\"", ",", 
     RowBox[{"Flatten", "[", 
      RowBox[{"\"\<\\n\>\"", 
       SubscriptBox["S", "b"]}], "]"}]}], "]"}], "\[IndentingNewLine]", 
@@ -11000,8 +10995,7 @@ ExpressionUUID->\"d5af8304-d800-a141-990f-a14fc2c8938c\"]\)\\n\>\"", ",",
     SubscriptBox["\[ScriptCapitalB]", "par"], 
     SuperscriptBox["\[ExponentialE]", 
      RowBox[{
-      SubscriptBox["\[Gamma]", "out"], "x"}]]}]}], 
-  ";"}], "\[IndentingNewLine]", 
+      SubscriptBox["\[Gamma]", "out"], "x"}]]}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -11156,8 +11150,8 @@ ExpressionUUID->\"d5af8304-d800-a141-990f-a14fc2c8938c\"]\)\\n\>\"", ",",
    RowBox[{"{", 
     RowBox[{
      SubscriptBox["\[ScriptCapitalA]", "par"], ",", 
-     SubscriptBox["\[ScriptCapitalB]", "par"]}], "}"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+     SubscriptBox["\[ScriptCapitalB]", "par"]}], "}"}]}], ";"}], 
+"\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    SubscriptBox["v", 
@@ -11165,8 +11159,7 @@ ExpressionUUID->\"d5af8304-d800-a141-990f-a14fc2c8938c\"]\)\\n\>\"", ",",
    RowBox[{"{", 
     RowBox[{
      SubscriptBox["\[ScriptCapitalA]", "impar"], ",", 
-     SubscriptBox["\[ScriptCapitalB]", "impar"]}], "}"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+     SubscriptBox["\[ScriptCapitalB]", "impar"]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"{", 
@@ -11186,8 +11179,7 @@ ExpressionUUID->\"d5af8304-d800-a141-990f-a14fc2c8938c\"]\)\\n\>\"", ",",
          RowBox[{"1", ",", "2"}], "}"}], ",", "All"}], 
        "\[RightDoubleBracket]"}], ",", 
       SubscriptBox["v", 
-       RowBox[{"b", ",", "par"}]]}], "]"}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+       RowBox[{"b", ",", "par"}]]}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -11212,8 +11204,7 @@ ExpressionUUID->\"d5af8304-d800-a141-990f-a14fc2c8938c\"]\)\\n\>\"", ",",
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"TsT", "[", 
-   RowBox[{
-   "\"\<Caso \
+   RowBox[{"\"\<Caso \
 \!\(\*StyleBox[\"(\",FontWeight->\"Bold\"]\)\!\(\*StyleBox[\"b\",FontWeight->\
 \"Bold\"]\)\!\(\*StyleBox[\")\",FontWeight->\"Bold\"]\): \
 \!\(\*Cell[TextData[Cell[BoxData[FormBox[RowBox[{
@@ -11221,8 +11212,9 @@ SubscriptBox[\"V\", \"out\"], \">\", \"\[ScriptCapitalE]\", \">\",
 SubscriptBox[\"V\", \"in\"]}], \
 TraditionalForm]],ExpressionUUID->\"80f39f3f-0a22-d142-8774-f5fa57dac450\"]],\
 ExpressionUUID->\"c21bd312-838f-da4d-b0d7-aaf49787c0f9\"]\) (considerando \
-paridad)\>\"", ",", "\[IndentingNewLine]", "\t", 
-    "\"\<\\nSistema matricial \!\(\*Cell[TextData[Cell[BoxData[RowBox[{RowBox[{
+paridad)\>\"", ",", "\[IndentingNewLine]", 
+    "\t", "\"\<\\nSistema matricial \
+\!\(\*Cell[TextData[Cell[BoxData[RowBox[{RowBox[{
 SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\"], \"par\"], StyleBox[\"\
 \[CenterDot]\",FontWeight->\"Bold\"], 
 SubscriptBox[
@@ -11245,8 +11237,9 @@ OverscriptBox[StyleBox[\"b\",FontWeight->\"Plain\"], \"\[RightVector]\"], \
       RowBox[{"{", 
        SubscriptBox["b", 
         RowBox[{"b", ",", "par"}]], "}"}], "\[Transpose]"}]}], ",", 
-    "\[IndentingNewLine]", "\t", 
-    "\"\<\\nSistema matricial \!\(\*Cell[TextData[Cell[BoxData[RowBox[{RowBox[{
+    "\[IndentingNewLine]", 
+    "\t", "\"\<\\nSistema matricial \
+\!\(\*Cell[TextData[Cell[BoxData[RowBox[{RowBox[{
 SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\"], \"impar\"], StyleBox[\"\
 \[CenterDot]\",FontWeight->\"Bold\"], 
 SubscriptBox[
@@ -11289,8 +11282,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
           SubscriptBox["M", 
            RowBox[{"b", ",", "par"}]], "]"}], 
          SqrtBox[
-          RowBox[{"m", " ", "\[CapitalDelta]V"}]]], "]"}]}], "]"}], 
-     "\[Equal]", "0"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+          RowBox[{"m", " ", "\[CapitalDelta]V"}]]], "]"}]}], "]"}], "\[Equal]",
+      "0"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Det0i1", "=", 
@@ -11304,8 +11297,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
            SubscriptBox["M", 
             RowBox[{"b", ",", "impar"}]], "]"}], 
           SqrtBox[
-           RowBox[{"m", " ", "\[CapitalDelta]V"}]]], "]"}]}], "]"}], 
-      "\[Equal]", "0"}], "]"}]}], ";"}], 
+           RowBox[{"m", " ", "\[CapitalDelta]V"}]]], "]"}]}], "]"}], "\[Equal]",
+       "0"}], "]"}]}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"Det0p2", "=", 
@@ -11321,8 +11314,7 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
             RowBox[{"b", ",", "par"}]], "]"}], 
           SqrtBox[
            RowBox[{"m", " ", "\[CapitalDelta]V"}]]], "//.", "Reduccion"}], 
-        "]"}]}], "]"}], "\[Equal]", "0"}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+        "]"}]}], "]"}], "\[Equal]", "0"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Det0i2", "=", 
@@ -11364,8 +11356,7 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
     RowBox[{"Det0p3", "//.", 
      RowBox[{"\[Eta]", "\[Rule]", 
       SuperscriptBox[
-       RowBox[{"Sin", "[", "\[CurlyPhi]", "]"}], "2"]}]}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+       RowBox[{"Sin", "[", "\[CurlyPhi]", "]"}], "2"]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Det0i4", "=", 
@@ -11377,22 +11368,21 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"TsT", "[", 
-   RowBox[{
-   "\"\<Imposici\[OAcute]n de dependencia lineal: \\n\>\"", ",", 
-    "\[IndentingNewLine]", "\t", 
-    "\"\<\\ndet(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\"], \
-\"par\"]\))= 0\>\"", ",", "\[IndentingNewLine]", "\t", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p1", ",", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p2", ",", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p3", ",", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p4", ",", 
+   RowBox[{"\"\<Imposici\[OAcute]n de dependencia lineal: \\n\>\"", ",", 
+    "\[IndentingNewLine]", 
+    "\t", "\"\<\\ndet(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\"],\
+ \"par\"]\))= 0\>\"", ",", "\[IndentingNewLine]", 
+    "\t", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p1", 
+    ",", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p2", 
+    ",", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p3", 
+    ",", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0p4", ",", 
     "\[IndentingNewLine]", "\t", "\"\<\\n\>\"", ",", "\[IndentingNewLine]", 
     "\t", "\"\<\\ndet(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\"],\
- \"impar\"]\)) = 0\>\"", ",", "\[IndentingNewLine]", "\t", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i1", ",", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i2", ",", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i3", ",", 
-    "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i4", ",", 
+ \"impar\"]\)) = 0\>\"", ",", "\[IndentingNewLine]", 
+    "\t", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i1", 
+    ",", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i2", 
+    ",", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i3", 
+    ",", "\"\< \\n\[DoubleLeftRightArrow]\\t \>\"", ",", "Det0i4", ",", 
     "\[IndentingNewLine]", "\t", "\"\<\\n\>\"", ",", "\[IndentingNewLine]", 
     "\t", "\"\<\\nAmbas juntas: \\t \>\"", ",", 
     RowBox[{"HoldForm", "[", 
@@ -11435,8 +11425,7 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
        FractionBox[
         RowBox[{"2", "m", " ", "\[CapitalDelta]V"}], 
         SuperscriptBox["\[HBar]", "2"]]], 
-      SqrtBox["\[Eta]"]}], "//.", "Numeros"}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+      SqrtBox["\[Eta]"]}], "//.", "Numeros"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"numKin", "[", 
@@ -11494,8 +11483,7 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
  RowBox[{
   RowBox[{"KinMax", "=", 
    RowBox[{"numKin", "[", 
-    RowBox[{"1.", ",", "\[CapitalDelta]Vmax"}], "]"}]}], 
-  ";"}], "\[IndentingNewLine]", 
+    RowBox[{"1.", ",", "\[CapitalDelta]Vmax"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"dxmin", "=", 
    FractionBox[
@@ -11537,8 +11525,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
        "}"}], ",", "\[IndentingNewLine]", "\t\t\t\t\t\t\t", 
       RowBox[{"FrameLabel", "->", 
        RowBox[{"{", 
-        RowBox[{
-        "\"\<\[Eta] = \[CapitalDelta]\[ScriptCapitalE]/\[CapitalDelta]V\>\"", 
+        RowBox[{"\"\<\[Eta] = \
+\[CapitalDelta]\[ScriptCapitalE]/\[CapitalDelta]V\>\"", 
          ",", "\"\<\[CapitalLambda] = L/\!\(\*SubscriptBox[\(\[Lambda]\), \
 \(dB\)]\)\>\""}], "}"}]}], ",", "\[IndentingNewLine]", "\t\t\t\t\t\t\t", 
       RowBox[{"LabelStyle", "\[Rule]", 
@@ -11643,8 +11631,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
      RowBox[{"(*", " ", 
       RowBox[{
        RowBox[{
-       "Si", " ", "no", " ", "funciona", " ", "el", " ", "m\[EAcute]todo", 
-        " ", "de", " ", "Newton"}], ",", " ", 
+       "Si", " ", "no", " ", "funciona", " ", "el", " ", "m\[EAcute]todo", " ",
+         "de", " ", "Newton"}], ",", " ", 
        RowBox[{"usamos", " ", "las", " ", "funciones", " ", "de", " ", 
         RowBox[{"Wolfram", "."}]}]}], " ", "*)"}], "\[IndentingNewLine]", 
      "\t\t", 
@@ -11686,8 +11674,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
         "\[CapitalDelta]\[ScriptCapitalV]"}], "]"}]}], ";", 
      "\[IndentingNewLine]", "\t\t", 
      RowBox[{"\[ScriptCapitalE]n", "=", 
-      RowBox[{"\[Eta]n", " ", "\[CapitalDelta]\[ScriptCapitalV]"}]}], " ", 
-     ";", "\[IndentingNewLine]", "\t\t", 
+      RowBox[{"\[Eta]n", " ", "\[CapitalDelta]\[ScriptCapitalV]"}]}], " ", ";",
+      "\[IndentingNewLine]", "\t\t", 
      RowBox[{"nn", "=", 
       RowBox[{"Range", "[", 
        RowBox[{"1", ",", "nbnd"}], "]"}]}], ";", "\[IndentingNewLine]", 
@@ -11702,8 +11690,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
         RowBox[{"PlotStyle", "\[Rule]", 
          RowBox[{"{", 
           RowBox[{"Black", ",", 
-           RowBox[{"PointSize", "[", "Large", "]"}]}], "}"}]}]}], "]"}]}], 
-     ";", "\[IndentingNewLine]", "\[IndentingNewLine]", "\t\t", 
+           RowBox[{"PointSize", "[", "Large", "]"}]}], "}"}]}]}], "]"}]}], ";",
+      "\[IndentingNewLine]", "\[IndentingNewLine]", "\t\t", 
      RowBox[{"Energias", "=", 
       RowBox[{"Grid", "[", 
        RowBox[{
@@ -11716,10 +11704,10 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
               RowBox[{"Length", "[", "nn", "]"}], "]"}], ",", 
              "\[ScriptCapitalE]n"}], "}"}], "]"}], ",", 
           RowBox[{"{", 
-           RowBox[{
-           "\"\<n\>\"", ",", 
-            "\"\<\!\(\*SubscriptBox[\(\[CapitalDelta]\[ScriptCapitalE]\), \(n\
-\)]\) (eV)\>\""}], "}"}]}], "]"}], ",", 
+           
+           RowBox[{"\"\<n\>\"", 
+            ",", "\"\<\!\(\*SubscriptBox[\(\[CapitalDelta]\[ScriptCapitalE]\),\
+ \(n\)]\) (eV)\>\""}], "}"}]}], "]"}], ",", 
         RowBox[{"Frame", "->", "All"}]}], "]"}]}], ";", "\[IndentingNewLine]",
       "\[IndentingNewLine]", "\[IndentingNewLine]", "\t\t", 
      RowBox[{"kn", "=", 
@@ -11746,8 +11734,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
        RowBox[{
         RowBox[{"-", "\[ScriptCapitalL]max"}], ",", 
         RowBox[{"-", 
-         FractionBox["\[ScriptCapitalL]", "2"]}], ",", "npout"}], "]"}]}], 
-     ";", "\[IndentingNewLine]", "\t\t", 
+         FractionBox["\[ScriptCapitalL]", "2"]}], ",", "npout"}], "]"}]}], ";",
+      "\[IndentingNewLine]", "\t\t", 
      RowBox[{"\[ScriptX]2", "=", 
       RowBox[{"Subdivide", "[", 
        RowBox[{
@@ -11758,8 +11746,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
      RowBox[{"\[ScriptX]3", "=", 
       RowBox[{"Subdivide", "[", 
        RowBox[{
-        FractionBox["\[ScriptCapitalL]", "2"], ",", "\[ScriptCapitalL]max", 
-        ",", "npout"}], "]"}]}], ";", "\[IndentingNewLine]", 
+        FractionBox["\[ScriptCapitalL]", "2"], ",", "\[ScriptCapitalL]max", ",",
+         "npout"}], "]"}]}], ";", "\[IndentingNewLine]", 
      "\[IndentingNewLine]", "\t\t", 
      RowBox[{"(*", " ", 
       RowBox[{
@@ -11788,8 +11776,7 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
          RowBox[{"-", "1"}], ")"}], 
         RowBox[{"nn", "+", "1"}]], 
        RowBox[{"Exp", "[", 
-        RowBox[{"0.5", "*", "\[ScriptCapitalL]", "*", "\[Gamma]n"}], "]"}], 
-       "*", 
+        RowBox[{"0.5", "*", "\[ScriptCapitalL]", "*", "\[Gamma]n"}], "]"}], "*", 
        RowBox[{"Sin", "[", 
         RowBox[{
          RowBox[{"0.5", "*", "kn", "*", "\[ScriptCapitalL]"}], "+", "qn"}], 
@@ -11798,8 +11785,7 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
      RowBox[{"Amp3", "=", 
       RowBox[{
        RowBox[{"Exp", "[", 
-        RowBox[{"0.5", "*", "\[ScriptCapitalL]", "*", "\[Gamma]n"}], "]"}], 
-       "*", 
+        RowBox[{"0.5", "*", "\[ScriptCapitalL]", "*", "\[Gamma]n"}], "]"}], "*", 
        RowBox[{"Sin", "[", 
         RowBox[{
          RowBox[{"0.5", "*", "kn", "*", "\[ScriptCapitalL]"}], "+", "qn"}], 
@@ -11918,8 +11904,8 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
            RowBox[{"ToString", "[", "\[CapitalDelta]\[ScriptCapitalV]", "]"}],
             "<>", "\"\< eV \\t\>\"", "<>", "\[IndentingNewLine]", 
            "\t\t\t\t\t\t\t\t\t", "\"\<L = \>\"", "<>", 
-           RowBox[{"ToString", "[", "\[ScriptCapitalL]", "]"}], "<>", 
-           "\"\< \[CapitalARing]\\r\>\""}], ")"}]}], ",", 
+           RowBox[{"ToString", "[", "\[ScriptCapitalL]", "]"}], 
+           "<>", "\"\< \[CapitalARing]\\r\>\""}], ")"}]}], ",", 
         "\[IndentingNewLine]", "\t\t\t\t\t\t\t", 
         RowBox[{"GridLines", "\[Rule]", 
          RowBox[{"{", 
@@ -11950,17 +11936,17 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
         "\t\t\t\t\t\t\t", 
         RowBox[{"AxesLabel", "->", 
          RowBox[{"{", 
-          RowBox[{
-          "\"\<x, en \[CapitalARing]\>\"", ",", "\"\<V(x), \[Psi](x)\>\""}], 
-          "}"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+          
+          RowBox[{"\"\<x, en \[CapitalARing]\>\"", 
+           ",", "\"\<V(x), \[Psi](x)\>\""}], "}"}]}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", "\[IndentingNewLine]", "\t\t", 
      "\[IndentingNewLine]", "\t\t", "\[IndentingNewLine]", "\t\t", 
-     "\[IndentingNewLine]", "\t\t", "\[IndentingNewLine]", "\t\t", 
+     "\[IndentingNewLine]", "\t\t", 
      RowBox[{"Plot\[Eta]\[CapitalLambda]", "=", 
       RowBox[{"Legended", "[", 
        RowBox[{
         RowBox[{"Show", "[", 
-         RowBox[{
-         "PlotDet0", ",", "Plot\[CapitalLambda]", ",", "Plot\[Eta]", ",", 
+         RowBox[{"PlotDet0", ",", "Plot\[CapitalLambda]", ",", "Plot\[Eta]", ",", 
           RowBox[{"ImageSize", "->", "300"}]}], "]"}], ",", 
         "\[IndentingNewLine]", "\t\t\t\t\t\t", 
         RowBox[{"Placed", "[", 
@@ -11992,16 +11978,17 @@ hacer que det(\!\(\*SubscriptBox[\(M\), \(s\)]\))=0. \n\>\"", "*)"}],
                 RowBox[{"Thickness", "[", "0.01", "]"}]}], "]"}]}], "  ", 
              "}"}], ",", "\[IndentingNewLine]", "\t\t\t\t\t\t\t\t", 
             RowBox[{"{", 
-             RowBox[{
-             "\"\<det(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\",\
-FontSlant->\"Italic\"], \"par\"]\))=0\>\"", ",", "\[IndentingNewLine]", 
-              "\t\t\t\t\t\t\t\t", 
-              "\"\<det(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\",\
-FontSlant->\"Italic\"], \"impar\"]\))=0\>\"", ",", "\[IndentingNewLine]", 
+             
+             RowBox[{"\"\<det(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"\
+Bold\",FontSlant->\"Italic\"], \"par\"]\))=0\>\"", ",", "\[IndentingNewLine]",
+               "\t\t\t\t\t\t\t\t", \
+"\"\<det(\!\(\*SubscriptBox[StyleBox[\"M\",FontWeight->\"Bold\",FontSlant->\"\
+Italic\"], \"impar\"]\))=0\>\"", ",", "\[IndentingNewLine]", 
               "\t\t\t\t\t\t\t\t", 
               RowBox[{"\"\<L = \>\"", "<>", 
-               RowBox[{"ToString", "[", "\[ScriptCapitalL]", "]"}], "<>", 
-               "\"\< \[CapitalARing],\\t\[CapitalDelta]V = \>\"", "<>", 
+               RowBox[{"ToString", "[", "\[ScriptCapitalL]", "]"}], 
+               "<>", "\"\< \[CapitalARing],\\t\[CapitalDelta]V = \>\"", "<>", 
+               
                RowBox[{
                "ToString", "[", "\[CapitalDelta]\[ScriptCapitalV]", "]"}], 
                "<>", "\"\< eV\>\""}]}], "}"}], ",", "\[IndentingNewLine]", 
@@ -12173,7 +12160,19 @@ FontSlant->\"Italic\"], \"impar\"]\))=0\>\"", ",", "\[IndentingNewLine]",
    4.001885205735718*^9}, {4.0018852377917385`*^9, 4.0018852476656075`*^9}, {
    4.001885356159569*^9, 4.001885378538704*^9}, {4.0022956360141077`*^9, 
    4.002295664948821*^9}, 4.0023179708140163`*^9},
- CellLabel->"In[56]:=",ExpressionUUID->"258cc36f-873a-4e16-a87d-7470551b270c"],
+ CellLabel->"In[1]:=",ExpressionUUID->"258cc36f-873a-4e16-a87d-7470551b270c"],
+
+Cell[BoxData[
+ TemplateBox[{
+  "Remove", "rmnsm", 
+   "\"There are no symbols matching \\\"\\!\\(\\*RowBox[{\\\"\\\\\\\"Global`*\
+\\\\\\\"\\\"}]\\)\\\".\"", 2, 1, 1, 26014245738378155927, "Local"},
+  "MessageTemplate",
+  BaseStyle->"MSG"]], "Message",
+ CellChangeTimes->{4.00263625349373*^9, 4.002636587064348*^9},
+ CellLabel->
+  "During evaluation of \
+In[1]:=",ExpressionUUID->"c3b3f653-c68f-4ebd-aefd-62ade5d1d178"],
 
 Cell[BoxData[
  FormBox["\<\"\\!\\(\\*FormBox[\\\"\\\\\\\"Caso \
@@ -12283,10 +12282,11 @@ RowBox[{SubscriptBox[\\\"A\\\", \\\"3\\\"], \\\"\[Rule]\\\", \\\"0\\\"}], \
    4.0018842220768795`*^9, 4.0018842587521076`*^9, 4.001884308992176*^9, 
    4.001884355629156*^9, 4.00188449763019*^9, 4.001884754439619*^9, 
    4.001885061081049*^9, 4.0018851313277225`*^9, 4.0018852490629883`*^9, 
-   4.0018853821115723`*^9, 4.002316247696869*^9, 4.002317979095457*^9},
+   4.0018853821115723`*^9, 4.002316247696869*^9, 4.002317979095457*^9, 
+   4.002636587191803*^9},
  CellLabel->
-  "Out[70]//TraditionalForm=",ExpressionUUID->"4ecda926-40e9-1042-b1d3-\
-6beec6427cac"],
+  "Out[15]//TraditionalForm=",ExpressionUUID->"dca67235-318a-45a2-8f59-\
+dc23d8e6efc4"],
 
 Cell[BoxData[
  FormBox["\<\"\\!\\(\\*FormBox[\\\"\\\\\\\"Caso \
@@ -12398,10 +12398,11 @@ TraditionalForm]\\)\"\>", TraditionalForm]], "Output",
    4.0018842220768795`*^9, 4.0018842587521076`*^9, 4.001884308992176*^9, 
    4.001884355629156*^9, 4.00188449763019*^9, 4.001884754439619*^9, 
    4.001885061081049*^9, 4.0018851313277225`*^9, 4.0018852490629883`*^9, 
-   4.0018853821115723`*^9, 4.002316247696869*^9, 4.002317979507902*^9},
+   4.0018853821115723`*^9, 4.002316247696869*^9, 4.002317979095457*^9, 
+   4.002636587720282*^9},
  CellLabel->
-  "Out[83]//TraditionalForm=",ExpressionUUID->"bef4aefe-78ca-224c-b2da-\
-4a1de9bc4ef7"],
+  "Out[28]//TraditionalForm=",ExpressionUUID->"d91ac227-4b01-4f0c-a963-\
+ae25f695bb7a"],
 
 Cell[BoxData[
  FormBox["\<\"\\!\\(\\*FormBox[\\\"\\\\\\\"Imposici\[OAcute]n de dependencia \
@@ -12509,16 +12510,17 @@ HoldForm], TraditionalForm]\\) \\!\\(\\*FormBox[\\\"\\\\\\\"\\\\\\\\t y \
    4.0018842220768795`*^9, 4.0018842587521076`*^9, 4.001884308992176*^9, 
    4.001884355629156*^9, 4.00188449763019*^9, 4.001884754439619*^9, 
    4.001885061081049*^9, 4.0018851313277225`*^9, 4.0018852490629883`*^9, 
-   4.0018853821115723`*^9, 4.002316247696869*^9, 4.00231798233403*^9},
+   4.0018853821115723`*^9, 4.002316247696869*^9, 4.002317979095457*^9, 
+   4.002636594623205*^9},
  CellLabel->
-  "Out[92]//TraditionalForm=",ExpressionUUID->"de309f26-8d9f-b745-8373-\
-66dee4d6e024"],
+  "Out[37]//TraditionalForm=",ExpressionUUID->"39d12136-c656-4b06-85dd-\
+1be43079dcd5"],
 
 Cell[BoxData[
  TagBox[
   StyleBox[
    DynamicModuleBox[{$CellContext`\[ScriptCapitalL]$$ = 
-    16.5, $CellContext`\[CapitalDelta]\[ScriptCapitalV]$$ = 11.5, 
+    12., $CellContext`\[CapitalDelta]\[ScriptCapitalV]$$ = 6.4, 
     Typeset`show$$ = True, Typeset`bookmarkList$$ = {}, 
     Typeset`bookmarkMode$$ = "Menu", Typeset`animator$$, Typeset`animvar$$ = 
     1, Typeset`name$$ = "\"untitled\"", Typeset`specs$$ = {{
@@ -12530,7 +12532,7 @@ $CellContext`Plot\[Psi]}]], Manipulate`Dump`ThisIsNotAControl, ControlType ->
       ControlType -> Manipulator}, {{
        Hold[$CellContext`\[CapitalDelta]\[ScriptCapitalV]$$], 11.5}, 3., 20., 
       0.5666666666666667, ControlType -> Manipulator}}, Typeset`size$$ = {
-    922.4032251358033, {216.82577208808948`, 223.9906892484738}}, 
+    920.765625, {217.41143176020404`, 224.68877551020404`}}, 
     Typeset`update$$ = 0, Typeset`initDone$$, Typeset`skipInitDone$$ = True, 
     Typeset`keyframeActionsQ$$ = False, Typeset`keyframeList$$ = {}}, 
     DynamicBox[Manipulate`ManipulateBoxes[
@@ -12685,8 +12687,8 @@ $CellContext`Plot\[Psi]}], {{$CellContext`\[ScriptCapitalL]$$, 16.5}, 3., 30.,
       "Options" :> {
        ControlPlacement -> Top, ContinuousAction -> True, SynchronousUpdating -> 
         False}, "DefaultOptions" :> {}],
-     ImageSizeCache->{
-      978.5782251358032, {287.7922513941994, 294.95716855458375`}},
+     ImageSizeCache->{976.140625, {291.77666613520404`, 299.05400988520404`}},
+     
      SingleEvaluation->True],
     Deinitialization:>None,
     DynamicModuleValues:>{},
@@ -12710,15 +12712,15 @@ $CellContext`Plot\[Psi]}], {{$CellContext`\[ScriptCapitalL]$$, 16.5}, 3., 30.,
    4.0018842220768795`*^9, 4.0018842587521076`*^9, 4.001884308992176*^9, 
    4.001884355629156*^9, 4.00188449763019*^9, 4.001884754439619*^9, 
    4.001885061081049*^9, 4.0018851313277225`*^9, 4.0018852490629883`*^9, 
-   4.0018853821115723`*^9, 4.002316247696869*^9, 4.0023179837882404`*^9},
- CellLabel->
-  "Out[110]=",ExpressionUUID->"8135e691-5062-7344-85f4-b680f91d4590"]
+   4.0018853821115723`*^9, 4.002316247696869*^9, 4.002317979095457*^9, 
+   4.002636596441189*^9},
+ CellLabel->"Out[55]=",ExpressionUUID->"497c206b-2141-4b6b-a47e-214e0ab392cc"]
 }, Open  ]]
 },
-WindowSize->{1141.2, 568.8},
+WindowSize->{1308.75, 683.25},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
 Magnification:>1.25 Inherited,
-FrontEndVersion->"14.1 for Microsoft Windows (64-bit) (July 16, 2024)",
+FrontEndVersion->"14.3 for Linux x86 (64-bit) (July 8, 2025)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"fb385ddc-eca0-46c2-b472-704bac7bb54e"
 ]
@@ -12733,20 +12735,21 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[400, 13, 35710, 835, 1572, "Text",ExpressionUUID->"d088e8c7-3bb6-4d55-b2c7-e3bc42821729"],
-Cell[36113, 850, 9196, 233, 542, "Text",ExpressionUUID->"1859a427-9961-4345-9f5c-c8afe6838f9f"],
-Cell[45312, 1085, 10326, 273, 801, "Text",ExpressionUUID->"2522700d-fc7d-4dfa-b86a-ed31dfb36cda"],
-Cell[55641, 1360, 22347, 588, 1115, "Text",ExpressionUUID->"d03cb3bb-f0f7-c443-941d-da8c664a7cfa"],
-Cell[77991, 1950, 29954, 851, 1599, "Text",ExpressionUUID->"825ccb02-f4d7-ba42-972b-b2687d980336"],
-Cell[107948, 2803, 14865, 397, 837, "Text",ExpressionUUID->"d136cb04-18c9-4547-8c2d-4cd8ec84c5fd"],
-Cell[122816, 3202, 372104, 6836, 3156, "Text",ExpressionUUID->"a69c9351-d536-6c4e-b8ad-21e8ac0756a4"],
-Cell[494923, 10040, 19066, 458, 1049, "Text",ExpressionUUID->"0ec8f833-dd2a-894b-bb01-4d5b599ce5be"],
+Cell[400, 13, 35700, 834, 1629, "Text",ExpressionUUID->"d088e8c7-3bb6-4d55-b2c7-e3bc42821729"],
+Cell[36103, 849, 9196, 233, 552, "Text",ExpressionUUID->"1859a427-9961-4345-9f5c-c8afe6838f9f"],
+Cell[45302, 1084, 10326, 273, 809, "Text",ExpressionUUID->"2522700d-fc7d-4dfa-b86a-ed31dfb36cda"],
+Cell[55631, 1359, 22347, 588, 1076, "Text",ExpressionUUID->"d03cb3bb-f0f7-c443-941d-da8c664a7cfa"],
+Cell[77981, 1949, 29954, 851, 1644, "Text",ExpressionUUID->"825ccb02-f4d7-ba42-972b-b2687d980336"],
+Cell[107938, 2802, 14865, 397, 866, "Text",ExpressionUUID->"d136cb04-18c9-4547-8c2d-4cd8ec84c5fd"],
+Cell[122806, 3201, 372091, 6835, 3410, "Text",ExpressionUUID->"a69c9351-d536-6c4e-b8ad-21e8ac0756a4"],
+Cell[494900, 10038, 19066, 458, 1121, "Text",ExpressionUUID->"0ec8f833-dd2a-894b-bb01-4d5b599ce5be"],
 Cell[CellGroupData[{
-Cell[514014, 10502, 67408, 1673, 7914, "Input",ExpressionUUID->"258cc36f-873a-4e16-a87d-7470551b270c"],
-Cell[581425, 12177, 7749, 111, 399, "Output",ExpressionUUID->"4ecda926-40e9-1042-b1d3-6beec6427cac"],
-Cell[589177, 12290, 7641, 113, 283, "Output",ExpressionUUID->"bef4aefe-78ca-224c-b2da-4a1de9bc4ef7"],
-Cell[596821, 12405, 7638, 109, 504, "Output",ExpressionUUID->"de309f26-8d9f-b745-8373-66dee4d6e024"],
-Cell[604462, 12516, 10733, 198, 603, "Output",ExpressionUUID->"8135e691-5062-7344-85f4-b680f91d4590"]
+Cell[513991, 10500, 67347, 1662, 8637, "Input",ExpressionUUID->"258cc36f-873a-4e16-a87d-7470551b270c"],
+Cell[581341, 12164, 418, 10, 28, "Message",ExpressionUUID->"c3b3f653-c68f-4ebd-aefd-62ade5d1d178"],
+Cell[581762, 12176, 7775, 112, 441, "Output",ExpressionUUID->"dca67235-318a-45a2-8f59-dc23d8e6efc4"],
+Cell[589540, 12290, 7667, 114, 306, "Output",ExpressionUUID->"d91ac227-4b01-4f0c-a963-ae25f695bb7a"],
+Cell[597210, 12406, 7665, 110, 592, "Output",ExpressionUUID->"39d12136-c656-4b06-85dd-1be43079dcd5"],
+Cell[604878, 12518, 10740, 198, 612, "Output",ExpressionUUID->"497c206b-2141-4b6b-a47e-214e0ab392cc"]
 }, Open  ]]
 }
 ]
