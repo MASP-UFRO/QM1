@@ -15,7 +15,7 @@ end
 % Opciones para el switch: 
 % 'Escogido', 'Aleatorio', 'Fock', 'Coherente' y 'Normal'.
 t0=tic;
-switch 'Fock'
+switch 'Normal'
     case 'Escogido'
         % Estado construido manualmente
         Psi_0           =   [1 -2 3 4];
@@ -48,7 +48,7 @@ switch 'Fock'
 
     case 'Normal'
         % Estado construido con base en una distribución normal
-        mu              =   100;
+        mu              =   80;
         sigma           =   10;
         nn              =   0:(mu + 5*sigma);
         Psi_0           =   sqrt(normpdf(nn, mu, sigma));
