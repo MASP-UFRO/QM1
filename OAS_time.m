@@ -6,7 +6,7 @@ close all;
 % Opciones para el switch: 
 % 'Escogido', 'Aleatorio', 'Fock', 'Coherente' y 'Normal'.
 
-switch 'Escogido'
+switch 'Coherente'
     case 'Escogido'
         % Estado construido manualmente
         Psi_0   =       [1 -2 3 4];
@@ -17,7 +17,9 @@ switch 'Escogido'
 
     case 'Fock'
         % Estado de número (o de Fock), uno de los eigenestados del OAS.
-        Psi_0   =       double((0:1000)==20);
+        n_lvl   =       20;
+        nmax    =       2*n_lvl + 1;
+        Psi_0   =       double((0:nmax) == n_lvl);
 
     case 'Coherente'
         % Estados coherentes: la forma algebraica de calcular los
@@ -26,7 +28,9 @@ switch 'Escogido'
         % presencia de los factoriales y exponentes pueden generar
         % inestabilidad numérica. Nos basaremos en un evaluador de
         % probabilidades de Poisson. 
-        alpha   =       randi(20)*exp(2i*pi*rand);
+        % Consideraremos |alpha|<=25. Valores más altos generan
+        % inestabilidad numérica.
+        alpha   =       25*rand*exp(2i*pi*rand);
         mean_n  =       abs(alpha)^2;
         std_n   =       abs(alpha);
         nn      =       0:(mean_n + 5*std_n);
@@ -35,7 +39,10 @@ switch 'Escogido'
 
     case 'Normal'
         % Estado construido con base en una distribución normal
-        Psi_0   =       sqrt(normpdf(0:1000,100, 10));
+        mu      =       100;
+        sigma   =       10;
+        nn      =       0:(mu + 5*sigma);
+        Psi_0   =       sqrt(normpdf(nn, mu, sigma));
 
 end
 
@@ -56,9 +63,26 @@ Psi_0           =       Psi_0(:)/norm(Psi_0);
 % para n y una desviación estándar, de modo que <n>+5*std(n) sea una
 % estimación de un "n efectivo".  
 
+
+% Valores de n usados. 
 Nmax            =   length(Psi_0)-1;
-Nmean           =   real(Psi_0'*diag(0:Nmax)*Psi_0);
-N2mean          =   real(Psi_0'*(diag(0:Nmax)^2)*Psi_0);
+Nvec            =   0:Nmax;
+Nvec            =   Nvec(:);
+
+% Valor promedio de los n: 
+%       <N>     =   <Psi| N |Psi>
+%               =   real(Psi_0'*diag(0:Nmax)*Psi_0);
+%   Se puede optimizar como <N> = SUM_n n |<n|Psi_0>|^2.
+abs_Psi0_2      =   abs(Psi_0).^2;
+Nmean           =   Nvec'*abs_Psi0_2;
+
+% Valor promedio de los n^2: 
+%       <N^2>   =   <Psi|N^2|Psi>
+%               =   real(Psi_0'*(diag(0:Nmax)^2)*Psi_0);
+%   Se puede optimizar como <N> = SUM_n n^2 |<n|Psi_0>|^2.
+N2mean          =   (Nvec.^2)'*abs_Psi0_2;
+
+% Desviación estándar en n: 
 Nstd            =   sqrt(N2mean - Nmean^2);
 
 % "n efectivo". El término "sqrt(Nmean)" se usa para asegurar un mínimo. 
@@ -68,7 +92,9 @@ Neff            =   Nmean + max(5*Nstd,sqrt(Nmean));
 uMax            =   sqrt(2*Neff+1);
 
 % Con este uMax podemos construir un dominio para la posición u.
-u               =   linspace(-1,1,4096)*uMax;
+du              =   uMax/(Neff+1);
+Pts             =   min(16*(Neff+1), 8192);
+u               =   linspace(-1,1,Pts)*uMax;
 
 % Por otro lado, no existe una incerteza "clásica" en el valor de n.
 % Podemos imaginar una región clásicamente permitida usando el valor
@@ -110,7 +136,9 @@ for n           =   0:Nmax
     end
 end
 
-
+% Los cálculos futuros usan la versión traspuesta de Phi. Es mejor
+% trasponer de una sola vez.  
+Phi             =   transpose(Phi);
 
 %% Simulación de evolución temporal
 
@@ -122,10 +150,6 @@ psi_max = 0;                    % Valor máximo de psi(x,t) (para eje y)
 % Agrandamos la figura a pantalla completa
 set(Fig,'WindowState',"Maximized");
 pause(0.01);
-
-% Valores de n usados. 
-Nvec    =   0:Nmax;
-Nvec    =   Nvec(:);
 
 % Describamos el tiempo en función del período del oscilador: tau=t/T. 
 for tau=0:0.0033:2
@@ -156,7 +180,7 @@ for tau=0:0.0033:2
     % FOR consiste en usar la matriz Phi con las eigenfunciones y hacer la 
     % siguiente operación: 
 
-    Psi_xt  =   transpose(Phi)*Psi_t;
+    Psi_xt  =   Phi*Psi_t;
 
     % Parte real, parte imaginaria y módulo (abs) al cuadrado.
     rPsi_xt =   real(Psi_xt);
@@ -166,7 +190,7 @@ for tau=0:0.0033:2
     
     
     % Valor máximo (para limitar el eje Y en los graficos)
-    psi_max =   max(psi_max, max(sqrt(aPsi_xt)) );
+    psi_max =   max(psi_max, sqrt(max(aPsi_xt)) );
     
 
     % El siguiente código está estructurado en un condicional IF solo como
@@ -219,20 +243,24 @@ for tau=0:0.0033:2
                 
         psi_max_pre     =   psi_max;
     else
-        pp1(1).YData    =   rPsi_xt;
-        pp1(2).YData    =   iPsi_xt;
-        pp2(1).YData    =   rPsi_xt;
-        pp2(2).YData    =   iPsi_xt;
-        pp3.YData       =   aPsi_xt;
+        % En lugar de generar un nuevo gráfico usando plot(...),
+        % actualizamos los atributos del gráfico ya existente.
+        % Esto resulta en una animación mucho más fluida. 
+        set([pp1(1); ...
+             pp2(1); ...
+             pp1(2); ...
+             pp2(2); ...
+             pp3   ] , ...
+             {'YData'},...
+             {rPsi_xt; rPsi_xt; iPsi_xt; iPsi_xt; aPsi_xt});
 
         if  psi_max     >   psi_max_pre
             psi_max_pre =   psi_max;
-            ss1.YLim    =   [-1.05 1.05]*psi_max;
-            ss2.YLim    =   [-1.05 1.05]*psi_max;
-            ss3.YLim    =   [-0.05 1.05]*(psi_max.^2);
+            newLim1     =   [-1.05 1.05]*psi_max;
+            newLim2     =   [-0.05 1.05]*(psi_max.^2);
+            set([ss1; ss2; ss3], {'YLim'}, {newLim1;newLim1;newLim2});
         end
-
-        drawnow;
+        drawnow limitrate;
     end
 
     % Una pausa infinitesimal para que la animación no se "buguee".
