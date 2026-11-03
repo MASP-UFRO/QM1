@@ -169,7 +169,7 @@
 					re.push(amp * Math.cos(i * th)); im.push(amp * Math.sin(i * th));
 				}
 			} else if (mode === 'Normal') {
-				var mu = getNum(P.nm, 100), sg = getNum(P.ns, 10), top = Math.min(NCAP, Math.ceil(mu + 6 * sg));
+				var mu = getNum(P.nm, 80), sg = getNum(P.ns, 10), top = Math.min(NCAP, Math.ceil(mu + 6 * sg));
 				for (i = 0; i <= top; i++) { re.push(Math.exp(-(i - mu) * (i - mu) / (4 * sg * sg))); im.push(0); }
 			} else if (mode === 'Aleatorio') {
 				re = rndRe.slice(); im = rndIm.slice();
