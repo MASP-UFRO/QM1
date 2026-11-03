@@ -166,7 +166,7 @@ pause(0.5);
 
 
 % Describamos el tiempo en función del período del oscilador: tau=t/T. 
-for tau=0:0.005:1
+for tau=0:0.005:10
     t1                  =   tic;
     
     % Matemáticamente, la evolución temporal del estado está dada por 
