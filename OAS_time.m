@@ -153,7 +153,7 @@ pause(0.01);
 
 % Describamos el tiempo en función del período del oscilador: tau=t/T. 
 for tau=0:0.0033:2
-    
+    t1              =   tic;
     % Matemáticamente, la evolución temporal del estado está dada por 
     % 
     %   |psi(t)>    =   U(t)|psi(0)> 
@@ -260,13 +260,16 @@ for tau=0:0.0033:2
             newLim2     =   [-0.05 1.05]*(psi_max.^2);
             set([ss1; ss2; ss3], {'YLim'}, {newLim1;newLim1;newLim2});
         end
-        drawnow limitrate;
+        drawnow;
     end
-
-    % Una pausa infinitesimal para que la animación no se "buguee".
-    % No debería ser necesaria debido al "drawnow;" unas líneas antes. 
-    % pause(0.001)
     
+    % Una pausa infinitesimal para que la animación no se "buguee".
+    % No debería ser necesaria debido al "drawnow;" unas líneas antes,
+    % pero puede ocurrir que la transición sea muy rápida y no alcance a
+    % verse. 
+    if toc(t1)<0.001
+        pause(0.0001)
+    end
 end
 
 
