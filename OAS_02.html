@@ -93,6 +93,7 @@
 
 						<div class="legend">
 							<div class="legend-item"><span class="swatch" style="background:#ffffcc;border:1px solid #bbb"></span>Región clásicamente permitida</div>
+							<div class="note">Se calcula con la energía media &lang;E&rang; = &#8463;&omega;(&lang;n&rang;+&frac12;). Si el estado es una superposición de varios n, la energía no está definida y esta región es solo una referencia.</div>
 						</div>
 					</div>
 				</aside>
@@ -274,6 +275,13 @@
 			ctx.stroke();
 			ctx.setLineDash([]);
 		}
+		/* Tamaño de letra que hace caber un texto centrado en cx dentro del lienzo (solo reduce, nunca agranda) */
+		function fitSize(ctx, str, size, cx, W) {
+			var maxW = 2 * Math.min(cx, W - cx) - 8;
+			ctx.font = 'bold ' + size + 'px ' + T.getFont();
+			var w = ctx.measureText(str).width;
+			return w > maxW ? Math.max(10, Math.floor(size * maxW / w)) : size;
+		}
 
 		/* Marco de un panel: fondo, grilla y ticks. xt: dibuja ticks en x (con etiquetas). */
 		function frameGrid(ctx, g, X, Y, xmin, xmax, y0, y1, sx, sy, xlabels, ydec) {
@@ -367,8 +375,11 @@
 				ctx.save(); ctx.translate(wide ? 18 : 16, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
 				drawText(ctx, pn.label, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
 			});
-			drawText(ctx, 'u = x/β, posición adimensional (β = √(ℏ/mω))', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
-			drawText(ctx, 'En amarillo: región clásicamente permitida', gC[0].x + gC[0].w / 2, 24, 19, 'center', '#333', 'bold');
+			var cxL = gC[0].x + gC[0].w / 2, xlab = 'u = x/β, posición adimensional (β = √(ℏ/mω))', tlab = 'En amarillo: región clásicamente permitida';
+			drawText(ctx, xlab, cxL, gC[2].y + hC + 46, fitSize(ctx, xlab, 19, cxL, W), 'center', '#333', 'bold');
+			drawText(ctx, tlab, cxL, 24, fitSize(ctx, tlab, 19, cxL, W), 'center', '#333', 'bold');
+			/*drawText(ctx, 'u = x/β, posición adimensional (β = √(ℏ/mω))', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
+			drawText(ctx, 'En amarillo: región clásicamente permitida', gC[0].x + gC[0].w / 2, 24, 19, 'center', '#333', 'bold');*/
 
 			// Coeficientes c_n(t) = <phi_n|Psi(t)>: fase (cambia con t) y |c_n|^2 (fijo)
 			var N = D.Nmax, ang = new Float64Array(N + 1), shF = new Array(N + 1), shP = new Array(N + 1), a;
