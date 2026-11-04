@@ -185,7 +185,7 @@
 			var ym = 0, ymax;
 			for (i = 0; i < N; i++) { if (Math.abs(D.phi[i]) > ym) { ym = Math.abs(D.phi[i]); } }
 			ymax = 1.25 * ym;
-			var A = axes(ctx, r, -D.uMax, D.uMax, -ymax, ymax, 'u = x/β, posición adimensional', '∝ Φ_n(u)');
+			var A = axes(ctx, r, -D.uMax, D.uMax, -ymax, ymax, 'u = x/β, posición adimensional (β = √(ℏ/mω))', '∝ Φ_n(u)');
 			ctx.save(); ctx.beginPath(); ctx.rect(r.l, r.t, r.w, r.h); ctx.clip();
 			if (show.rcl) {
 				ctx.fillStyle = COL.yel;
@@ -203,7 +203,7 @@
 			ctx = SB.ctx; W = SB.w; H = SB.h;
 			ctx.clearRect(0, 0, W, H);
 			r = { l: 70, t: 34, w: W - 70 - 20, h: H - 34 - 54 };
-			var B = axes(ctx, r, -D.uMax, D.uMax, 0, D.Vmax, 'u = x/β, posición adimensional', 'E_n y V, en ħω');
+			var B = axes(ctx, r, -D.uMax, D.uMax, 0, D.Vmax, 'u = x/β, posición adimensional (β = √(ℏ/mω))', 'E_n y V, en ħω');
 			ctx.save(); ctx.beginPath(); ctx.rect(r.l, r.t, r.w, r.h); ctx.clip();
 
 			// región clásicamente permitida: entre la recta E_n y la parábola
