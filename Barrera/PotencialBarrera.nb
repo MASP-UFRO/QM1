@@ -3,10 +3,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[         0,          0]
-NotebookDataLength[    211817,       4588]
-NotebookOptionsPosition[    210449,       4556]
-NotebookOutlinePosition[    210869,       4573]
-CellTagsIndexPosition[    210826,       4570]
+NotebookDataLength[    211401,       4571]
+NotebookOptionsPosition[    210033,       4539]
+NotebookOutlinePosition[    210453,       4556]
+CellTagsIndexPosition[    210410,       4553]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -1830,9 +1830,7 @@ exponencial en la Regi\[OAcute]n 2 no permite anular alguna de las inc\
  Cell[BoxData[
   FormBox[
    RowBox[{"\[VerticalLine]x\[VerticalLine]", "\[Rule]", "\[Infinity]"}], 
-   TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
-  "7afd2b95-65a9-4011-998d-693c2c0f7bc0"],
+   TraditionalForm]],ExpressionUUID->"7afd2b95-65a9-4011-998d-693c2c0f7bc0"],
  ".  \n\nDe este modo, este caso no es matem\[AAcute]ticamente tan distinto \
 al caso (a), salvo por ",
  Cell[BoxData[
@@ -2403,8 +2401,7 @@ dentro del la barrera. \n\t\[FilledSmallCircle] \tSi ",
   FormBox[
    RowBox[{
     SubsuperscriptBox["k", "in", "2"], ">", "0"}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
-  "b5939b39-d11b-4dba-803e-a752ae73443a"],
+  ExpressionUUID->"b5939b39-d11b-4dba-803e-a752ae73443a"],
  ". \n\t\tLa onda se mover\[AAcute] como ",
  Cell[BoxData[
   FormBox[
@@ -2451,9 +2448,7 @@ dentro del la barrera. \n\t\[FilledSmallCircle] \tSi ",
   FormBox[
    RowBox[{
     SubsuperscriptBox["k", "in", "2"], "\[LessEqual]", "0"}], 
-   TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
-  "b576145f-a0e3-451d-8a26-bc21263430e9"],
+   TraditionalForm]],ExpressionUUID->"b576145f-a0e3-451d-8a26-bc21263430e9"],
  ". \n\t\tLa onda se mover\[AAcute] como ",
  Cell[BoxData[
   FormBox[
@@ -2539,13 +2534,11 @@ coeficientes. Si ocupamos ",
 lineal y, en consecuencia, ",
  StyleBox["no aparece discretizaci\[OAcute]n en la energ\[IAcute]a",
   FontWeight->"Bold"],
- ". ",
- "\n\nEn t\[EAcute]rminos de c\[AAcute]lculo, se tratar\[AAcute] de permitir \
-valores imaginarios para ",
+ ". \n\nEn t\[EAcute]rminos de c\[AAcute]lculo, se tratar\[AAcute] de \
+permitir valores imaginarios para ",
  Cell[BoxData[
   FormBox[
-   SubscriptBox["k", "in"], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+   SubscriptBox["k", "in"], TraditionalForm]],ExpressionUUID->
   "1e009829-d45e-44fb-86c8-2aa7845d5f62"],
  ". El recordar que ",
  Cell[BoxData[
@@ -2569,8 +2562,7 @@ valores imaginarios para ",
  Cell[BoxData[
   FormBox[
    RowBox[{"0", "<", "\[Eta]", "<", "\[Infinity]"}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
-  "9b9c0aab-9b94-472b-b802-ddbdbbb52f5c"],
+  ExpressionUUID->"9b9c0aab-9b94-472b-b802-ddbdbbb52f5c"],
  ", en lugar de separarlo en dos casos. \n\n\n",
  StyleBox["Sistema de ecuaciones y coeficientes de reflexi\[OAcute]n y \
 transmisi\[OAcute]n.", "Subsection"],
@@ -2713,8 +2705,7 @@ condiciones de continuidad, tendremos\n\n",
              Offset[0.2], {
               Offset[0.4]}, 
              Offset[0.2]}}], "\[NoBreak]", ")"}]}]}],
-     TraditionalForm], " "}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+     TraditionalForm], " "}], TraditionalForm]],ExpressionUUID->
   "0e3f4e57-aaa0-4623-97ff-5f427b6f4b5d"],
  "\n\n\nAl igual que con el caso (a) del pozo de potencial, podemos definir \
 ",
@@ -2746,9 +2737,8 @@ ocurrir\[AAcute] cada opci\[OAcute]n y si la onda gana alguna fase en ellas. \
         SubscriptBox["A", "1"]], "."}]}]}]}], TraditionalForm]],
   ExpressionUUID->"f6ae2df4-b1cb-4d38-991f-8de293f0a4f3"],
  "\n\nNuevamente, las probabilidades de que la part\[IAcute]cula termine \
-siendo reflejada o transmitida se calculan como solemos hacerlo en Mec\
-\[AAcute]nica Cu\[AAcute]ntica: m\[OAcute]dulo al cuadrado de las amplitudes.\
-\n\n\t",
+siendo reflejada o transmitida son los cocientes entre la corriente de \
+probabilidad reflejada (o transmitida) y la incidente. \n\n\t",
  Cell[BoxData[
   FormBox[GridBox[{
      {Cell["R",ExpressionUUID->"f4a0f536-4b8c-42ee-9dfa-5af47e2932ec"], "=", 
@@ -2805,8 +2795,7 @@ siendo reflejada o transmitida se calculan como solemos hacerlo en Mec\
          RowBox[{"cos", "(", 
           RowBox[{"2", " ", "L", " ", 
            SubscriptBox["k", "in"]}], ")"}]}]}]]}
-    }], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+    }], TraditionalForm]],ExpressionUUID->
   "aeb4a017-847c-4e36-b759-0f6408986858"],
  "  \n\nLa parte ",
  StyleBox["potencialmente oscilatoria",
@@ -2817,8 +2806,7 @@ trigonom\[EAcute]tricas ",
   FormBox[
    RowBox[{"cos", "(", 
     RowBox[{"2", " ", "L", " ", 
-     SubscriptBox["k", "in"]}], ")"}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+     SubscriptBox["k", "in"]}], ")"}], TraditionalForm]],ExpressionUUID->
   "558ea0d8-40f4-4824-b97e-3913f6d7aefb"],
  " y ",
  Cell[BoxData[
@@ -2826,31 +2814,26 @@ trigonom\[EAcute]tricas ",
    RowBox[{
     SuperscriptBox["sin", "2"], "(", 
     RowBox[{"L", " ", 
-     SubscriptBox["k", "in"]}], ")"}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+     SubscriptBox["k", "in"]}], ")"}], TraditionalForm]],ExpressionUUID->
   "b9ead2eb-4f5a-4d52-8a1b-3734463fd08a"],
  ". \n\t\[EmptySmallCircle] Si la energ\[IAcute]a de la part\[IAcute]cula es \
 mayor que la altura m\[AAcute]xima de la barrera (",
  Cell[BoxData[
   FormBox[
-   RowBox[{"\[Eta]", ">", "1"}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+   RowBox[{"\[Eta]", ">", "1"}], TraditionalForm]],ExpressionUUID->
   "bcd09b72-251c-4832-ba19-c3c3eaee09bd"],
  "), ocurrir\[AAcute] que ",
  Cell[BoxData[
-  FormBox["R", TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+  FormBox["R", TraditionalForm]],ExpressionUUID->
   "3384ecd0-3c3a-466c-8e02-d4fa936cb42f"],
  " y ",
  Cell[BoxData[
-  FormBox["T", TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+  FormBox["T", TraditionalForm]],ExpressionUUID->
   "be4958b9-412e-461c-9092-36dbf3e793ea"],
  " exhibir\[AAcute]n m\[AAcute]ximos y m\[IAcute]nimos para diversos valores \
 de ",
  Cell[BoxData[
-  FormBox["L", TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
+  FormBox["L", TraditionalForm]],ExpressionUUID->
   "b22184c2-990f-4b68-9f5c-d5a54073d0df"],
  ". Aparecer\[AAcute]n resonancias (m\[AAcute]ximos en la transmisi\[OAcute]n \
 o en la reflexi\[OAcute]n) y \[OpenCurlyDoubleQuote]anti-resonancias\
@@ -2859,8 +2842,7 @@ part\[IAcute]cula no supera el m\[AAcute]ximo de la barrera (",
  Cell[BoxData[
   FormBox[
    RowBox[{"0", "<", "\[Eta]", "\[LessEqual]", "1"}], TraditionalForm]],
-  FormatType->TraditionalForm,ExpressionUUID->
-  "96217206-806f-4264-aedd-e5a9cd3cf4d4"],
+  ExpressionUUID->"96217206-806f-4264-aedd-e5a9cd3cf4d4"],
  "), estas funciones oscilatorias se transforman en funciones \
 hiperb\[OAcute]licas. \n\n",
  StyleBox["* Para ver los gr\[AAcute]ficos interactivos, ejecute la siguiente \
@@ -2888,8 +2870,9 @@ celda y vaya al final del archivo. ",
    4.002632344423423*^9}, {4.0026323763906*^9, 4.002632633735602*^9}, {
    4.002634721476141*^9, 4.00263472228668*^9}, {4.0026348385542603`*^9, 
    4.002634839182497*^9}, 4.0026348742517548`*^9, {4.002635130059184*^9, 
-   4.002635204898061*^9}, {4.002638057561101*^9, 
-   4.0026381245195723`*^9}},ExpressionUUID->"2522700d-fc7d-4dfa-b86a-\
+   4.002635204898061*^9}, {4.002638057561101*^9, 4.0026381245195723`*^9}, {
+   4.002745441369958*^9, 
+   4.0027454634869547`*^9}},ExpressionUUID->"2522700d-fc7d-4dfa-b86a-\
 ed31dfb36cda"],
 
 Cell["\<\
@@ -4573,15 +4556,15 @@ CellTagsIndex->{}
 (*NotebookFileOutline
 Notebook[{
 Cell[400, 13, 31669, 713, 1215, "Text",ExpressionUUID->"d088e8c7-3bb6-4d55-b2c7-e3bc42821729"],
-Cell[32072, 728, 98586, 2164, 3529, "Text",ExpressionUUID->"2522700d-fc7d-4dfa-b86a-ed31dfb36cda"],
-Cell[130661, 2894, 702, 15, 93, "Text",ExpressionUUID->"b6e8c787-bb25-42ac-ab3a-3bdc0eacfdf3"],
+Cell[32072, 728, 98170, 2147, 3529, "Text",ExpressionUUID->"2522700d-fc7d-4dfa-b86a-ed31dfb36cda"],
+Cell[130245, 2877, 702, 15, 93, "Text",ExpressionUUID->"b6e8c787-bb25-42ac-ab3a-3bdc0eacfdf3"],
 Cell[CellGroupData[{
-Cell[131388, 2913, 47200, 1118, 5950, "Input",ExpressionUUID->"258cc36f-873a-4e16-a87d-7470551b270c"],
-Cell[178591, 4033, 11556, 167, 582, "Output",ExpressionUUID->"0085d2ed-5201-449c-b907-66485fb54357"],
-Cell[190150, 4202, 6081, 90, 268, "Output",ExpressionUUID->"34ce2b0b-24f8-4fed-a43e-c7e5c8e4da52"],
-Cell[196234, 4294, 2603, 40, 117, "Output",ExpressionUUID->"34c0b913-a3f0-4354-8603-579b3c39cc06"],
-Cell[198840, 4336, 2900, 57, 422, "Output",ExpressionUUID->"7b0c3131-7391-4552-a759-905a48488beb"],
-Cell[201743, 4395, 8690, 158, 536, "Output",ExpressionUUID->"b0205368-184a-4183-bbd5-0cb9893190fa"]
+Cell[130972, 2896, 47200, 1118, 5950, "Input",ExpressionUUID->"258cc36f-873a-4e16-a87d-7470551b270c"],
+Cell[178175, 4016, 11556, 167, 582, "Output",ExpressionUUID->"0085d2ed-5201-449c-b907-66485fb54357"],
+Cell[189734, 4185, 6081, 90, 268, "Output",ExpressionUUID->"34ce2b0b-24f8-4fed-a43e-c7e5c8e4da52"],
+Cell[195818, 4277, 2603, 40, 117, "Output",ExpressionUUID->"34c0b913-a3f0-4354-8603-579b3c39cc06"],
+Cell[198424, 4319, 2900, 57, 422, "Output",ExpressionUUID->"7b0c3131-7391-4552-a759-905a48488beb"],
+Cell[201327, 4378, 8690, 158, 536, "Output",ExpressionUUID->"b0205368-184a-4183-bbd5-0cb9893190fa"]
 }, Open  ]]
 }
 ]
