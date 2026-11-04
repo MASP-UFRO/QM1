@@ -48,7 +48,7 @@ switch 'Normal'
 
     case 'Normal'
         % Estado construido con base en una distribución normal
-        mu              =   80;
+        mu              =   70;
         sigma           =   10;
         nn              =   0:(mu + 5*sigma);
         Psi_0           =   sqrt(normpdf(nn, mu, sigma));
