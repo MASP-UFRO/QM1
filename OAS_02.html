@@ -324,9 +324,9 @@
 
 			var xmin = -1.05 * D.uMax, xmax = 1.05 * D.uMax, pm = D.pmax;
 			var panels = [
-				{ y0: -1.05 * pm, y1: 1.05 * pm, label: 'Re ψ(x,t)' },
-				{ y0: -1.05 * pm, y1: 1.05 * pm, label: 'Im ψ(x,t)' },
-				{ y0: -0.05 * pm * pm, y1: 1.05 * pm * pm, label: '|ψ(x,t)|²' }
+				{ y0: -1.05 * pm, y1: 1.05 * pm, label: '∝ Re ψ(x,t)' },
+				{ y0: -1.05 * pm, y1: 1.05 * pm, label: '∝ Im ψ(x,t)' },
+				{ y0: -0.05 * pm * pm, y1: 1.05 * pm * pm, label: '∝ |ψ(x,t)|²' }
 			];
 			var BLUE = '#0072BD', ORG = '#D95319', BLACK = '#000000', DASH = [8, 5];
 
@@ -348,7 +348,7 @@
 				ctx.save(); ctx.translate(wide ? 18 : 16, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
 				drawText(ctx, pn.label, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
 			});
-			drawText(ctx, 'u = x/β, posición adimensional', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
+			drawText(ctx, 'u = x/β, posición adimensional (β=√(ℏ/mω)).', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
 			drawText(ctx, 'En amarillo: región clásicamente permitida', gC[0].x + gC[0].w / 2, 24, 19, 'center', '#333', 'bold');
 
 			// Coeficientes c_n(t) = <phi_n|Psi(t)>: fase (cambia con t) y |c_n|^2 (fijo)
