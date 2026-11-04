@@ -98,7 +98,7 @@
 				</aside>
 
 				<div class="plot-column">
-					<div class="canvas-container"><canvas id="plotT" width="1000" height="760"></canvas></div>
+					<div class="canvas-container"><canvas id="plotT" width="1000" height="760" role="img" aria-label="Gráficos de la parte real, la parte imaginaria y el módulo al cuadrado de la función de onda en función de u, y de la fase y el módulo al cuadrado de los coeficientes c_n del estado."></canvas></div>
 					<div class="info-panel">
 						<div class="info-grid">
 							<div class="info-box"><h4>&tau; = t/T</h4><div class="info-value" id="i_tau">0.000</div></div>
@@ -106,6 +106,10 @@
 							<div class="info-box"><h4>&sigma;<sub>n</sub></h4><div class="info-value" id="i_std">0</div></div>
 							<div class="info-box"><h4>u<sub>cl</sub> = &radic;(2&lang;n&rang;+1)</h4><div class="info-value" id="i_ucl">0</div></div>
 							<div class="info-box"><h4>Estados |n&rang;</h4><div class="info-value" id="i_ns">0</div></div>
+							<div class="info-box"><h4>&lang;u&rang; = &lang;x&rang;/&beta;</h4><div class="info-value" id="i_ux">0</div></div>
+							<div class="info-box"><h4>&sigma;<sub>u</sub></h4><div class="info-value" id="i_su">0</div></div>
+							<div class="info-box"><h4>&sigma;<sub>p</sub> (en &#8463;/&beta;)</h4><div class="info-value" id="i_sp">0</div></div>
+							<div class="info-box"><h4>&sigma;<sub>u</sub>&middot;&sigma;<sub>p</sub> (en &#8463;)</h4><div class="info-value" id="i_sup">0</div></div>
 						</div>
 						<div class="formula">&psi;(x,t) = &sum;<sub>n</sub> c<sub>n</sub> e<sup>&minus;2&pi;i&tau;(n+1/2)</sup> &Phi;<sub>n</sub>(u), &nbsp; u = x/&beta;, &nbsp; &tau; = t/T, &nbsp; T = 2&pi;/&omega;.</div>
 					</div>
@@ -139,7 +143,7 @@
 		var NCAP = 700;         // máximo de niveles considerados
 		var rndRe = [], rndIm = [];
 		var D = null;           // datos del estado actual
-		var playing = true, last = 0, raf = 0, dirtyState = true;
+		var playing = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches), last = 0, raf = 0, dirtyState = true;
 
 		function randn() {
 			var a = 1 - Math.random(), b = Math.random();
@@ -215,7 +219,22 @@
 				if (pn[n] > pcMax) { pcMax = pn[n]; }
 			}
 
+			// Sumas para <u>, <p> y <a^2> (no dependen de tau; solo giran con e^{-i 2 pi tau}):
+			//   S1 = SUM_n sqrt(2(n+1)) c_n^* c_{n+1},   S2 = SUM_n sqrt((n+1)(n+2)) c_n^* c_{n+2}
+			var s1r = 0, s1i = 0, s2r = 0, s2i = 0, w;
+			for (n = 0; n < Nmax; n++) {
+				w = Math.sqrt(2 * (n + 1));
+				s1r += w * (c.re[n] * c.re[n + 1] + c.im[n] * c.im[n + 1]);
+				s1i += w * (c.re[n] * c.im[n + 1] - c.im[n] * c.re[n + 1]);
+			}
+			for (n = 0; n < Nmax - 1; n++) {
+				w = Math.sqrt((n + 1) * (n + 2));
+				s2r += w * (c.re[n] * c.re[n + 2] + c.im[n] * c.im[n + 2]);
+				s2i += w * (c.re[n] * c.im[n + 2] - c.im[n] * c.re[n + 2]);
+			}
+
 			D = { c: c, Nmax: Nmax, mean: mean, std: std, uMax: uMax, uCl: uCl, u: u, Phi: Phi, idx: idx,
+				  s1r: s1r, s1i: s1i, s2r: s2r, s2i: s2i,
 				  pn: pn, a0: a0, pcMax: pcMax,
 				  re: new Float64Array(UN), im: new Float64Array(UN), pmax: 0 };
 
@@ -348,7 +367,7 @@
 				ctx.save(); ctx.translate(wide ? 18 : 16, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
 				drawText(ctx, pn.label, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
 			});
-			drawText(ctx, 'u = x/β, posición adimensional (β=√(ℏ/mω)).', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
+			drawText(ctx, 'u = x/β, posición adimensional (β = √(ℏ/mω))', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
 			drawText(ctx, 'En amarillo: región clásicamente permitida', gC[0].x + gC[0].w / 2, 24, 19, 'center', '#333', 'bold');
 
 			// Coeficientes c_n(t) = <phi_n|Psi(t)>: fase (cambia con t) y |c_n|^2 (fijo)
@@ -363,6 +382,16 @@
 			drawText(ctx, 'c_n(t) = ⟨φ_n|Ψ(t)⟩', gS[0].x + gS[0].w / 2, gS[0].y - 12, 18, 'center', '#333', 'bold');
 			var top = Math.max(D.pcMax, 1e-12) * 1.08, sy = niceStep(top, 4);
 			stemPanel(ctx, gS[1], D.pn, shP, '#000000', 0, top, sy, Math.max(0, Math.min(6, -Math.floor(Math.log(sy) / Math.LN10 + 1e-9))), '|c_n(t)|²');
+			// <u>, <p>, sigma_u, sigma_p y su producto (u = x/beta; p en unidades de hbar/beta)
+			var th = 2 * Math.PI * tau, ct = Math.cos(th), st = Math.sin(th);
+			var ubar = D.s1r * ct + D.s1i * st, pbar = D.s1i * ct - D.s1r * st;
+			var re2 = D.s2r * Math.cos(2 * th) + D.s2i * Math.sin(2 * th);       // Re<a^2>
+			var sU = Math.sqrt(Math.max(0, D.mean + 0.5 + re2 - ubar * ubar));
+			var sP = Math.sqrt(Math.max(0, D.mean + 0.5 - re2 - pbar * pbar));
+			$('i_ux').textContent = ubar.toFixed(3);
+			$('i_su').textContent = sU.toFixed(3);
+			$('i_sp').textContent = sP.toFixed(3);
+			$('i_sup').textContent = (sU * sP).toFixed(3);
 			$('i_tau').textContent = tau.toFixed(3);
 		}
 
@@ -406,6 +435,7 @@
 		});
 		$('rewind').addEventListener('click', function () { setPair(P.tau, P.tauR, 0); schedule(); });
 
+		$('play').innerHTML = playing ? '&#10074;&#10074; Pausa' : '&#9654; Reproducir';
 		schedule();
 		window.addEventListener('resize', function () { schedule(); });
 		T.onFontsReady(function () { schedule(); });
