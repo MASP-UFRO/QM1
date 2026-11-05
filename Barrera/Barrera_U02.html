@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Barrera de potencial - Coeficientes R y T</title>
 	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
 </head>
+
 <body>
 	<div class="container">
 		<div class="main-content">
@@ -20,9 +22,11 @@
 									<label for="eta1" style="font-size: 1.4em;">&eta;:</label>
 									<input type="number" id="eta1" value="1.02" min="0.01" max="3" step="0.01">
 								</div>
-								<input type="range" id="eta1r" min="0.01" max="3" step="0.01" value="1.02" aria-label="eta">
+								<input type="range" id="eta1r" min="0.01" max="3" step="0.01" value="1.02"
+									aria-label="eta">
 								<div class="range-limits"><span>0.01</span><span>3.00</span></div>
-								<label class="check-row"><input type="checkbox" id="res1"> Marcar resonancias (T = 1), &eta; &gt; 1</label>
+								<label class="check-row"><input type="checkbox" id="res1"> Marcar resonancias (T = 1),
+									&eta; &gt; 1</label>
 							</div>
 						</div>
 						<button class="btn-secondary" id="reset1" type="button">&#8635; Restablecer</button>
@@ -35,13 +39,34 @@
 					</div>
 					<div class="info-panel">
 						<div class="info-grid">
-							<div class="info-box"><h4>Energía</h4><div class="info-value" id="i1_energy">&Delta;E = 1.02 &Delta;V</div></div>
-							<div class="info-box"><h4>Régimen</h4><div class="info-value" id="i1_reg">&mdash;</div></div>
-							<div class="info-box"><h4>k<sub>in</sub> / k<sub>out</sub></h4><div class="info-value" id="i1_ratio">0.00</div></div>
-							<div class="info-box"><h4>T mínimo</h4><div class="info-value" id="i1_tmin">0.000</div></div>
-							<div class="info-box"><h4>&Lambda; (cursor)</h4><div class="info-value" id="i1_lam">&mdash;</div></div>
-							<div class="info-box"><h4>R (cursor)</h4><div class="info-value" id="i1_R">&mdash;</div></div>
-							<div class="info-box"><h4>T (cursor)</h4><div class="info-value" id="i1_T">&mdash;</div></div>
+							<div class="info-box">
+								<h4>Energía</h4>
+								<div class="info-value" id="i1_energy">&Delta;E = 1.02 &Delta;V</div>
+							</div>
+							<div class="info-box">
+								<h4>Régimen</h4>
+								<div class="info-value" id="i1_reg">&mdash;</div>
+							</div>
+							<div class="info-box">
+								<h4>k<sub>in</sub> / k<sub>out</sub></h4>
+								<div class="info-value" id="i1_ratio">0.00</div>
+							</div>
+							<div class="info-box">
+								<h4>T mínimo</h4>
+								<div class="info-value" id="i1_tmin">0.000</div>
+							</div>
+							<div class="info-box">
+								<h4>&Lambda; (cursor)</h4>
+								<div class="info-value" id="i1_lam">&mdash;</div>
+							</div>
+							<div class="info-box">
+								<h4>R (cursor)</h4>
+								<div class="info-value" id="i1_R">&mdash;</div>
+							</div>
+							<div class="info-box">
+								<h4>T (cursor)</h4>
+								<div class="info-value" id="i1_T">&mdash;</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -51,222 +76,223 @@
 	</div>
 
 	<script>
-	(function () {
-		'use strict';
+		(function () {
+			'use strict';
 
-		var T = HTMLSim;
-		var ensureSize = T.ensureSize, drawText = T.drawText, getNum = T.getNum, bindPair = T.bindPair, setPair = T.setPair;
+			var T = HTMLSim;
+			var ensureSize = T.ensureSize, drawText = T.drawText, getNum = T.getNum, bindPair = T.bindPair, setPair = T.setPair;
 
-		/* ============================================================
-		   R y T de la barrera en función de (eta, Lambda), con
-		   eta = DeltaE/DeltaV y Lambda = L / lambda_dB (lambda_dB = 2 pi / k_out).
-		   k_in/k_out = sqrt((eta-1)/eta); para eta < 1 es imaginario y
-		   sin -> sinh (por eso se usan formas distintas a cada lado de eta = 1).
-		   ============================================================ */
-		function RTbarrera(eta, lam) {
-			var a = 8 * eta * (eta - 1), x, s, d, y, b, sh;
-			if (Math.abs(eta - 1) < 1e-9) {              // eta = 1: k_in -> 0
-				x = Math.PI * lam;
-				return [x * x / (1 + x * x), 1 / (1 + x * x)];
+			/* ============================================================
+			   R y T de la barrera en función de (eta, Lambda), con
+			   eta = DeltaE/DeltaV y Lambda = L / lambda_dB (lambda_dB = 2 pi / k_out).
+			   k_in/k_out = sqrt((eta-1)/eta); para eta < 1 es imaginario y
+			   sin -> sinh (por eso se usan formas distintas a cada lado de eta = 1).
+			   ============================================================ */
+			function RTbarrera(eta, lam) {
+				var a = 8 * eta * (eta - 1), x, s, d, y, b, sh;
+				if (Math.abs(eta - 1) < 1e-9) {              // eta = 1: k_in -> 0
+					x = Math.PI * lam;
+					return [x * x / (1 + x * x), 1 / (1 + x * x)];
+				}
+				if (eta > 1) {
+					x = 2 * Math.PI * Math.sqrt((eta - 1) / eta) * lam;
+					s = Math.sin(x);
+					d = 2 * s * s + a;
+					return [2 * s * s / d, a / d];
+				}
+				y = 2 * Math.PI * Math.sqrt((1 - eta) / eta) * lam;
+				if (y > 300) { return [1, 0]; }                // sinh desbordaría: T ~ 0
+				sh = Math.sinh(y); b = -a;                     // b = 8 eta (1 - eta) > 0
+				d = 2 * sh * sh + b;
+				return [2 * sh * sh / d, b / d];
 			}
-			if (eta > 1) {
-				x = 2 * Math.PI * Math.sqrt((eta - 1) / eta) * lam;
-				s = Math.sin(x);
-				d = 2 * s * s + a;
-				return [2 * s * s / d, a / d];
-			}
-			y = 2 * Math.PI * Math.sqrt((1 - eta) / eta) * lam;
-			if (y > 300) { return [1, 0]; }                // sinh desbordaría: T ~ 0
-			sh = Math.sinh(y); b = -a;                     // b = 8 eta (1 - eta) > 0
-			d = 2 * sh * sh + b;
-			return [2 * sh * sh / d, b / d];
-		}
 
-		var P1 = {
-			cv: document.getElementById('plot1'),
-			num: document.getElementById('eta1'),
-			rng: document.getElementById('eta1r'),
-			res: document.getElementById('res1'),
-			hover: null,
-			lamMin: 0.01, lamMax: 6.0
-		};
-		var S1 = { ctx: null, w: 0, h: 0 };
-		ensureSize(S1, P1.cv, 0.46, 340, 470);
-		var C_R = '#5E81B5', C_T = '#E19C24';
-
-		function drawPlot1() {
-			var eta = getNum(P1.num, 1.02);
+			var P1 = {
+				cv: document.getElementById('plot1'),
+				num: document.getElementById('eta1'),
+				rng: document.getElementById('eta1r'),
+				res: document.getElementById('res1'),
+				hover: null,
+				lamMin: 0.01, lamMax: 6.0
+			};
+			var S1 = { ctx: null, w: 0, h: 0 };
 			ensureSize(S1, P1.cv, 0.46, 340, 470);
-			var ctx = S1.ctx, W = S1.w, H = S1.h;
-			var fs = Math.max(0.62, Math.min(1, W / 760));
-			var ml = 78, mr = 30, mt = 92, mb = 66;
-			var pw = W - ml - mr, ph = H - mt - mb;
-			var xmin = 0, xmax = P1.lamMax, ymin = 0, ymax = 1.05;
-			function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
-			function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
+			var C_R = '#5E81B5', C_T = '#E19C24';
 
-			ctx.clearRect(0, 0, W, H);
-			ctx.fillStyle = '#fff';
-			ctx.fillRect(ml, mt, pw, ph);
+			function drawPlot1() {
+				var eta = getNum(P1.num, 1.02);
+				ensureSize(S1, P1.cv, 0.46, 340, 470);
+				var ctx = S1.ctx, W = S1.w, H = S1.h;
+				var fs = Math.max(0.62, Math.min(1, W / 760));
+				var ml = 78, mr = 30, mt = 92, mb = 66;
+				var pw = W - ml - mr, ph = H - mt - mb;
+				var xmin = 0, xmax = P1.lamMax, ymin = 0, ymax = 1.05;
+				function X(v) { return ml + (v - xmin) / (xmax - xmin) * pw; }
+				function Y(v) { return mt + ph - (v - ymin) / (ymax - ymin) * ph; }
 
-			// rejilla y ticks
-			var i, v;
-			ctx.lineWidth = 1;
-			for (i = 0; i <= 12; i++) {                      // x: cada 0.5
-				v = i * 0.5;
-				ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
-				ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
-				if (i % 2 === 0) {
-					drawText(ctx, String(v), X(v), mt + ph + 22, 14, 'center', '#555');
+				ctx.clearRect(0, 0, W, H);
+				ctx.fillStyle = '#fff';
+				ctx.fillRect(ml, mt, pw, ph);
+
+				// rejilla y ticks
+				var i, v;
+				ctx.lineWidth = 1;
+				for (i = 0; i <= 12; i++) {                      // x: cada 0.5
+					v = i * 0.5;
+					ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
+					ctx.beginPath(); ctx.moveTo(X(v), mt); ctx.lineTo(X(v), mt + ph); ctx.stroke();
+					if (i % 2 === 0) {
+						drawText(ctx, String(v), X(v), mt + ph + 22, 14, 'center', '#555');
+					}
 				}
-			}
-			for (i = 0; i <= 10; i++) {                      // y: cada 0.1
-				v = i / 10;
-				ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
-				ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
-				if (i % 2 === 0) {
-					drawText(ctx, v.toFixed(1), ml - 10, Y(v) + 5, 14, 'right', '#555');
+				for (i = 0; i <= 10; i++) {                      // y: cada 0.1
+					v = i / 10;
+					ctx.strokeStyle = (i % 2 === 0) ? '#d5d8e0' : '#ececf1';
+					ctx.beginPath(); ctx.moveTo(ml, Y(v)); ctx.lineTo(ml + pw, Y(v)); ctx.stroke();
+					if (i % 2 === 0) {
+						drawText(ctx, v.toFixed(1), ml - 10, Y(v) + 5, 14, 'right', '#555');
+					}
 				}
-			}
 
-			// resonancias T = 1:  k_in L = n pi  <=>  Lambda = (n/2) sqrt(eta/(eta-1))   (solo eta > 1)
-			if (P1.res.checked && eta > 1) {
-				var step = 0.5 * Math.sqrt(eta / (eta - 1));
-				ctx.setLineDash([2, 5]); ctx.strokeStyle = '#005092'; ctx.lineWidth = 1.4;
-				for (i = 1; i * step <= xmax + 1e-9; i++) {
-					ctx.beginPath(); ctx.moveTo(X(i * step), mt); ctx.lineTo(X(i * step), mt + ph); ctx.stroke();
+				// resonancias T = 1:  k_in L = n pi  <=>  Lambda = (n/2) sqrt(eta/(eta-1))   (solo eta > 1)
+				if (P1.res.checked && eta > 1) {
+					var step = 0.5 * Math.sqrt(eta / (eta - 1));
+					ctx.setLineDash([2, 5]); ctx.strokeStyle = '#005092'; ctx.lineWidth = 1.4;
+					for (i = 1; i * step <= xmax + 1e-9; i++) {
+						ctx.beginPath(); ctx.moveTo(X(i * step), mt); ctx.lineTo(X(i * step), mt + ph); ctx.stroke();
+					}
+					ctx.setLineDash([]);
 				}
-				ctx.setLineDash([]);
-			}
 
-			// marco
-			ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
-			ctx.strokeRect(ml, mt, pw, ph);
+				// marco
+				ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6;
+				ctx.strokeRect(ml, mt, pw, ph);
 
-			// curvas
-			var N = 1500, j, lam, rt, xs = [], rs = [], ts = [];
-			for (j = 0; j <= N; j++) {
-				lam = P1.lamMin + (P1.lamMax - P1.lamMin) * j / N;
-				rt = RTbarrera(eta, lam);
-				xs.push(lam); rs.push(rt[0]); ts.push(rt[1]);
-			}
-			ctx.save();
-			ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
-			ctx.lineJoin = 'round'; ctx.lineWidth = 2.8;
-			[[rs, C_R], [ts, C_T]].forEach(function (cu) {
-				ctx.strokeStyle = cu[1]; ctx.beginPath();
+				// curvas
+				var N = 1500, j, lam, rt, xs = [], rs = [], ts = [];
 				for (j = 0; j <= N; j++) {
-					if (j === 0) { ctx.moveTo(X(xs[j]), Y(cu[0][j])); } else { ctx.lineTo(X(xs[j]), Y(cu[0][j])); }
+					lam = P1.lamMin + (P1.lamMax - P1.lamMin) * j / N;
+					rt = RTbarrera(eta, lam);
+					xs.push(lam); rs.push(rt[0]); ts.push(rt[1]);
 				}
-				ctx.stroke();
-			});
-			ctx.restore();
-
-			// etiquetas de ejes y título
-			drawText(ctx, 'Λ = L/λ_dB', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
-			ctx.save();
-			ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
-			drawText(ctx, 'R, T', 0, 0, 17, 'center', '#333', 'bold');
-			ctx.restore();
-			drawText(ctx, 'Coeficientes de reflexión y transmisión', W / 2, 30, Math.round(20 * fs), 'center', '#333', 'bold');
-			drawText(ctx, 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV', W / 2, 56, Math.round(20 * fs), 'center', '#555');
-
-			// leyenda
-			var boxW = 150;
-			var lx = ml + pw - (boxW - 10);
-			var ly = mt - 60;
-			ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
-			ctx.fillRect(lx - 10, ly - 6, boxW, 62); ctx.strokeRect(lx - 10, ly - 6, boxW, 62);
-			ctx.lineWidth = 3;
-			ctx.strokeStyle = C_R; ctx.beginPath(); ctx.moveTo(lx, ly + 10); ctx.lineTo(lx + 30, ly + 10); ctx.stroke();
-			drawText(ctx, 'R: reflexión', lx + 38, ly + 15, 17, 'left', '#333', 'bold');
-			ctx.strokeStyle = C_T; ctx.beginPath(); ctx.moveTo(lx, ly + 36); ctx.lineTo(lx + 30, ly + 36); ctx.stroke();
-			drawText(ctx, 'T: transmisión', lx + 38, ly + 41, 17, 'left', '#333', 'bold');
-
-			// cursor
-			var lamC = P1.hover;
-			if (lamC !== null) {
-				var rc = RTbarrera(eta, lamC), xc = X(lamC);
-				ctx.strokeStyle = 'rgba(60,60,60,0.55)'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
-				ctx.beginPath(); ctx.moveTo(xc, mt); ctx.lineTo(xc, mt + ph); ctx.stroke();
-				ctx.setLineDash([]);
-				[[rc[0], C_R], [rc[1], C_T]].forEach(function (p) {
-					ctx.fillStyle = p[1]; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
-					ctx.beginPath(); ctx.arc(xc, Y(p[0]), 6, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+				ctx.save();
+				ctx.beginPath(); ctx.rect(ml, mt, pw, ph); ctx.clip();
+				ctx.lineJoin = 'round'; ctx.lineWidth = 2.8;
+				[[rs, C_R], [ts, C_T]].forEach(function (cu) {
+					ctx.strokeStyle = cu[1]; ctx.beginPath();
+					for (j = 0; j <= N; j++) {
+						if (j === 0) { ctx.moveTo(X(xs[j]), Y(cu[0][j])); } else { ctx.lineTo(X(xs[j]), Y(cu[0][j])); }
+					}
+					ctx.stroke();
 				});
-				var bx = xc + 14, by = mt + ph - 74;
-				if (bx + 150 > ml + pw) { bx = xc - 164; }
-				ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.strokeStyle = '#667eea'; ctx.lineWidth = 1.5;
-				ctx.fillRect(bx, by, 150, 66); ctx.strokeRect(bx, by, 150, 66);
-				drawText(ctx, 'Λ = ' + lamC.toFixed(3), bx + 10, by + 20, 14, 'left', '#333', 'bold');
-				drawText(ctx, 'R = ' + rc[0].toFixed(4), bx + 10, by + 39, 14, 'left', C_R, 'bold');
-				drawText(ctx, 'T = ' + rc[1].toFixed(4), bx + 10, by + 58, 14, 'left', '#b9780f', 'bold');
+				ctx.restore();
+
+				// etiquetas de ejes y título
+				drawText(ctx, 'Λ = L/λ_dB', ml + pw / 2, H - 14, 17, 'center', '#333', 'bold');
+				ctx.save();
+				ctx.translate(20, mt + ph / 2); ctx.rotate(-Math.PI / 2);
+				drawText(ctx, 'R, T', 0, 0, 17, 'center', '#333', 'bold');
+				ctx.restore();
+				drawText(ctx, 'Coeficientes de reflexión y transmisión', W / 2, 30, Math.round(20 * fs), 'center', '#333', 'bold');
+				drawText(ctx, 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV', W / 2, 56, Math.round(20 * fs), 'center', '#555');
+
+				// leyenda
+				var boxW = 150;
+				var lx = ml + pw - (boxW - 10);
+				var ly = mt - 60;
+				ctx.fillStyle = 'rgba(255,255,255,0.92)'; ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
+				ctx.fillRect(lx - 10, ly - 6, boxW, 62); ctx.strokeRect(lx - 10, ly - 6, boxW, 62);
+				ctx.lineWidth = 3;
+				ctx.strokeStyle = C_R; ctx.beginPath(); ctx.moveTo(lx, ly + 10); ctx.lineTo(lx + 30, ly + 10); ctx.stroke();
+				drawText(ctx, 'R: reflexión', lx + 38, ly + 15, 17, 'left', '#333', 'bold');
+				ctx.strokeStyle = C_T; ctx.beginPath(); ctx.moveTo(lx, ly + 36); ctx.lineTo(lx + 30, ly + 36); ctx.stroke();
+				drawText(ctx, 'T: transmisión', lx + 38, ly + 41, 17, 'left', '#333', 'bold');
+
+				// cursor
+				var lamC = P1.hover;
+				if (lamC !== null) {
+					var rc = RTbarrera(eta, lamC), xc = X(lamC);
+					ctx.strokeStyle = 'rgba(60,60,60,0.55)'; ctx.lineWidth = 1; ctx.setLineDash([5, 4]);
+					ctx.beginPath(); ctx.moveTo(xc, mt); ctx.lineTo(xc, mt + ph); ctx.stroke();
+					ctx.setLineDash([]);
+					[[rc[0], C_R], [rc[1], C_T]].forEach(function (p) {
+						ctx.fillStyle = p[1]; ctx.strokeStyle = '#fff'; ctx.lineWidth = 2;
+						ctx.beginPath(); ctx.arc(xc, Y(p[0]), 6, 0, 2 * Math.PI); ctx.fill(); ctx.stroke();
+					});
+					var bx = xc + 14, by = mt + ph - 74;
+					if (bx + 150 > ml + pw) { bx = xc - 164; }
+					ctx.fillStyle = 'rgba(255,255,255,0.95)'; ctx.strokeStyle = '#667eea'; ctx.lineWidth = 1.5;
+					ctx.fillRect(bx, by, 150, 66); ctx.strokeRect(bx, by, 150, 66);
+					drawText(ctx, 'Λ = ' + lamC.toFixed(3), bx + 10, by + 20, 14, 'left', '#333', 'bold');
+					drawText(ctx, 'R = ' + rc[0].toFixed(4), bx + 10, by + 39, 14, 'left', C_R, 'bold');
+					drawText(ctx, 'T = ' + rc[1].toFixed(4), bx + 10, by + 58, 14, 'left', '#b9780f', 'bold');
+				}
+
+				updateInfo1(eta);
 			}
 
-			updateInfo1(eta);
-		}
-
-		function sci(t) {                              // T pequeños en notación científica
-			return (t !== 0 && t < 1e-3) ? t.toExponential(2) : t.toFixed(4);
-		}
-
-		function updateInfo1(eta) {
-			document.getElementById('i1_energy').textContent = 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV';
-			var reg, ratio, tmin;
-			if (Math.abs(eta - 1) < 1e-9) {
-				reg = 'cima'; ratio = '0'; tmin = '—';
-			} else if (eta > 1) {
-				reg = 'oscilatorio'; ratio = Math.sqrt((eta - 1) / eta).toFixed(3);
-				tmin = (4 * eta * (eta - 1) / Math.pow(2 * eta - 1, 2)).toFixed(4);
-			} else {
-				reg = 'evanescente'; ratio = 'i·' + Math.sqrt((1 - eta) / eta).toFixed(3); tmin = '—';
+			function sci(t) {                              // T pequeños en notación científica
+				return (t !== 0 && t < 1e-3) ? t.toExponential(2) : t.toFixed(4);
 			}
-			document.getElementById('i1_reg').textContent = reg;
-			document.getElementById('i1_ratio').textContent = ratio;
-			document.getElementById('i1_tmin').textContent = tmin;
-			var h = P1.hover;
-			if (h === null) {
-				document.getElementById('i1_lam').textContent = '—';
-				document.getElementById('i1_R').textContent = '—';
-				document.getElementById('i1_T').textContent = '—';
-			} else {
-				var rt = RTbarrera(eta, h);
-				document.getElementById('i1_lam').textContent = h.toFixed(3);
-				document.getElementById('i1_R').textContent = rt[0].toFixed(4);
-				document.getElementById('i1_T').textContent = sci(rt[1]);
-			}
-		}
 
-		function hoverFromEvent(e) {
-			var rect = P1.cv.getBoundingClientRect();
-			var pt = (e.touches && e.touches.length) ? e.touches[0] : e;
-			var px = (pt.clientX - rect.left) * (S1.w / rect.width);
-			var ml = 78, mr = 30, pw = S1.w - ml - mr;
-			var lam = (px - ml) / pw * P1.lamMax;
-			if (lam < P1.lamMin || lam > P1.lamMax) { P1.hover = null; } else { P1.hover = lam; }
+			function updateInfo1(eta) {
+				document.getElementById('i1_energy').textContent = 'ΔE = ' + (Math.round(eta * 1000) / 1000) + ' ΔV';
+				var reg, ratio, tmin;
+				if (Math.abs(eta - 1) < 1e-9) {
+					reg = 'cima'; ratio = '0'; tmin = '—';
+				} else if (eta > 1) {
+					reg = 'oscilatorio'; ratio = Math.sqrt((eta - 1) / eta).toFixed(3);
+					tmin = (4 * eta * (eta - 1) / Math.pow(2 * eta - 1, 2)).toFixed(4);
+				} else {
+					reg = 'evanescente'; ratio = 'i·' + Math.sqrt((1 - eta) / eta).toFixed(3); tmin = '—';
+				}
+				document.getElementById('i1_reg').textContent = reg;
+				document.getElementById('i1_ratio').textContent = ratio;
+				document.getElementById('i1_tmin').textContent = tmin;
+				var h = P1.hover;
+				if (h === null) {
+					document.getElementById('i1_lam').textContent = '—';
+					document.getElementById('i1_R').textContent = '—';
+					document.getElementById('i1_T').textContent = '—';
+				} else {
+					var rt = RTbarrera(eta, h);
+					document.getElementById('i1_lam').textContent = h.toFixed(3);
+					document.getElementById('i1_R').textContent = rt[0].toFixed(4);
+					document.getElementById('i1_T').textContent = sci(rt[1]);
+				}
+			}
+
+			function hoverFromEvent(e) {
+				var rect = P1.cv.getBoundingClientRect();
+				var pt = (e.touches && e.touches.length) ? e.touches[0] : e;
+				var px = (pt.clientX - rect.left) * (S1.w / rect.width);
+				var ml = 78, mr = 30, pw = S1.w - ml - mr;
+				var lam = (px - ml) / pw * P1.lamMax;
+				if (lam < P1.lamMin || lam > P1.lamMax) { P1.hover = null; } else { P1.hover = lam; }
+				drawPlot1();
+			}
+			P1.cv.addEventListener('mousemove', hoverFromEvent);
+			P1.cv.addEventListener('touchstart', hoverFromEvent, { passive: true });
+			P1.cv.addEventListener('touchmove', hoverFromEvent, { passive: true });
+			P1.cv.addEventListener('mouseleave', function () { P1.hover = null; drawPlot1(); });
+
+			bindPair(P1.num, P1.rng, drawPlot1);
+			P1.res.addEventListener('change', drawPlot1);
+			document.getElementById('reset1').addEventListener('click', function () {
+				setPair(P1.num, P1.rng, 1.02);
+				P1.res.checked = false;
+				P1.hover = null;
+				drawPlot1();
+			});
+
+			/* Arranque */
 			drawPlot1();
-		}
-		P1.cv.addEventListener('mousemove', hoverFromEvent);
-		P1.cv.addEventListener('touchstart', hoverFromEvent, { passive: true });
-		P1.cv.addEventListener('touchmove', hoverFromEvent, { passive: true });
-		P1.cv.addEventListener('mouseleave', function () { P1.hover = null; drawPlot1(); });
+			window.addEventListener('resize', drawPlot1);
 
-		bindPair(P1.num, P1.rng, drawPlot1);
-		P1.res.addEventListener('change', drawPlot1);
-		document.getElementById('reset1').addEventListener('click', function () {
-			setPair(P1.num, P1.rng, 1.02);
-			P1.res.checked = false;
-			P1.hover = null;
-			drawPlot1();
-		});
-
-		/* Arranque */
-		drawPlot1();
-		window.addEventListener('resize', drawPlot1);
-
-		T.onFontsReady(drawPlot1);
-		window.__RTbarrera = RTbarrera;   // solo para pruebas
-	})();
+			T.onFontsReady(drawPlot1);
+			window.__RTbarrera = RTbarrera;   // solo para pruebas
+		})();
 	</script>
 </body>
+
 </html>
