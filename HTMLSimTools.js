@@ -2,18 +2,18 @@
    HTMLSimTools.js
    Herramientas compartidas por las simulaciones HTML.
    Se carga con UNA sola línea, dentro del <head> del HTML:
-     <script src=".../HTMLSimTools.js?v=1"></script>
+	 <script src=".../HTMLSimTools.js?v=1"></script>
    Este archivo carga solo HTMLSimStyle.css (debe estar en la misma carpeta
    y se le aplica el mismo ?v=).
    Si cambias algo aquí o en el CSS, sube el número ?v= en los HTML.
 
    Expone un único objeto global: HTMLSim
-     HTMLSim.CFG, HTMLSim.getFont()
-     Física:   kOf, RT, coefficients, cmul, cdiv, cexp, cscale, cabs2
-               cOf, boundStates  (caso b: estados ligados)
-     Dibujo:   sizeFor, ensureSize, drawText, niceStep, fmtTick
-     Controles: bindPair, getNum, setPair
-     Fuentes:  onFontsReady(fn)   -> vuelve a dibujar cuando llega la tipografía
+	 HTMLSim.CFG, HTMLSim.getFont()
+	 Física:   kOf, RT, coefficients, cmul, cdiv, cexp, cscale, cabs2
+			   cOf, boundStates  (caso b: estados ligados)
+	 Dibujo:   sizeFor, ensureSize, drawText, niceStep, fmtTick
+	 Controles: bindPair, getNum, setPair
+	 Fuentes:  onFontsReady(fn)   -> vuelve a dibujar cuando llega la tipografía
    Además avisa la altura al iframe de Moodle (renderSimulation) por sí solo.
    ============================================================ */
 (function (global) {
@@ -49,7 +49,7 @@
 		}
 		return fontCache || FONT_FALLBACK;
 	}
-	var MC2   = 0.511e6;        // eV  (energía en reposo del electrón)
+	var MC2 = 0.511e6;        // eV  (energía en reposo del electrón)
 	var HBARC = 1973.269804;    // eV·Å
 
 	function kOf(energyEV) { return Math.sqrt(2 * MC2 * energyEV) / HBARC; }  // Å^-1

@@ -11,6 +11,7 @@
    y el ancho del iframe: 4.º parámetro de renderSimulation.
    ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+
 :root {
 	--sidebar-w: 290px;
 	--colorUFRO: #005092;
@@ -38,7 +39,7 @@ body {
 	margin: 0 auto;
 	background: white;
 	border-radius: 16px;
-	box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 	overflow: hidden;
 }
 
@@ -71,7 +72,8 @@ body {
 	background: var(--colorBACK);
 	padding: 12px;
 	border-radius: 12px;
-	border: 2px solid var(--colorUFRO);   /* grosor, estilo, color */
+	border: 2px solid var(--colorUFRO);
+	/* grosor, estilo, color */
 }
 
 .controls-grid {
@@ -138,7 +140,7 @@ input[type="range"] {
 	background: white;
 	border-radius: 12px;
 	padding: 6px;
-	box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	display: flex;
 	justify-content: center;
 	overflow: hidden;
@@ -203,7 +205,7 @@ button {
 	border-radius: 10px;
 	cursor: pointer;
 	transition: all 0.3s;
-	box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+	box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 	width: 100%;
 }
 
@@ -237,9 +239,17 @@ button {
 
 /* Pantallas angostas: los controles pasan arriba del gráfico */
 @media (max-width: 820px) {
-	.sim-layout { grid-template-columns: minmax(0, 1fr); }
-	.controls-grid { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
-	.main-content { padding: 8px; }
+	.sim-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.controls-grid {
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	}
+
+	.main-content {
+		padding: 8px;
+	}
 }
 
 /* ============================================================
@@ -319,9 +329,18 @@ button {
 	font-weight: 700;
 	font-size: 0.85em;
 }
-.reg.r1 { background: #ff0000; }
-.reg.r2 { background: #005900; }
-.reg.r3 { background: #0000ff; }
+
+.reg.r1 {
+	background: #ff0000;
+}
+
+.reg.r2 {
+	background: #005900;
+}
+
+.reg.r3 {
+	background: #0000ff;
+}
 
 /* MathJax: que las ecuaciones largas se desplacen en vez de salirse */
 .theory mjx-container[display="true"] {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,21 +8,77 @@
 	<script src="https://masp-ufro.github.io/QM1/HTMLSimTools.js?v=5"></script>
 	<style>
 		/* Estilos propios de este gráfico */
-		select, input[type="text"] {
-			width: 100%; padding: 6px 10px; border: 2px solid #ddd; border-radius: 8px;
-			font-size: 0.95em; font-family: inherit; background: white; min-width: 0;
+		select,
+		input[type="text"] {
+			width: 100%;
+			padding: 6px 10px;
+			border: 2px solid #ddd;
+			border-radius: 8px;
+			font-size: 0.95em;
+			font-family: inherit;
+			background: white;
+			min-width: 0;
 		}
-		select:focus, input[type="text"]:focus { outline: none; border-color: var(--colorFICA); }
-		.params { margin-top: 8px; }
-		.hidden { display: none; }
-		.btn-row { display: flex; gap: 8px; margin-top: 8px; }
-		.note { font-size: 0.85em; color: #666; margin-top: 4px; }
-		.formula { font-size: 0.95em; color: #444; padding: 2px 6px; line-height: 1.5; }
-		.legend { display: flex; flex-direction: column; gap: 5px; margin-top: 12px; font-size: 1.0em; }
-		.legend-item { display: flex; align-items: center; gap: 8px; font-weight: 400; color: #333; }
-		.swatch { display: inline-block; width: 26px; height: 8px; border-radius: 3px; flex: none; }
+
+		select:focus,
+		input[type="text"]:focus {
+			outline: none;
+			border-color: var(--colorFICA);
+		}
+
+		.params {
+			margin-top: 8px;
+		}
+
+		.hidden {
+			display: none;
+		}
+
+		.btn-row {
+			display: flex;
+			gap: 8px;
+			margin-top: 8px;
+		}
+
+		.note {
+			font-size: 0.85em;
+			color: #666;
+			margin-top: 4px;
+		}
+
+		.formula {
+			font-size: 0.95em;
+			color: #444;
+			padding: 2px 6px;
+			line-height: 1.5;
+		}
+
+		.legend {
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+			margin-top: 12px;
+			font-size: 1.0em;
+		}
+
+		.legend-item {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-weight: 400;
+			color: #333;
+		}
+
+		.swatch {
+			display: inline-block;
+			width: 26px;
+			height: 8px;
+			border-radius: 3px;
+			flex: none;
+		}
 	</style>
 </head>
+
 <body>
 	<div class="container">
 		<div class="main-content">
@@ -42,86 +99,146 @@
 								</select>
 
 								<div class="params hidden" id="p_Fock">
-									<div class="input-row"><label for="fn">n:</label><input type="number" id="fn" value="20" min="0" max="300" step="1"></div>
+									<div class="input-row"><label for="fn">n:</label><input type="number" id="fn"
+											value="20" min="0" max="300" step="1"></div>
 									<input type="range" id="fnr" min="0" max="300" step="1" value="20" aria-label="n">
 									<div class="range-limits"><span>0</span><span>300</span></div>
 								</div>
 
 								<div class="params" id="p_Coherente">
-									<div class="input-row"><label for="ca">|&alpha;|:</label><input type="number" id="ca" value="6" min="0" max="20" step="0.1"></div>
-									<input type="range" id="car" min="0" max="20" step="0.1" value="6" aria-label="modulo alfa">
+									<div class="input-row"><label for="ca">|&alpha;|:</label><input type="number"
+											id="ca" value="6" min="0" max="20" step="0.1"></div>
+									<input type="range" id="car" min="0" max="20" step="0.1" value="6"
+										aria-label="modulo alfa">
 									<div class="range-limits"><span>0</span><span>20</span></div>
-									<div class="input-row"><label for="cp">arg(&alpha;) (°):</label><input type="number" id="cp" value="0" min="0" max="360" step="1"></div>
-									<input type="range" id="cpr" min="0" max="360" step="1" value="0" aria-label="fase alfa">
+									<div class="input-row"><label for="cp">arg(&alpha;) (°):</label><input type="number"
+											id="cp" value="0" min="0" max="360" step="1"></div>
+									<input type="range" id="cpr" min="0" max="360" step="1" value="0"
+										aria-label="fase alfa">
 									<div class="range-limits"><span>0°</span><span>360°</span></div>
 								</div>
 
 								<div class="params hidden" id="p_Normal">
-									<div class="input-row"><label for="nm">media:</label><input type="number" id="nm" value="70" min="0" max="400" step="1"></div>
-									<input type="range" id="nmr" min="0" max="400" step="1" value="70" aria-label="media">
+									<div class="input-row"><label for="nm">media:</label><input type="number" id="nm"
+											value="70" min="0" max="400" step="1"></div>
+									<input type="range" id="nmr" min="0" max="400" step="1" value="70"
+										aria-label="media">
 									<div class="range-limits"><span>0</span><span>400</span></div>
-									<div class="input-row"><label for="ns">desv.:</label><input type="number" id="ns" value="10" min="1" max="30" step="1"></div>
-									<input type="range" id="nsr" min="1" max="30" step="1" value="10" aria-label="desviacion">
+									<div class="input-row"><label for="ns">desv.:</label><input type="number" id="ns"
+											value="10" min="1" max="30" step="1"></div>
+									<input type="range" id="nsr" min="1" max="30" step="1" value="10"
+										aria-label="desviacion">
 									<div class="range-limits"><span>1</span><span>30</span></div>
 								</div>
 
 								<div class="params hidden" id="p_Aleatorio">
-									<button class="btn-secondary" id="newrnd" type="button">&#127922; Nuevo estado aleatorio</button>
-									<div class="note">79 coeficientes complejos con parte real e imaginaria normales.</div>
+									<button class="btn-secondary" id="newrnd" type="button">&#127922; Nuevo estado
+										aleatorio</button>
+									<div class="note">79 coeficientes complejos con parte real e imaginaria normales.
+									</div>
 								</div>
 
 								<div class="params hidden" id="p_Escogido">
 									<input type="text" id="coefs" value="1 -2 3 4" aria-label="coeficientes">
-									<div class="note">Coeficientes reales c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, … separados por espacios o comas (se normalizan).</div>
+									<div class="note">Coeficientes reales c<sub>0</sub>, c<sub>1</sub>, c<sub>2</sub>, …
+										separados por espacios o comas (se normalizan).</div>
 								</div>
 							</div>
 
 							<div class="control-group">
 								<h3>Tiempo</h3>
-								<div class="input-row"><label for="tau">&tau; = t/T:</label><input type="number" id="tau" value="0" min="0" max="2" step="0.001"></div>
+								<div class="input-row"><label for="tau">&tau; = t/T:</label><input type="number"
+										id="tau" value="0" min="0" max="2" step="0.001"></div>
 								<input type="range" id="taur" min="0" max="2" step="0.001" value="0" aria-label="tau">
 								<div class="range-limits"><span>0</span><span>2 períodos</span></div>
-								<div class="input-row" style="margin-top:8px"><label for="spd">Rapidez:</label><input type="number" id="spd" value="0.25" min="0.02" max="1" step="0.01"></div>
-								<input type="range" id="spdr" min="0.02" max="1" step="0.01" value="0.25" aria-label="rapidez">
+								<div class="input-row" style="margin-top:8px"><label for="spd">Rapidez:</label><input
+										type="number" id="spd" value="0.25" min="0.02" max="1" step="0.01"></div>
+								<input type="range" id="spdr" min="0.02" max="1" step="0.01" value="0.25"
+									aria-label="rapidez">
 								<div class="range-limits"><span>lenta</span><span>rápida</span></div>
 								<div class="btn-row">
-									<button class="btn-secondary" id="play" type="button">&#10074;&#10074; Pausa</button>
+									<button class="btn-secondary" id="play" type="button">&#10074;&#10074;
+										Pausa</button>
 									<button class="btn-secondary" id="rewind" type="button">&#8635; &tau; = 0</button>
 								</div>
 							</div>
 						</div>
 
 						<div class="legend">
-							<div class="legend-item"><span class="swatch" style="background:#ffffcc;border:1px solid #bbb"></span>Región clásicamente permitida</div>
-							<div class="note">Se calcula con la energía media &lang;E&rang; = &#8463;&omega;(&lang;n&rang;+&frac12;). Si el estado es una superposición de varios n, la energía no está definida y esta región es solo una referencia.</div>
+							<div class="legend-item"><span class="swatch"
+									style="background:#ffffcc;border:1px solid #bbb"></span>Región clásicamente
+								permitida</div>
+							<div class="note">Se calcula con la energía media &lang;E&rang; =
+								&#8463;&omega;(&lang;n&rang;+&frac12;). Si el estado es una superposición de varios n,
+								la energía no está definida y esta región es solo una referencia.</div>
 						</div>
 					</div>
 				</aside>
 
 				<div class="plot-column">
-					<div class="canvas-container"><canvas id="plotT" width="1000" height="760" role="img" aria-label="Gráficos de la parte real, la parte imaginaria y el módulo al cuadrado de la función de onda en función de u, y de la fase y el módulo al cuadrado de los coeficientes c_n del estado."></canvas></div>
+					<div class="canvas-container"><canvas id="plotT" width="1000" height="760" role="img"
+							aria-label="Gráficos de la parte real, la parte imaginaria y el módulo al cuadrado de la función de onda en función de u, y de la fase y el módulo al cuadrado de los coeficientes c_n del estado."></canvas>
+					</div>
 					<div class="info-panel">
 						<div class="info-grid">
-							<div class="info-box"><h4>&tau; = t/T</h4><div class="info-value" id="i_tau">0.000</div></div>
-							<div class="info-box"><h4>&lang;n&rang;</h4><div class="info-value" id="i_mean">0</div></div>
-							<div class="info-box"><h4>&sigma;<sub>n</sub></h4><div class="info-value" id="i_std">0</div></div>
-							<div class="info-box"><h4>u<sub>cl</sub> = &radic;(2&lang;n&rang;+1)</h4><div class="info-value" id="i_ucl">0</div></div>
-							<div class="info-box"><h4>Estados |n&rang;</h4><div class="info-value" id="i_ns">0</div></div>
-							<div class="info-box"><h4>&lang;u&rang; = &lang;x&rang;/&beta;</h4><div class="info-value" id="i_ux">0</div></div>
-							<div class="info-box"><h4>&sigma;<sub>u</sub></h4><div class="info-value" id="i_su">0</div></div>
-							<div class="info-box"><h4>&sigma;<sub>p</sub> (en &#8463;/&beta;)</h4><div class="info-value" id="i_sp">0</div></div>
-							<div class="info-box"><h4>&sigma;<sub>u</sub>&middot;&sigma;<sub>p</sub> (en &#8463;)</h4><div class="info-value" id="i_sup">0</div></div>
+							<div class="info-box">
+								<h4>&tau; = t/T</h4>
+								<div class="info-value" id="i_tau">0.000</div>
+							</div>
+							<div class="info-box">
+								<h4>&lang;n&rang;</h4>
+								<div class="info-value" id="i_mean">0</div>
+							</div>
+							<div class="info-box">
+								<h4>&sigma;<sub>n</sub></h4>
+								<div class="info-value" id="i_std">0</div>
+							</div>
+							<div class="info-box">
+								<h4>u<sub>cl</sub> = &radic;(2&lang;n&rang;+1)</h4>
+								<div class="info-value" id="i_ucl">0</div>
+							</div>
+							<div class="info-box">
+								<h4>Estados |n&rang;</h4>
+								<div class="info-value" id="i_ns">0</div>
+							</div>
+							<div class="info-box">
+								<h4>&lang;u&rang; = &lang;x&rang;/&beta;</h4>
+								<div class="info-value" id="i_ux">0</div>
+							</div>
+							<div class="info-box">
+								<h4>&sigma;<sub>u</sub></h4>
+								<div class="info-value" id="i_su">0</div>
+							</div>
+							<div class="info-box">
+								<h4>&sigma;<sub>p</sub> (en &#8463;/&beta;)</h4>
+								<div class="info-value" id="i_sp">0</div>
+							</div>
+							<div class="info-box">
+								<h4>&sigma;<sub>u</sub>&middot;&sigma;<sub>p</sub> (en &#8463;)</h4>
+								<div class="info-value" id="i_sup">0</div>
+							</div>
 						</div>
-						<div class="formula">&psi;(x,t) = &sum;<sub>n</sub> c<sub>n</sub> e<sup>&minus;2&pi;i&tau;(n+1/2)</sup> &Phi;<sub>n</sub>(u), &nbsp; u = x/&beta;, &nbsp; &tau; = t/T, &nbsp; T = 2&pi;/&omega;.</div>
+						<div class="formula">&psi;(x,t) = &sum;<sub>n</sub> c<sub>n</sub>
+							e<sup>&minus;2&pi;i&tau;(n+1/2)</sup> &Phi;<sub>n</sub>(u), &nbsp; u = x/&beta;, &nbsp;
+							&tau; = t/T, &nbsp; T = 2&pi;/&omega;.</div>
 						<div class="formula">
 							<b>Para explorar</b>
 							<ol>
-								<li>Elija el estado <i>Coherente</i> con |&alpha;| = 6 y arg(&alpha;) = 0. Antes de reproducir, prediga &lang;u&rang; en &tau; = 1/4 y en &tau; = 1/2, y luego compruebe con la simulación. &iquest;Qu&eacute; relaci&oacute;n tiene el resultado con |&alpha;|?</li>
-								<li>Compare &sigma;<sub>u</sub>&middot;&sigma;<sub>p</sub> entre el estado coherente y el estado de Fock (n = 20). &iquest;Cambia con &tau;? &iquest;Qu&eacute; dice esto sobre el principio de incertidumbre?</li>
-								<li>En el estado de Fock, &iquest;qu&eacute; cantidades cambian con &tau; y cu&aacute;les no? Deje correr hasta &tau; = 2 y observe qu&eacute; ocurre en &tau; = 1: &iquest;vuelve |&psi;|&sup2;? &iquest;y &psi;?</li>
+								<li>Elija el estado <i>Coherente</i> con |&alpha;| = 6 y arg(&alpha;) = 0. Antes de
+									reproducir, prediga &lang;u&rang; en &tau; = 1/4 y en &tau; = 1/2, y luego compruebe
+									con la simulación. &iquest;Qu&eacute; relaci&oacute;n tiene el resultado con
+									|&alpha;|?</li>
+								<li>Compare &sigma;<sub>u</sub>&middot;&sigma;<sub>p</sub> entre el estado coherente y
+									el estado de Fock (n = 20). &iquest;Cambia con &tau;? &iquest;Qu&eacute; dice esto
+									sobre el principio de incertidumbre?</li>
+								<li>En el estado de Fock, &iquest;qu&eacute; cantidades cambian con &tau; y
+									cu&aacute;les no? Deje correr hasta &tau; = 2 y observe qu&eacute; ocurre en &tau; =
+									1: &iquest;vuelve |&psi;|&sup2;? &iquest;y &psi;?</li>
 							</ol>
-							Nota: como e<sup>&minus;2&pi;i(n+1/2)</sup> = &minus;1 para todo n, &psi;(&tau;+1) = &minus;&psi;(&tau;). El signo global no es observable, por lo que |&psi;|&sup2; es peri&oacute;dica con per&iacute;odo 1.
-						</div>							
+							Nota: como e<sup>&minus;2&pi;i(n+1/2)</sup> = &minus;1 para todo n, &psi;(&tau;+1) =
+							&minus;&psi;(&tau;). El signo global no es observable, por lo que |&psi;|&sup2; es
+							peri&oacute;dica con per&iacute;odo 1.
+						</div>
 					</div>
 				</div>
 
@@ -130,336 +247,339 @@
 	</div>
 
 	<script>
-	(function () {
-		'use strict';
+		(function () {
+			'use strict';
 
-		var T = HTMLSim;
-		var ensureSize = T.ensureSize, drawText = T.drawText, niceStep = T.niceStep, fmtTick = T.fmtTick, bindPair = T.bindPair, getNum = T.getNum, setPair = T.setPair;
+			var T = HTMLSim;
+			var ensureSize = T.ensureSize, drawText = T.drawText, niceStep = T.niceStep, fmtTick = T.fmtTick, bindPair = T.bindPair, getNum = T.getNum, setPair = T.setPair;
 
-		/* ============================================================
-		   Evolución temporal de un estado del OAS (como OAS_time.m)
-		     psi(x,t) = SUM_n  c_n exp(-2 pi i tau (n+1/2))  Phi_n(u)
-		   ============================================================ */
-		var $ = function (id) { return document.getElementById(id); };
-		var P = {
-			cv: $('plotT'), mode: $('mode'),
-			fn: $('fn'), fnR: $('fnr'), ca: $('ca'), caR: $('car'), cp: $('cp'), cpR: $('cpr'),
-			nm: $('nm'), nmR: $('nmr'), ns: $('ns'), nsR: $('nsr'),
-			tau: $('tau'), tauR: $('taur'), spd: $('spd'), spdR: $('spdr'),
-			coefs: $('coefs')
-		};
-		var S = { ctx: null, w: 0, h: 0 };
-		var UN = 2048;          // puntos en u
-		var NCAP = 700;         // máximo de niveles considerados
-		var rndRe = [], rndIm = [];
-		var D = null;           // datos del estado actual
-		var playing = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches), last = 0, raf = 0, dirtyState = true;
+			/* ============================================================
+			   Evolución temporal de un estado del OAS (como OAS_time.m)
+				 psi(x,t) = SUM_n  c_n exp(-2 pi i tau (n+1/2))  Phi_n(u)
+			   ============================================================ */
+			var $ = function (id) { return document.getElementById(id); };
+			var P = {
+				cv: $('plotT'), mode: $('mode'),
+				fn: $('fn'), fnR: $('fnr'), ca: $('ca'), caR: $('car'), cp: $('cp'), cpR: $('cpr'),
+				nm: $('nm'), nmR: $('nmr'), ns: $('ns'), nsR: $('nsr'),
+				tau: $('tau'), tauR: $('taur'), spd: $('spd'), spdR: $('spdr'),
+				coefs: $('coefs')
+			};
+			var S = { ctx: null, w: 0, h: 0 };
+			var UN = 2048;          // puntos en u
+			var NCAP = 700;         // máximo de niveles considerados
+			var rndRe = [], rndIm = [];
+			var D = null;           // datos del estado actual
+			var playing = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches), last = 0, raf = 0, dirtyState = true;
 
-		function randn() {
-			var a = 1 - Math.random(), b = Math.random();
-			return Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b);
-		}
-		function newRandom() {
-			var i; rndRe = []; rndIm = [];
-			for (i = 0; i < 79; i++) { rndRe.push(randn()); rndIm.push(randn()); }
-		}
-		newRandom();
+			function randn() {
+				var a = 1 - Math.random(), b = Math.random();
+				return Math.sqrt(-2 * Math.log(a)) * Math.cos(2 * Math.PI * b);
+			}
+			function newRandom() {
+				var i; rndRe = []; rndIm = [];
+				for (i = 0; i < 79; i++) { rndRe.push(randn()); rndIm.push(randn()); }
+			}
+			newRandom();
 
-		/* Coeficientes c_n del estado inicial */
-		function coefficients() {
-			var mode = P.mode.value, re = [], im = [], i, k;
-			if (mode === 'Fock') {
-				k = Math.round(getNum(P.fn, 20));
-				var nf = Math.min(NCAP, 2 * k + 1);   // como en OAS_time.m: nmax = 2*n + 1
-				for (i = 0; i <= nf; i++) { re.push(i === k ? 1 : 0); im.push(0); }
-			} else if (mode === 'Coherente') {
-				var a = getNum(P.ca, 6), th = getNum(P.cp, 0) * Math.PI / 180, lam = a * a;
-				var nmax = Math.min(NCAP, Math.floor(lam + 5 * a)), lnf = 0, p, amp;
-				for (i = 0; i <= nmax; i++) {
-					if (i > 0) { lnf += Math.log(i); }
-					// Poisson por logaritmos (evita factoriales enormes)
-					p = lam === 0 ? (i === 0 ? 1 : 0) : Math.exp(-lam + i * Math.log(lam) - lnf);
-					amp = Math.sqrt(p);
-					re.push(amp * Math.cos(i * th)); im.push(amp * Math.sin(i * th));
+			/* Coeficientes c_n del estado inicial */
+			function coefficients() {
+				var mode = P.mode.value, re = [], im = [], i, k;
+				if (mode === 'Fock') {
+					k = Math.round(getNum(P.fn, 20));
+					var nf = Math.min(NCAP, 2 * k + 1);   // como en OAS_time.m: nmax = 2*n + 1
+					for (i = 0; i <= nf; i++) { re.push(i === k ? 1 : 0); im.push(0); }
+				} else if (mode === 'Coherente') {
+					var a = getNum(P.ca, 6), th = getNum(P.cp, 0) * Math.PI / 180, lam = a * a;
+					var nmax = Math.min(NCAP, Math.floor(lam + 5 * a)), lnf = 0, p, amp;
+					for (i = 0; i <= nmax; i++) {
+						if (i > 0) { lnf += Math.log(i); }
+						// Poisson por logaritmos (evita factoriales enormes)
+						p = lam === 0 ? (i === 0 ? 1 : 0) : Math.exp(-lam + i * Math.log(lam) - lnf);
+						amp = Math.sqrt(p);
+						re.push(amp * Math.cos(i * th)); im.push(amp * Math.sin(i * th));
+					}
+				} else if (mode === 'Normal') {
+					var mu = getNum(P.nm, 70), sg = getNum(P.ns, 10), top = Math.min(NCAP, Math.ceil(mu + 6 * sg));
+					for (i = 0; i <= top; i++) { re.push(Math.exp(-(i - mu) * (i - mu) / (4 * sg * sg))); im.push(0); }
+				} else if (mode === 'Aleatorio') {
+					re = rndRe.slice(); im = rndIm.slice();
+				} else {
+					var parts = P.coefs.value.split(/[\s,;]+/), v;
+					for (i = 0; i < parts.length; i++) { v = parseFloat(parts[i]); if (isFinite(v)) { re.push(v); im.push(0); } }
+					if (!re.length) { re = [1]; im = [0]; }
+					if (re.length > NCAP + 1) { re.length = NCAP + 1; im.length = NCAP + 1; }
 				}
-			} else if (mode === 'Normal') {
-				var mu = getNum(P.nm, 70), sg = getNum(P.ns, 10), top = Math.min(NCAP, Math.ceil(mu + 6 * sg));
-				for (i = 0; i <= top; i++) { re.push(Math.exp(-(i - mu) * (i - mu) / (4 * sg * sg))); im.push(0); }
-			} else if (mode === 'Aleatorio') {
-				re = rndRe.slice(); im = rndIm.slice();
-			} else {
-				var parts = P.coefs.value.split(/[\s,;]+/), v;
-				for (i = 0; i < parts.length; i++) { v = parseFloat(parts[i]); if (isFinite(v)) { re.push(v); im.push(0); } }
-				if (!re.length) { re = [1]; im = [0]; }
-				if (re.length > NCAP + 1) { re.length = NCAP + 1; im.length = NCAP + 1; }
-			}
-			var nrm = 0;
-			for (i = 0; i < re.length; i++) { nrm += re[i] * re[i] + im[i] * im[i]; }
-			nrm = Math.sqrt(nrm) || 1;
-			for (i = 0; i < re.length; i++) { re[i] /= nrm; im[i] /= nrm; }
-			return { re: re, im: im };
-		}
-
-		/* Recalcula dominio, eigenfunciones y escala vertical (solo cuando cambia el estado) */
-		function buildState() {
-			var c = coefficients(), Nmax = c.re.length - 1, i, k, n;
-			var mean = 0, m2 = 0, p;
-			for (n = 0; n <= Nmax; n++) { p = c.re[n] * c.re[n] + c.im[n] * c.im[n]; mean += n * p; m2 += n * n * p; }
-			var std = Math.sqrt(Math.max(0, m2 - mean * mean));
-			// "n efectivo": el mínimo de 4 evita un dominio demasiado angosto para estados de energía muy baja
-			var Neff = mean + Math.max(5 * std, Math.sqrt(mean), 4);
-			var uMax = Math.sqrt(2 * Neff + 1), uCl = Math.sqrt(2 * mean + 1);
-
-			var u = new Float64Array(UN);
-			for (i = 0; i < UN; i++) { u[i] = (-1 + 2 * i / (UN - 1)) * uMax; }
-			var Phi = new Float64Array((Nmax + 1) * UN), q = Math.pow(Math.PI, -0.25), a, b, o, o1, o2;
-			for (i = 0; i < UN; i++) { Phi[i] = Math.exp(-0.5 * u[i] * u[i]) * q; }
-			if (Nmax >= 1) { for (i = 0; i < UN; i++) { Phi[UN + i] = Math.SQRT2 * u[i] * Phi[i]; } }
-			for (n = 2; n <= Nmax; n++) {
-				a = Math.sqrt(2 / n); b = Math.sqrt((n - 1) / n); o = n * UN; o1 = o - UN; o2 = o1 - UN;
-				for (i = 0; i < UN; i++) { Phi[o + i] = a * u[i] * Phi[o1 + i] - b * Phi[o2 + i]; }
-			}
-			var idx = [];
-			for (n = 0; n <= Nmax; n++) { if (c.re[n] * c.re[n] + c.im[n] * c.im[n] > 1e-24) { idx.push(n); } }
-
-			var pn = new Float64Array(Nmax + 1), a0 = new Float64Array(Nmax + 1), pcMax = 0;
-			for (n = 0; n <= Nmax; n++) {
-				pn[n] = c.re[n] * c.re[n] + c.im[n] * c.im[n];
-				a0[n] = Math.atan2(c.im[n], c.re[n]);
-				if (pn[n] > pcMax) { pcMax = pn[n]; }
+				var nrm = 0;
+				for (i = 0; i < re.length; i++) { nrm += re[i] * re[i] + im[i] * im[i]; }
+				nrm = Math.sqrt(nrm) || 1;
+				for (i = 0; i < re.length; i++) { re[i] /= nrm; im[i] /= nrm; }
+				return { re: re, im: im };
 			}
 
-			// Sumas para <u>, <p> y <a^2> (no dependen de tau; solo giran con e^{-i 2 pi tau}):
-			//   S1 = SUM_n sqrt(2(n+1)) c_n^* c_{n+1},   S2 = SUM_n sqrt((n+1)(n+2)) c_n^* c_{n+2}
-			var s1r = 0, s1i = 0, s2r = 0, s2i = 0, w;
-			for (n = 0; n < Nmax; n++) {
-				w = Math.sqrt(2 * (n + 1));
-				s1r += w * (c.re[n] * c.re[n + 1] + c.im[n] * c.im[n + 1]);
-				s1i += w * (c.re[n] * c.im[n + 1] - c.im[n] * c.re[n + 1]);
-			}
-			for (n = 0; n < Nmax - 1; n++) {
-				w = Math.sqrt((n + 1) * (n + 2));
-				s2r += w * (c.re[n] * c.re[n + 2] + c.im[n] * c.im[n + 2]);
-				s2i += w * (c.re[n] * c.im[n + 2] - c.im[n] * c.re[n + 2]);
-			}
+			/* Recalcula dominio, eigenfunciones y escala vertical (solo cuando cambia el estado) */
+			function buildState() {
+				var c = coefficients(), Nmax = c.re.length - 1, i, k, n;
+				var mean = 0, m2 = 0, p;
+				for (n = 0; n <= Nmax; n++) { p = c.re[n] * c.re[n] + c.im[n] * c.im[n]; mean += n * p; m2 += n * n * p; }
+				var std = Math.sqrt(Math.max(0, m2 - mean * mean));
+				// "n efectivo": el mínimo de 4 evita un dominio demasiado angosto para estados de energía muy baja
+				var Neff = mean + Math.max(5 * std, Math.sqrt(mean), 4);
+				var uMax = Math.sqrt(2 * Neff + 1), uCl = Math.sqrt(2 * mean + 1);
 
-			D = { c: c, Nmax: Nmax, mean: mean, std: std, uMax: uMax, uCl: uCl, u: u, Phi: Phi, idx: idx,
-				  s1r: s1r, s1i: s1i, s2r: s2r, s2i: s2i,
-				  pn: pn, a0: a0, pcMax: pcMax,
-				  re: new Float64Array(UN), im: new Float64Array(UN), pmax: 0 };
+				var u = new Float64Array(UN);
+				for (i = 0; i < UN; i++) { u[i] = (-1 + 2 * i / (UN - 1)) * uMax; }
+				var Phi = new Float64Array((Nmax + 1) * UN), q = Math.pow(Math.PI, -0.25), a, b, o, o1, o2;
+				for (i = 0; i < UN; i++) { Phi[i] = Math.exp(-0.5 * u[i] * u[i]) * q; }
+				if (Nmax >= 1) { for (i = 0; i < UN; i++) { Phi[UN + i] = Math.SQRT2 * u[i] * Phi[i]; } }
+				for (n = 2; n <= Nmax; n++) {
+					a = Math.sqrt(2 / n); b = Math.sqrt((n - 1) / n); o = n * UN; o1 = o - UN; o2 = o1 - UN;
+					for (i = 0; i < UN; i++) { Phi[o + i] = a * u[i] * Phi[o1 + i] - b * Phi[o2 + i]; }
+				}
+				var idx = [];
+				for (n = 0; n <= Nmax; n++) { if (c.re[n] * c.re[n] + c.im[n] * c.im[n] > 1e-24) { idx.push(n); } }
 
-			// valor máximo de |psi| a lo largo de un período (|psi| es periódico con período 1)
-			var pm = 0, t, j, mm;
-			for (t = 0; t < 1; t += 0.04) {
-				evalPsi(t);
-				for (j = 0; j < UN; j++) { mm = D.re[j] * D.re[j] + D.im[j] * D.im[j]; if (mm > pm) { pm = mm; } }
-			}
-			D.pmax = Math.sqrt(pm) * 1.08;
+				var pn = new Float64Array(Nmax + 1), a0 = new Float64Array(Nmax + 1), pcMax = 0;
+				for (n = 0; n <= Nmax; n++) {
+					pn[n] = c.re[n] * c.re[n] + c.im[n] * c.im[n];
+					a0[n] = Math.atan2(c.im[n], c.re[n]);
+					if (pn[n] > pcMax) { pcMax = pn[n]; }
+				}
 
-			$('i_mean').textContent = mean.toFixed(2);
-			$('i_std').textContent = std.toFixed(2);
-			$('i_ucl').textContent = uCl.toFixed(3);
-			$('i_ns').textContent = idx.length;
-			dirtyState = false;
-		}
+				// Sumas para <u>, <p> y <a^2> (no dependen de tau; solo giran con e^{-i 2 pi tau}):
+				//   S1 = SUM_n sqrt(2(n+1)) c_n^* c_{n+1},   S2 = SUM_n sqrt((n+1)(n+2)) c_n^* c_{n+2}
+				var s1r = 0, s1i = 0, s2r = 0, s2i = 0, w;
+				for (n = 0; n < Nmax; n++) {
+					w = Math.sqrt(2 * (n + 1));
+					s1r += w * (c.re[n] * c.re[n + 1] + c.im[n] * c.im[n + 1]);
+					s1i += w * (c.re[n] * c.im[n + 1] - c.im[n] * c.re[n + 1]);
+				}
+				for (n = 0; n < Nmax - 1; n++) {
+					w = Math.sqrt((n + 1) * (n + 2));
+					s2r += w * (c.re[n] * c.re[n + 2] + c.im[n] * c.im[n + 2]);
+					s2i += w * (c.re[n] * c.im[n + 2] - c.im[n] * c.re[n + 2]);
+				}
 
-		function evalPsi(tau) {
-			var re = D.re, im = D.im, Phi = D.Phi, c = D.c, idx = D.idx, i, j, k, ph, cs, sn, ar, ai, o, f;
-			re.fill(0); im.fill(0);
-			for (k = 0; k < idx.length; k++) {
-				i = idx[k];
-				ph = -2 * Math.PI * tau * (i + 0.5); cs = Math.cos(ph); sn = Math.sin(ph);
-				ar = c.re[i] * cs - c.im[i] * sn; ai = c.re[i] * sn + c.im[i] * cs;
-				o = i * UN;
-				for (j = 0; j < UN; j++) { f = Phi[o + j]; re[j] += ar * f; im[j] += ai * f; }
-			}
-		}
+				D = {
+					c: c, Nmax: Nmax, mean: mean, std: std, uMax: uMax, uCl: uCl, u: u, Phi: Phi, idx: idx,
+					s1r: s1r, s1i: s1i, s2r: s2r, s2i: s2i,
+					pn: pn, a0: a0, pcMax: pcMax,
+					re: new Float64Array(UN), im: new Float64Array(UN), pmax: 0
+				};
 
-		function curve(ctx, X, Y, u, y, color, lw, dash) {
-			var j;
-			ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineJoin = 'round';
-			ctx.setLineDash(dash || []);
-			ctx.beginPath();
-			for (j = 0; j < UN; j++) { if (j === 0) { ctx.moveTo(X(u[j]), Y(y[j])); } else { ctx.lineTo(X(u[j]), Y(y[j])); } }
-			ctx.stroke();
-			ctx.setLineDash([]);
-		}
-		/* Tamaño de letra que hace caber un texto centrado en cx dentro del lienzo (solo reduce, nunca agranda) */
-		function fitSize(ctx, str, size, cx, W) {
-			var maxW = 2 * Math.min(cx, W - cx) - 8;
-			ctx.font = 'bold ' + size + 'px ' + T.getFont();
-			var w = ctx.measureText(str).width;
-			return w > maxW ? Math.max(10, Math.floor(size * maxW / w)) : size;
-		}
+				// valor máximo de |psi| a lo largo de un período (|psi| es periódico con período 1)
+				var pm = 0, t, j, mm;
+				for (t = 0; t < 1; t += 0.04) {
+					evalPsi(t);
+					for (j = 0; j < UN; j++) { mm = D.re[j] * D.re[j] + D.im[j] * D.im[j]; if (mm > pm) { pm = mm; } }
+				}
+				D.pmax = Math.sqrt(pm) * 1.08;
 
-		/* Marco de un panel: fondo, grilla y ticks. xt: dibuja ticks en x (con etiquetas). */
-		function frameGrid(ctx, g, X, Y, xmin, xmax, y0, y1, sx, sy, xlabels, ydec) {
-			var v;
-			ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
-			for (v = Math.ceil(xmin / sx - 1e-9) * sx; v <= xmax + 1e-9; v += sx) {
-				ctx.beginPath(); ctx.moveTo(X(v), g.y); ctx.lineTo(X(v), g.y + g.h); ctx.stroke();
-				if (xlabels) { drawText(ctx, fmtTick(v), X(v), g.y + g.h + 20, 16, 'center', '#555'); }
-			}
-			for (v = Math.ceil(y0 / sy - 1e-9) * sy; v <= y1 + 1e-9; v += sy) {
-				ctx.beginPath(); ctx.moveTo(g.x, Y(v)); ctx.lineTo(g.x + g.w, Y(v)); ctx.stroke();
-				drawText(ctx, ydec === undefined ? fmtTick(v) : v.toFixed(ydec), g.x - 8, Y(v) + 5, 16, 'right', '#555');
-			}
-		}
-
-		/* Panel de stem (fase de c_n(t) o |c_n|^2): líneas verticales con marcador relleno */
-		function stemPanel(ctx, g, vals, show, color, y0, y1, sy, ydec, ylabel) {
-			var N = D.Nmax, xmin = -0.5, xmax = N + 0.5;
-			var X = function (v) { return g.x + (v - xmin) / (xmax - xmin) * g.w; };
-			var Y = function (v) { return g.y + g.h - (v - y0) / (y1 - y0) * g.h; };
-			var sx = Math.max(1, Math.round(niceStep(N + 1, 5))), n, r;
-			ctx.fillStyle = '#fff'; ctx.fillRect(g.x, g.y, g.w, g.h);
-			frameGrid(ctx, g, X, Y, 0, N, y0, y1, sx, sy, true, ydec);
-			ctx.save(); ctx.beginPath(); ctx.rect(g.x, g.y, g.w, g.h); ctx.clip();
-			ctx.strokeStyle = '#222'; ctx.lineWidth = 1;
-			ctx.beginPath(); ctx.moveTo(g.x, Y(0)); ctx.lineTo(g.x + g.w, Y(0)); ctx.stroke();
-			r = Math.max(1.8, Math.min(4.2, g.w / (N + 1) * 0.42));
-			ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = Math.min(1.6, Math.max(0.8, r * 0.5));
-			for (n = 0; n <= N; n++) {
-				if (!show[n]) { continue; }
-				ctx.beginPath(); ctx.moveTo(X(n), Y(0)); ctx.lineTo(X(n), Y(vals[n])); ctx.stroke();
-				ctx.beginPath(); ctx.arc(X(n), Y(vals[n]), r, 0, 2 * Math.PI); ctx.fill();
-			}
-			ctx.restore();
-			ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6; ctx.strokeRect(g.x, g.y, g.w, g.h);
-			ctx.save(); ctx.translate(g.x - g.lx, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
-			drawText(ctx, ylabel, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
-			drawText(ctx, 'n', g.x + g.w / 2, g.y + g.h + 46, 19, 'center', '#333', 'bold');
-		}
-
-		function draw() {
-			if (dirtyState) { buildState(); }
-			var tau = getNum(P.tau, 0);
-			evalPsi(tau);
-
-			// Distribución según el ancho disponible: ancho -> curvas a la izquierda y coeficientes a la derecha
-			var wide = T.sizeFor(P.cv, 1, 0, 1e9)[0] >= 760;
-			if (wide) { ensureSize(S, P.cv, 0.70, 520, 860); } else { ensureSize(S, P.cv, 1.75, 780, 1300); }
-			var ctx = S.ctx, W = S.w, H = S.h, u = D.u, re = D.re, im = D.im, dens = new Float64Array(UN), j, n;
-			for (j = 0; j < UN; j++) { dens[j] = re[j] * re[j] + im[j] * im[j]; }
-			ctx.clearRect(0, 0, W, H);
-
-			var ml = wide ? 76 : 80, mr = 20, mt = 40, mb = 56, gap = 22, gapR = 66;
-			var gC = [], gS = [], k, hC, hS;
-			if (wide) {
-				var usable = W - ml - mr - 104, pwL = Math.round(usable * 0.74), pwR = usable - pwL, xR = ml + pwL + 104;
-				hC = (H - mt - mb - 2 * gap) / 3; hS = (H - mt - mb - gapR) / 2;
-				for (k = 0; k < 3; k++) { gC.push({ x: ml, y: mt + k * (hC + gap), w: pwL, h: hC }); }
-				for (k = 0; k < 2; k++) { gS.push({ x: xR, y: mt + k * (hS + gapR), w: pwR, h: hS, lx: 62 }); }
-			} else {
-				var gTop = 90, pw = W - ml - mr;
-				hC = (H - mt - mb - 2 * gap - gTop - gapR) / 5; hS = hC;
-				for (k = 0; k < 3; k++) { gC.push({ x: ml, y: mt + k * (hC + gap), w: pw, h: hC }); }
-				var yS = mt + 3 * hC + 2 * gap + gTop;
-				for (k = 0; k < 2; k++) { gS.push({ x: ml, y: yS + k * (hS + gapR), w: pw, h: hS, lx: 60 }); }
+				$('i_mean').textContent = mean.toFixed(2);
+				$('i_std').textContent = std.toFixed(2);
+				$('i_ucl').textContent = uCl.toFixed(3);
+				$('i_ns').textContent = idx.length;
+				dirtyState = false;
 			}
 
-			var xmin = -1.05 * D.uMax, xmax = 1.05 * D.uMax, pm = D.pmax;
-			var panels = [
-				{ y0: -1.05 * pm, y1: 1.05 * pm, label: '∝ Re ψ(x,t)' },
-				{ y0: -1.05 * pm, y1: 1.05 * pm, label: '∝ Im ψ(x,t)' },
-				{ y0: -0.05 * pm * pm, y1: 1.05 * pm * pm, label: '∝ |ψ(x,t)|²' }
-			];
-			var BLUE = '#0072BD', ORG = '#D95319', BLACK = '#000000', DASH = [8, 5];
+			function evalPsi(tau) {
+				var re = D.re, im = D.im, Phi = D.Phi, c = D.c, idx = D.idx, i, j, k, ph, cs, sn, ar, ai, o, f;
+				re.fill(0); im.fill(0);
+				for (k = 0; k < idx.length; k++) {
+					i = idx[k];
+					ph = -2 * Math.PI * tau * (i + 0.5); cs = Math.cos(ph); sn = Math.sin(ph);
+					ar = c.re[i] * cs - c.im[i] * sn; ai = c.re[i] * sn + c.im[i] * cs;
+					o = i * UN;
+					for (j = 0; j < UN; j++) { f = Phi[o + j]; re[j] += ar * f; im[j] += ai * f; }
+				}
+			}
 
-			panels.forEach(function (pn, k) {
-				var g = gC[k];
+			function curve(ctx, X, Y, u, y, color, lw, dash) {
+				var j;
+				ctx.strokeStyle = color; ctx.lineWidth = lw; ctx.lineJoin = 'round';
+				ctx.setLineDash(dash || []);
+				ctx.beginPath();
+				for (j = 0; j < UN; j++) { if (j === 0) { ctx.moveTo(X(u[j]), Y(y[j])); } else { ctx.lineTo(X(u[j]), Y(y[j])); } }
+				ctx.stroke();
+				ctx.setLineDash([]);
+			}
+			/* Tamaño de letra que hace caber un texto centrado en cx dentro del lienzo (solo reduce, nunca agranda) */
+			function fitSize(ctx, str, size, cx, W) {
+				var maxW = 2 * Math.min(cx, W - cx) - 8;
+				ctx.font = 'bold ' + size + 'px ' + T.getFont();
+				var w = ctx.measureText(str).width;
+				return w > maxW ? Math.max(10, Math.floor(size * maxW / w)) : size;
+			}
+
+			/* Marco de un panel: fondo, grilla y ticks. xt: dibuja ticks en x (con etiquetas). */
+			function frameGrid(ctx, g, X, Y, xmin, xmax, y0, y1, sx, sy, xlabels, ydec) {
+				var v;
+				ctx.lineWidth = 1; ctx.strokeStyle = '#ececf1';
+				for (v = Math.ceil(xmin / sx - 1e-9) * sx; v <= xmax + 1e-9; v += sx) {
+					ctx.beginPath(); ctx.moveTo(X(v), g.y); ctx.lineTo(X(v), g.y + g.h); ctx.stroke();
+					if (xlabels) { drawText(ctx, fmtTick(v), X(v), g.y + g.h + 20, 16, 'center', '#555'); }
+				}
+				for (v = Math.ceil(y0 / sy - 1e-9) * sy; v <= y1 + 1e-9; v += sy) {
+					ctx.beginPath(); ctx.moveTo(g.x, Y(v)); ctx.lineTo(g.x + g.w, Y(v)); ctx.stroke();
+					drawText(ctx, ydec === undefined ? fmtTick(v) : v.toFixed(ydec), g.x - 8, Y(v) + 5, 16, 'right', '#555');
+				}
+			}
+
+			/* Panel de stem (fase de c_n(t) o |c_n|^2): líneas verticales con marcador relleno */
+			function stemPanel(ctx, g, vals, show, color, y0, y1, sy, ydec, ylabel) {
+				var N = D.Nmax, xmin = -0.5, xmax = N + 0.5;
 				var X = function (v) { return g.x + (v - xmin) / (xmax - xmin) * g.w; };
-				var Y = function (v) { return g.y + g.h - (v - pn.y0) / (pn.y1 - pn.y0) * g.h; };
+				var Y = function (v) { return g.y + g.h - (v - y0) / (y1 - y0) * g.h; };
+				var sx = Math.max(1, Math.round(niceStep(N + 1, 5))), n, r;
 				ctx.fillStyle = '#fff'; ctx.fillRect(g.x, g.y, g.w, g.h);
-				// región clásicamente permitida: parche opaco (1, 1, 0.8), como en Matlab
-				ctx.fillStyle = '#ffffcc';
-				ctx.fillRect(X(-D.uCl), g.y, X(D.uCl) - X(-D.uCl), g.h);
-				frameGrid(ctx, g, X, Y, xmin, xmax, pn.y0, pn.y1, niceStep(xmax - xmin, 12), niceStep(pn.y1 - pn.y0, 4), k === 2);
+				frameGrid(ctx, g, X, Y, 0, N, y0, y1, sx, sy, true, ydec);
 				ctx.save(); ctx.beginPath(); ctx.rect(g.x, g.y, g.w, g.h); ctx.clip();
-				if (k === 0) { curve(ctx, X, Y, u, im, ORG, 1.8, DASH); curve(ctx, X, Y, u, re, BLUE, 3.6); }
-				else if (k === 1) { curve(ctx, X, Y, u, re, BLUE, 1.8, DASH); curve(ctx, X, Y, u, im, ORG, 3.6); }
-				else { curve(ctx, X, Y, u, dens, BLACK, 3.2); }
+				ctx.strokeStyle = '#222'; ctx.lineWidth = 1;
+				ctx.beginPath(); ctx.moveTo(g.x, Y(0)); ctx.lineTo(g.x + g.w, Y(0)); ctx.stroke();
+				r = Math.max(1.8, Math.min(4.2, g.w / (N + 1) * 0.42));
+				ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = Math.min(1.6, Math.max(0.8, r * 0.5));
+				for (n = 0; n <= N; n++) {
+					if (!show[n]) { continue; }
+					ctx.beginPath(); ctx.moveTo(X(n), Y(0)); ctx.lineTo(X(n), Y(vals[n])); ctx.stroke();
+					ctx.beginPath(); ctx.arc(X(n), Y(vals[n]), r, 0, 2 * Math.PI); ctx.fill();
+				}
 				ctx.restore();
 				ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6; ctx.strokeRect(g.x, g.y, g.w, g.h);
-				ctx.save(); ctx.translate(wide ? 18 : 16, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
-				drawText(ctx, pn.label, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
-			});
-			var cxL = gC[0].x + gC[0].w / 2, xlab = 'u = x/β, posición adimensional (β = √(ℏ/mω))', tlab = 'En amarillo: región clásicamente permitida';
-			drawText(ctx, xlab, cxL, gC[2].y + hC + 46, fitSize(ctx, xlab, 19, cxL, W), 'center', '#333', 'bold');
-			drawText(ctx, tlab, cxL, 24, fitSize(ctx, tlab, 19, cxL, W), 'center', '#333', 'bold');
-			/*drawText(ctx, 'u = x/β, posición adimensional (β = √(ℏ/mω))', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
-			drawText(ctx, 'En amarillo: región clásicamente permitida', gC[0].x + gC[0].w / 2, 24, 19, 'center', '#333', 'bold');*/
-
-			// Coeficientes c_n(t) = <phi_n|Psi(t)>: fase (cambia con t) y |c_n|^2 (fijo)
-			var N = D.Nmax, ang = new Float64Array(N + 1), shF = new Array(N + 1), shP = new Array(N + 1), a;
-			for (n = 0; n <= N; n++) {
-				a = D.a0[n] - 2 * Math.PI * tau * (n + 0.5);
-				ang[n] = Math.atan2(Math.sin(a), Math.cos(a)) / Math.PI;
-				shF[n] = D.pn[n] > 1e-10;          // la fase de un coeficiente nulo no tiene significado
-				shP[n] = D.pn[n] > 0;
+				ctx.save(); ctx.translate(g.x - g.lx, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
+				drawText(ctx, ylabel, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
+				drawText(ctx, 'n', g.x + g.w / 2, g.y + g.h + 46, 19, 'center', '#333', 'bold');
 			}
-			stemPanel(ctx, gS[0], ang, shF, '#ff00ff', -1.1, 1.1, 0.5, 1, 'arg[c_n(t)]/π');
-			drawText(ctx, 'c_n(t) = ⟨φ_n|Ψ(t)⟩', gS[0].x + gS[0].w / 2, gS[0].y - 12, 18, 'center', '#333', 'bold');
-			var top = Math.max(D.pcMax, 1e-12) * 1.08, sy = niceStep(top, 4);
-			stemPanel(ctx, gS[1], D.pn, shP, '#000000', 0, top, sy, Math.max(0, Math.min(6, -Math.floor(Math.log(sy) / Math.LN10 + 1e-9))), '|c_n(t)|²');
-			// <u>, <p>, sigma_u, sigma_p y su producto (u = x/beta; p en unidades de hbar/beta)
-			var th = 2 * Math.PI * tau, ct = Math.cos(th), st = Math.sin(th);
-			var ubar = D.s1r * ct + D.s1i * st, pbar = D.s1i * ct - D.s1r * st;
-			var re2 = D.s2r * Math.cos(2 * th) + D.s2i * Math.sin(2 * th);       // Re<a^2>
-			var sU = Math.sqrt(Math.max(0, D.mean + 0.5 + re2 - ubar * ubar));
-			var sP = Math.sqrt(Math.max(0, D.mean + 0.5 - re2 - pbar * pbar));
-			$('i_ux').textContent = ubar.toFixed(3);
-			$('i_su').textContent = sU.toFixed(3);
-			$('i_sp').textContent = sP.toFixed(3);
-			$('i_sup').textContent = (sU * sP).toFixed(3);
-			$('i_tau').textContent = tau.toFixed(3);
-		}
 
-		/* ---------- Animación ---------- */
-		function frame(now) {
-			raf = 0;
-			if (playing) {
-				var dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
-				var t = getNum(P.tau, 0) + dt * getNum(P.spd, 0.25);
-				if (t > 2) { t -= 2; }
-				setPair(P.tau, P.tauR, t.toFixed(4));
+			function draw() {
+				if (dirtyState) { buildState(); }
+				var tau = getNum(P.tau, 0);
+				evalPsi(tau);
+
+				// Distribución según el ancho disponible: ancho -> curvas a la izquierda y coeficientes a la derecha
+				var wide = T.sizeFor(P.cv, 1, 0, 1e9)[0] >= 760;
+				if (wide) { ensureSize(S, P.cv, 0.70, 520, 860); } else { ensureSize(S, P.cv, 1.75, 780, 1300); }
+				var ctx = S.ctx, W = S.w, H = S.h, u = D.u, re = D.re, im = D.im, dens = new Float64Array(UN), j, n;
+				for (j = 0; j < UN; j++) { dens[j] = re[j] * re[j] + im[j] * im[j]; }
+				ctx.clearRect(0, 0, W, H);
+
+				var ml = wide ? 76 : 80, mr = 20, mt = 40, mb = 56, gap = 22, gapR = 66;
+				var gC = [], gS = [], k, hC, hS;
+				if (wide) {
+					var usable = W - ml - mr - 104, pwL = Math.round(usable * 0.74), pwR = usable - pwL, xR = ml + pwL + 104;
+					hC = (H - mt - mb - 2 * gap) / 3; hS = (H - mt - mb - gapR) / 2;
+					for (k = 0; k < 3; k++) { gC.push({ x: ml, y: mt + k * (hC + gap), w: pwL, h: hC }); }
+					for (k = 0; k < 2; k++) { gS.push({ x: xR, y: mt + k * (hS + gapR), w: pwR, h: hS, lx: 62 }); }
+				} else {
+					var gTop = 90, pw = W - ml - mr;
+					hC = (H - mt - mb - 2 * gap - gTop - gapR) / 5; hS = hC;
+					for (k = 0; k < 3; k++) { gC.push({ x: ml, y: mt + k * (hC + gap), w: pw, h: hC }); }
+					var yS = mt + 3 * hC + 2 * gap + gTop;
+					for (k = 0; k < 2; k++) { gS.push({ x: ml, y: yS + k * (hS + gapR), w: pw, h: hS, lx: 60 }); }
+				}
+
+				var xmin = -1.05 * D.uMax, xmax = 1.05 * D.uMax, pm = D.pmax;
+				var panels = [
+					{ y0: -1.05 * pm, y1: 1.05 * pm, label: '∝ Re ψ(x,t)' },
+					{ y0: -1.05 * pm, y1: 1.05 * pm, label: '∝ Im ψ(x,t)' },
+					{ y0: -0.05 * pm * pm, y1: 1.05 * pm * pm, label: '∝ |ψ(x,t)|²' }
+				];
+				var BLUE = '#0072BD', ORG = '#D95319', BLACK = '#000000', DASH = [8, 5];
+
+				panels.forEach(function (pn, k) {
+					var g = gC[k];
+					var X = function (v) { return g.x + (v - xmin) / (xmax - xmin) * g.w; };
+					var Y = function (v) { return g.y + g.h - (v - pn.y0) / (pn.y1 - pn.y0) * g.h; };
+					ctx.fillStyle = '#fff'; ctx.fillRect(g.x, g.y, g.w, g.h);
+					// región clásicamente permitida: parche opaco (1, 1, 0.8), como en Matlab
+					ctx.fillStyle = '#ffffcc';
+					ctx.fillRect(X(-D.uCl), g.y, X(D.uCl) - X(-D.uCl), g.h);
+					frameGrid(ctx, g, X, Y, xmin, xmax, pn.y0, pn.y1, niceStep(xmax - xmin, 12), niceStep(pn.y1 - pn.y0, 4), k === 2);
+					ctx.save(); ctx.beginPath(); ctx.rect(g.x, g.y, g.w, g.h); ctx.clip();
+					if (k === 0) { curve(ctx, X, Y, u, im, ORG, 1.8, DASH); curve(ctx, X, Y, u, re, BLUE, 3.6); }
+					else if (k === 1) { curve(ctx, X, Y, u, re, BLUE, 1.8, DASH); curve(ctx, X, Y, u, im, ORG, 3.6); }
+					else { curve(ctx, X, Y, u, dens, BLACK, 3.2); }
+					ctx.restore();
+					ctx.strokeStyle = '#333'; ctx.lineWidth = 1.6; ctx.strokeRect(g.x, g.y, g.w, g.h);
+					ctx.save(); ctx.translate(wide ? 18 : 16, g.y + g.h / 2); ctx.rotate(-Math.PI / 2);
+					drawText(ctx, pn.label, 0, 0, 18, 'center', '#333', 'bold'); ctx.restore();
+				});
+				var cxL = gC[0].x + gC[0].w / 2, xlab = 'u = x/β, posición adimensional (β = √(ℏ/mω))', tlab = 'En amarillo: región clásicamente permitida';
+				drawText(ctx, xlab, cxL, gC[2].y + hC + 46, fitSize(ctx, xlab, 19, cxL, W), 'center', '#333', 'bold');
+				drawText(ctx, tlab, cxL, 24, fitSize(ctx, tlab, 19, cxL, W), 'center', '#333', 'bold');
+				/*drawText(ctx, 'u = x/β, posición adimensional (β = √(ℏ/mω))', gC[0].x + gC[0].w / 2, gC[2].y + hC + 46, 19, 'center', '#333', 'bold');
+				drawText(ctx, 'En amarillo: región clásicamente permitida', gC[0].x + gC[0].w / 2, 24, 19, 'center', '#333', 'bold');*/
+
+				// Coeficientes c_n(t) = <phi_n|Psi(t)>: fase (cambia con t) y |c_n|^2 (fijo)
+				var N = D.Nmax, ang = new Float64Array(N + 1), shF = new Array(N + 1), shP = new Array(N + 1), a;
+				for (n = 0; n <= N; n++) {
+					a = D.a0[n] - 2 * Math.PI * tau * (n + 0.5);
+					ang[n] = Math.atan2(Math.sin(a), Math.cos(a)) / Math.PI;
+					shF[n] = D.pn[n] > 1e-10;          // la fase de un coeficiente nulo no tiene significado
+					shP[n] = D.pn[n] > 0;
+				}
+				stemPanel(ctx, gS[0], ang, shF, '#ff00ff', -1.1, 1.1, 0.5, 1, 'arg[c_n(t)]/π');
+				drawText(ctx, 'c_n(t) = ⟨φ_n|Ψ(t)⟩', gS[0].x + gS[0].w / 2, gS[0].y - 12, 18, 'center', '#333', 'bold');
+				var top = Math.max(D.pcMax, 1e-12) * 1.08, sy = niceStep(top, 4);
+				stemPanel(ctx, gS[1], D.pn, shP, '#000000', 0, top, sy, Math.max(0, Math.min(6, -Math.floor(Math.log(sy) / Math.LN10 + 1e-9))), '|c_n(t)|²');
+				// <u>, <p>, sigma_u, sigma_p y su producto (u = x/beta; p en unidades de hbar/beta)
+				var th = 2 * Math.PI * tau, ct = Math.cos(th), st = Math.sin(th);
+				var ubar = D.s1r * ct + D.s1i * st, pbar = D.s1i * ct - D.s1r * st;
+				var re2 = D.s2r * Math.cos(2 * th) + D.s2i * Math.sin(2 * th);       // Re<a^2>
+				var sU = Math.sqrt(Math.max(0, D.mean + 0.5 + re2 - ubar * ubar));
+				var sP = Math.sqrt(Math.max(0, D.mean + 0.5 - re2 - pbar * pbar));
+				$('i_ux').textContent = ubar.toFixed(3);
+				$('i_su').textContent = sU.toFixed(3);
+				$('i_sp').textContent = sP.toFixed(3);
+				$('i_sup').textContent = (sU * sP).toFixed(3);
+				$('i_tau').textContent = tau.toFixed(3);
 			}
-			last = playing ? now : 0;
-			draw();
-			if (playing) { schedule(); }
-		}
-		function schedule() { if (!raf) { raf = requestAnimationFrame(frame); } }
-		function refresh() { dirtyState = true; schedule(); }
-		function touch() { if (!playing) { schedule(); } }
 
-		/* ---------- Controles ---------- */
-		bindPair(P.fn, P.fnR, refresh);
-		bindPair(P.ca, P.caR, refresh);
-		bindPair(P.cp, P.cpR, refresh);
-		bindPair(P.nm, P.nmR, refresh);
-		bindPair(P.ns, P.nsR, refresh);
-		bindPair(P.tau, P.tauR, touch);
-		bindPair(P.spd, P.spdR, function () {});
-		P.coefs.addEventListener('input', refresh);
-		$('newrnd').addEventListener('click', function () { newRandom(); refresh(); });
-		P.mode.addEventListener('change', function () {
-			['Fock', 'Coherente', 'Normal', 'Aleatorio', 'Escogido'].forEach(function (m) {
-				$('p_' + m).classList.toggle('hidden', m !== P.mode.value);
+			/* ---------- Animación ---------- */
+			function frame(now) {
+				raf = 0;
+				if (playing) {
+					var dt = last ? Math.min(0.1, (now - last) / 1000) : 0;
+					var t = getNum(P.tau, 0) + dt * getNum(P.spd, 0.25);
+					if (t > 2) { t -= 2; }
+					setPair(P.tau, P.tauR, t.toFixed(4));
+				}
+				last = playing ? now : 0;
+				draw();
+				if (playing) { schedule(); }
+			}
+			function schedule() { if (!raf) { raf = requestAnimationFrame(frame); } }
+			function refresh() { dirtyState = true; schedule(); }
+			function touch() { if (!playing) { schedule(); } }
+
+			/* ---------- Controles ---------- */
+			bindPair(P.fn, P.fnR, refresh);
+			bindPair(P.ca, P.caR, refresh);
+			bindPair(P.cp, P.cpR, refresh);
+			bindPair(P.nm, P.nmR, refresh);
+			bindPair(P.ns, P.nsR, refresh);
+			bindPair(P.tau, P.tauR, touch);
+			bindPair(P.spd, P.spdR, function () { });
+			P.coefs.addEventListener('input', refresh);
+			$('newrnd').addEventListener('click', function () { newRandom(); refresh(); });
+			P.mode.addEventListener('change', function () {
+				['Fock', 'Coherente', 'Normal', 'Aleatorio', 'Escogido'].forEach(function (m) {
+					$('p_' + m).classList.toggle('hidden', m !== P.mode.value);
+				});
+				refresh();
 			});
-			refresh();
-		});
-		$('play').addEventListener('click', function () {
-			playing = !playing; last = 0;
-			this.innerHTML = playing ? '&#10074;&#10074; Pausa' : '&#9654; Reproducir';
+			$('play').addEventListener('click', function () {
+				playing = !playing; last = 0;
+				this.innerHTML = playing ? '&#10074;&#10074; Pausa' : '&#9654; Reproducir';
+				schedule();
+			});
+			$('rewind').addEventListener('click', function () { setPair(P.tau, P.tauR, 0); schedule(); });
+
+			$('play').innerHTML = playing ? '&#10074;&#10074; Pausa' : '&#9654; Reproducir';
 			schedule();
-		});
-		$('rewind').addEventListener('click', function () { setPair(P.tau, P.tauR, 0); schedule(); });
-
-		$('play').innerHTML = playing ? '&#10074;&#10074; Pausa' : '&#9654; Reproducir';
-		schedule();
-		window.addEventListener('resize', function () { schedule(); });
-		T.onFontsReady(function () { schedule(); });
-	})();
+			window.addEventListener('resize', function () { schedule(); });
+			T.onFontsReady(function () { schedule(); });
+		})();
 	</script>
 </body>
+
 </html>
